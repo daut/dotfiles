@@ -22,13 +22,18 @@ brew install uchardet
 brew tap homebrew/cask-versions
 
 # install casks
+brew cask install anki
 brew cask install iterm2
 brew cask install visual-studio-code
 brew cask install emacs
 brew cask install google-chrome
+brew cask install firefox-nightly
+brew cask install numi
+brew cask install slack
 brew cask install postman
 brew cask install grammarly
 brew cask install zeplin
+brew cask install hammerspoon
 
 # install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
