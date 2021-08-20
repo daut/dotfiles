@@ -17,23 +17,24 @@ brew install git
 brew install postgresql
 brew install mysql
 brew install uchardet
+brew install zsh-autosuggestions
 
 # add taps
 brew tap homebrew/cask-versions
 
 # install casks
-brew cask install anki
-brew cask install iterm2
-brew cask install visual-studio-code
-brew cask install emacs
-brew cask install google-chrome
-brew cask install firefox-nightly
-brew cask install numi
-brew cask install slack
-brew cask install postman
-brew cask install grammarly
-brew cask install zeplin
-brew cask install hammerspoon
+brew install --cask anki
+brew install --cask iterm2
+brew install --cask visual-studio-code
+brew install --cask emacs
+brew install --cask google-chrome
+brew install --cask firefox-nightly
+brew install --cask numi
+brew install --cask slack
+brew install --cask postman
+brew install --cask grammarly
+brew install --cask zeplin
+brew install --cask hammerspoon
 
 # install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
