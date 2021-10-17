@@ -1,4 +1,4 @@
-#+title Daut's Configuration
+#+TITLE: Daut's Configuration
 #+PROPERTY: header-args:emacs-lisp :mkdirp yes :tangle .emacs.d/init.el
 #+STARTUP: overview
 
@@ -162,7 +162,7 @@ Environment variables sometimes aren't right, this fixes it.
   :bind ("s-d" . mc/mark-next-like-this-word))
 
 #+end_src
-** Move line up/down
+** Move line/region up/down
 #+begin_src emacs-lisp
 
 (use-package move-text
