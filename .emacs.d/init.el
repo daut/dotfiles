@@ -415,15 +415,14 @@
 
 (use-package dired
   :ensure nil
+  :bind
+  ([remap dired-find-file] . dired-find-alternate-file)
   :config
   (when (string= system-type "darwin")
     (setq insert-directory-program "/opt/homebrew/bin/gls"))
   :custom
   (dired-listing-switches "-agho --group-directories-first")
   (setq delete-by-moving-to-trash t))
-
-;; should use single buffer for dired navigations, but doesn't work for some reason
-(use-package dired-single)
 
 ;; (use-package dired-open
 ;;   :config
