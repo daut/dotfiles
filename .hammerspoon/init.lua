@@ -10,7 +10,7 @@ end)
 
 -- Maximize current window
 hs.hotkey.bind({ "cmd", "ctrl" }, "return", function ()
-    focusedWindow = hs.window.focusedWindow()
+    local focusedWindow = hs.window.focusedWindow()
     focusedWindow:maximize(0)
 end)
 
@@ -75,30 +75,44 @@ hs.hotkey.bind({ "ctrl" }, "n",
     function () keyStroke("down") end
 )
 
+function bindIfNotEmacs (binding)
+    local windowFrame = hs.window.filter
+    local emacsWindowFrame = windowFrame.new("Emacs")
+    emacsWindowFrame:subscribe(windowFrame.windowFocused, function ()
+        binding:disable()
+    end):subscribe(windowFrame.windowUnfocused, function()
+        binding:enable()
+    end)
+end
+
 -- Remap ctrl + f to right key
-hs.hotkey.bind({ "ctrl" }, "f",
+local forwardBinding = hs.hotkey.bind({ "ctrl" }, "f",
     function () keyStroke("right") end,
     nil,
     function () keyStroke("right") end
 )
+bindIfNotEmacs(forwardBinding)
 
 -- Remap ctrl + b to down key
-hs.hotkey.bind({ "ctrl" }, "b",
+local backBinding = hs.hotkey.bind({ "ctrl" }, "b",
     function () keyStroke("left") end,
     nil,
     function () keyStroke("left") end
 )
+bindIfNotEmacs(backBinding)
 
 -- Remap ctrl + v to pageup key
-hs.hotkey.bind({ "ctrl", "cmd" }, ",",
+local pageupBinding = hs.hotkey.bind({ "ctrl", "cmd" }, ",",
     function () keyStroke("pageup") end,
     nil,
     function () keyStroke("pageup") end
 )
+bindIfNotEmacs(pageupBinding)
 
 -- Remap ctrl + v to pagedown key
-hs.hotkey.bind({ "ctrl", "cmd" }, ".",
+local pagedownBinding = hs.hotkey.bind({ "ctrl", "cmd" }, ".",
     function () keyStroke("pagedown") end,
     nil,
     function () keyStroke("pagedown") end
 )
+bindIfNotEmacs(pagedownBinding)
