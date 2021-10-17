@@ -18,6 +18,8 @@ brew install postgresql
 brew install mysql
 brew install uchardet
 brew install zsh-autosuggestions
+brew install cmake
+brew install coreutils
 
 # add taps
 brew tap homebrew/cask-versions
