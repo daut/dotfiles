@@ -1,3 +1,6 @@
+;; The default is 800 kilobytes. Measured in bytes.
+(setq gc-cons-threshold (* 50 1000 1000))
+
 (defun daut/display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
            (format "%.2f seconds"
@@ -451,3 +454,10 @@
 ;; (use-package dired-open
 ;;   :config
 ;;   (setq dired-open-extensions '(("png" . "open"))))
+
+;; make garbage collection pauses faster by decreasing the memory consumption threshold
+;; this basically reverts threshold increase at the beginning of the file (which helps with load time)
+(setq gc-cons-threshold (* 2 1000 1000))
+
+;; this package looks interesting
+;; https://github.com/emacsmirror/gcmh/blob/master/gcmh.el
