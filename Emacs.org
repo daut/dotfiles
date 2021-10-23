@@ -2,6 +2,18 @@
 #+PROPERTY: header-args:emacs-lisp :mkdirp yes :tangle .emacs.d/init.el
 #+STARTUP: overview
 
+* Startup Performance
+#+begin_src emacs-lisp
+
+(defun daut/display-startup-time ()
+  (message "Emacs loaded in %s with %d garbage collections."
+           (format "%.2f seconds"
+                   (float-time
+                    (time-subtract after-init-time before-init-time)))
+           gcs-done))
+(add-hook 'emacs-startup-hook #'daut/display-startup-time)
+
+#+end_src
 * Package System Setup
 
 #+begin_src emacs-lisp
@@ -39,16 +51,12 @@
 
 #+end_src
 * Keep init.el Clean
-
 #+begin_src emacs-lisp
 
 ;; Save all of the custom data in custom.el
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
+(use-package no-littering)
 
  #+end_src
-
 * Environment Vars
 Environment variables sometimes aren't right, this fixes it. 
 #+begin_src emacs-lisp
@@ -106,6 +114,64 @@ Environment variables sometimes aren't right, this fixes it.
  (defvar daut/default-font-size 150)
  ;; setup font type and size
  (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size)
+
+#+end_src
+
+* Keybinding Configuration
+** Basic
+#+begin_src emacs-lisp
+
+;; scroll up/down one line
+(global-set-key (kbd "C-s-n") (kbd "C-u 1 C-v"))
+(global-set-key (kbd "C-s-p") (kbd "C-u 1 M-v"))
+
+;; Make ESC quit promps
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;; backward kill behave more like VS Code 
+(defun backward-kill-char-or-word ()
+  (interactive)
+  (cond 
+   ((looking-back (rx (char word)) 1)
+    (backward-kill-word 1))
+   ((looking-back (rx (char blank)) 1)
+    (delete-horizontal-space t))
+   (t
+    (backward-delete-char 1))))
+
+(define-key (current-global-map) [remap backward-kill-word] 'backward-kill-char-or-word)
+
+;; page up/down like functionality
+(global-set-key (kbd "C-s-,")
+                (lambda () (interactive) (forward-line -30)))
+(global-set-key (kbd "C-s-.")
+                (lambda () (interactive) (forward-line 30)))
+
+;; beginning/end of a buffer
+(global-set-key (kbd "s-<") #'beginning-of-buffer)
+(global-set-key (kbd "s->") #'end-of-buffer)
+
+#+end_src
+** General package
+#+begin_src emacs-lisp
+
+(use-package general
+  :config
+  (general-create-definer daut/leader-keys
+    :prefix "C-C")
+  (daut/leader-keys
+    "t"  '(:ignore t :which-key "toggles")
+    "tt" '(counsel-load-theme :which-key "choose theme")
+    "fde" '(lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org")) :which-key "open Emacs.org")))
+
+#+end_src
+** Crux package
+#+begin_src emacs-lisp
+
+(use-package crux
+  :bind
+  ([remap move-beginning-of-line] . crux-move-beginning-of-line)
+  ("C-c d" . crux-duplicate-current-line-or-region))
 
 #+end_src
 
@@ -171,55 +237,6 @@ Environment variables sometimes aren't right, this fixes it.
   ("C-s-k" . 'move-text-up))
 
 #+end_src
-* Keybinding Configuration
-
-#+begin_src emacs-lisp
-
-(use-package general
-  :config
-  (general-create-definer daut/leader-keys
-    :prefix "C-C")
-  (daut/leader-keys
-    "t"  '(:ignore t :which-key "toggles")
-    "tt" '(counsel-load-theme :which-key "choose theme")))
-
-;; scroll up/down one line
-(global-set-key (kbd "C-s-n") (kbd "C-u 1 C-v"))
-(global-set-key (kbd "C-s-p") (kbd "C-u 1 M-v"))
-
-;; Make ESC quit promps
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
-;; backward kill behave more like VS Code 
-(defun backward-kill-char-or-word ()
-  (interactive)
-  (cond 
-   ((looking-back (rx (char word)) 1)
-    (backward-kill-word 1))
-   ((looking-back (rx (char blank)) 1)
-    (delete-horizontal-space t))
-   (t
-    (backward-delete-char 1))))
-
-(define-key (current-global-map) [remap backward-kill-word] 'backward-kill-char-or-word)
-
-;; page up/down like functionality
-(global-set-key (kbd "C-s-,")
-                (lambda () (interactive) (forward-line -30)))
-(global-set-key (kbd "C-s-.")
-                (lambda () (interactive) (forward-line 30)))
-
-;; beginning/end of a buffer
-(global-set-key (kbd "s-<") #'beginning-of-buffer)
-(global-set-key (kbd "s->") #'end-of-buffer)
-
-(use-package crux
-  :bind
-  ([remap move-beginning-of-line] . crux-move-beginning-of-line)
-  ("C-c d" . crux-duplicate-current-line-or-region))
-
-#+end_src
-
 * UI Configuration
 ** Command Log Mode
 
@@ -454,7 +471,7 @@ which-key is a useful UI panel that appears when you start pressing any key bind
   :config (projectile-mode)
   :custom ((projectile-completion-system 'ivy))
   :bind-keymap
-  ("C-c p" . projectile-command-map)
+  ("s-p" . projectile-command-map)
   :init
   (when (file-directory-p "~/projects")
     (setq projectile-project-search-path '("~/projects")))
@@ -516,6 +533,20 @@ which-key is a useful UI panel that appears when you start pressing any key bind
   :after yasnippet
   :config
   (yas-global-mode t))
+
+#+end_src
+
+** Dired sidebar
+#+begin_src emacs-lisp
+
+;; dired-sidebar uses these
+(use-package vscode-icon)
+
+(use-package dired-sidebar
+  :bind (("s-b" . dired-sidebar-toggle-sidebar))
+  :commands (dired-sidebar-toggle-sidebar)
+  :custom
+  (dired-sidebar-display-alist '((side . right))))
 
 #+end_src
 ** Languages

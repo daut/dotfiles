@@ -61,20 +61,6 @@ hs.hotkey.bind({ "ctrl" }, "[",
     function () keyStroke("escape") end
 )
 
--- Remap ctrl + p to up key
-hs.hotkey.bind({ "ctrl" }, "p",
-    function () keyStroke("up") end,
-    nil,
-    function () keyStroke("up") end
-)
-
--- Remap ctrl + n to down key
-hs.hotkey.bind({ "ctrl" }, "n",
-    function () keyStroke("down") end,
-    nil,
-    function () keyStroke("down") end
-)
-
 function bindIfNotEmacs (binding)
     local windowFrame = hs.window.filter
     local emacsWindowFrame = windowFrame.new("Emacs")
@@ -84,6 +70,22 @@ function bindIfNotEmacs (binding)
         binding:enable()
     end)
 end
+
+-- Remap ctrl + p to up key
+local upBinding = hs.hotkey.bind({ "ctrl" }, "p",
+    function () keyStroke("up") end,
+    nil,
+    function () keyStroke("up") end
+)
+bindIfNotEmacs(upBinding)
+
+-- Remap ctrl + n to down key
+local downBinding = hs.hotkey.bind({ "ctrl" }, "n",
+    function () keyStroke("down") end,
+    nil,
+    function () keyStroke("down") end
+)
+bindIfNotEmacs(downBinding)
 
 -- Remap ctrl + f to right key
 local forwardBinding = hs.hotkey.bind({ "ctrl" }, "f",

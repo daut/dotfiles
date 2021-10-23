@@ -1,3 +1,11 @@
+(defun daut/display-startup-time ()
+  (message "Emacs loaded in %s with %d garbage collections."
+           (format "%.2f seconds"
+                   (float-time
+                    (time-subtract after-init-time before-init-time)))
+           gcs-done))
+(add-hook 'emacs-startup-hook #'daut/display-startup-time)
+
 ;; Initialize package sources
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -25,9 +33,7 @@
   (auto-package-update-at-time "09:00"))
 
 ;; Save all of the custom data in custom.el
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
+(use-package no-littering)
 
 (use-package exec-path-from-shell)
 
@@ -74,41 +80,6 @@
  ;; setup font type and size
  (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size)
 
-(delete-selection-mode t)
-
-(setq tab-width 2)
-
-(setq-default indent-tabs-mode nil)
-
-(use-package evil-nerd-commenter
-  :bind ("s-/" . evilnc-comment-or-uncomment-lines))
-
-(setq require-final-newline t)
-
-(use-package paren
-  :config
-  (show-paren-mode +1))
-
-(use-package elec-pair
-  :config
-  (electric-pair-mode +1))
-
-(use-package multiple-cursors
-  :bind ("s-d" . mc/mark-next-like-this-word))
-
-(use-package move-text
-  :bind
-  ("C-s-j" . 'move-text-down)
-  ("C-s-k" . 'move-text-up))
-
-(use-package general
-  :config
-  (general-create-definer daut/leader-keys
-    :prefix "C-C")
-  (daut/leader-keys
-    "t"  '(:ignore t :which-key "toggles")
-    "tt" '(counsel-load-theme :which-key "choose theme")))
-
 ;; scroll up/down one line
 (global-set-key (kbd "C-s-n") (kbd "C-u 1 C-v"))
 (global-set-key (kbd "C-s-p") (kbd "C-u 1 M-v"))
@@ -139,10 +110,46 @@
 (global-set-key (kbd "s-<") #'beginning-of-buffer)
 (global-set-key (kbd "s->") #'end-of-buffer)
 
+(use-package general
+  :config
+  (general-create-definer daut/leader-keys
+    :prefix "C-C")
+  (daut/leader-keys
+    "t"  '(:ignore t :which-key "toggles")
+    "tt" '(counsel-load-theme :which-key "choose theme")
+    "fde" '(lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org")) :which-key "open Emacs.org")))
+
 (use-package crux
   :bind
   ([remap move-beginning-of-line] . crux-move-beginning-of-line)
   ("C-c d" . crux-duplicate-current-line-or-region))
+
+(delete-selection-mode t)
+
+(setq tab-width 2)
+
+(setq-default indent-tabs-mode nil)
+
+(use-package evil-nerd-commenter
+  :bind ("s-/" . evilnc-comment-or-uncomment-lines))
+
+(setq require-final-newline t)
+
+(use-package paren
+  :config
+  (show-paren-mode +1))
+
+(use-package elec-pair
+  :config
+  (electric-pair-mode +1))
+
+(use-package multiple-cursors
+  :bind ("s-d" . mc/mark-next-like-this-word))
+
+(use-package move-text
+  :bind
+  ("C-s-j" . 'move-text-down)
+  ("C-s-k" . 'move-text-up))
 
 (use-package command-log-mode)
 
@@ -286,7 +293,7 @@
   :config (projectile-mode)
   :custom ((projectile-completion-system 'ivy))
   :bind-keymap
-  ("C-c p" . projectile-command-map)
+  ("s-p" . projectile-command-map)
   :init
   (when (file-directory-p "~/projects")
     (setq projectile-project-search-path '("~/projects")))
@@ -327,6 +334,15 @@
   :after yasnippet
   :config
   (yas-global-mode t))
+
+;; dired-sidebar uses these
+(use-package vscode-icon)
+
+(use-package dired-sidebar
+  :bind (("s-b" . dired-sidebar-toggle-sidebar))
+  :commands (dired-sidebar-toggle-sidebar)
+  :custom
+  (dired-sidebar-display-alist '((side . right))))
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
