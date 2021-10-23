@@ -21,6 +21,7 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
+(setq use-package-verbose t) ;; write useful information about package loading
 
 (use-package auto-package-update
   :custom
@@ -151,7 +152,9 @@
   ("C-s-j" . 'move-text-down)
   ("C-s-k" . 'move-text-up))
 
-(use-package command-log-mode)
+;; defer loading of the package until command-log-mode is invoked
+(use-package command-log-mode
+  :commands command-log-mode)
 
 (use-package zenburn-theme
   :config
@@ -164,9 +167,10 @@
   :custom ((doom-modeline-height 15)))
 
 (use-package which-key
-  :init (which-key-mode)
+  :defer 0
   :diminish which-key-mode
   :config
+  (which-key-mode)
   (setq which-key-idle-delay 0.3))
 
 ;; better mini-buffer completion
@@ -186,7 +190,7 @@
          ("C-k" . ivy-previous-line)
          ("C-d" . ivy-reverse-i-search-kill))
   :config
-  :init (ivy-mode 1))
+  (ivy-mode 1))
 
 ;; ivy-rich get extra information about commands
 ;; like description and keybinding
@@ -197,7 +201,8 @@
   (ivy-rich-mode 1))
 
 ;; package used to do search inside file
-(use-package swiper)
+(use-package swiper
+  :after ivy)
 
 ;; better UI for the M-x command, C-x b etc.
 (use-package counsel
@@ -209,9 +214,6 @@
   :config
   (counsel-mode 1))
 
-;; Helpful is an alternative to emacs builtin help
-;; which provides much more contextual information and
-;; better user experience
 (use-package helpful
   :custom
   (counsel-describe-function-function #'helpful-callable)
@@ -238,6 +240,7 @@
 
 (use-package org
   :hook (org-mode . daut/org-mode-setup)
+  :commands (org-capture org-agenda)
   :config
   (setq org-ellipsis " ▾")
   (setq org-agenda-start-with-log-mode t)
@@ -252,7 +255,6 @@
  org-src-tab-acts-natively t)
 
 (use-package org-bullets
-  :after org
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
@@ -265,19 +267,21 @@
 (use-package visual-fill-column
   :hook (org-mode . daut/org-mode-visual-fill))
 
-(org-babel-do-load-languages
-    'org-babel-load-languages
-    '((emacs-lisp . t)
-      (python . t)))
+(with-eval-after-load 'org
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (python . t)))
 
-(setq org-confirm-babel-evaluate nil)
+  (setq org-confirm-babel-evaluate nil))
 
-;; This is needed as of Org 9.2
-(require 'org-tempo)
+(with-eval-after-load 'org
+  ;; This is needed as of Org 9.2
+  (require 'org-tempo)
 
-(add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-(add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python")))
 
 ;; Automatically tangle Emacs.org config file on save
 (defun daut/org-babel-tangle-configuration ()
@@ -301,9 +305,11 @@
 
 ;; integrate counsel with projectile
 (use-package counsel-projectile
+  :after projectile
   :config (counsel-projectile-mode))
 
-(use-package magit)
+(use-package magit
+  :commands magit-status)
 
 ;; add options to magit like create PR, track issues etc.
 (use-package forge
@@ -329,7 +335,8 @@
   :hook (company-mode . company-box-mode))
 
 ;; yasnippet
-(use-package yasnippet)
+(use-package yasnippet
+  :disabled)
 (use-package yasnippet-snippets
   :after yasnippet
   :config
@@ -355,10 +362,8 @@
   :config
   (setq lsp-ui-doc-position 'bottom))
 
-(use-package lsp-treemacs
+(use-package lsp-ivy
   :after lsp)
-
-(use-package lsp-ivy)
 
 (use-package typescript-mode
   :mode "\\.ts\\'"
@@ -380,6 +385,7 @@
   (go-mode . (lambda () (setq tab-width 2))))
 
 (use-package term
+  :commands term
   :config
   (setq term-prompt-regexp "^[^#$%>\\n]*[#$%>] *"))
 
@@ -392,7 +398,8 @@
   (setq vterm-shell "zsh")
   (setq vterm-max-scrollback 10000))
 
-(use-package eshell-git-prompt)
+(use-package eshell-git-prompt
+  :after eshell)
 
 (defun daut/configure-eshell ()
   ;; save command history when commands are entered
@@ -431,6 +438,7 @@
 
 (use-package dired
   :ensure nil
+  :commands (dired dired-jump)
   :bind
   ([remap dired-find-file] . dired-find-alternate-file)
   :config
