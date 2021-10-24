@@ -121,7 +121,8 @@
   (daut/leader-keys
     "t"  '(:ignore t :which-key "toggles")
     "tt" '(counsel-load-theme :which-key "choose theme")
-    "fde" '(lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org")) :which-key "open Emacs.org")))
+    "fde" '(lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org")) :which-key "open Emacs.org")
+    "se" '(eshell :which-key "eshell")))
 
 (use-package crux
   :bind
