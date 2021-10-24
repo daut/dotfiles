@@ -210,7 +210,7 @@
 ;; better UI for the M-x command, C-x b etc.
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-ibuffer)
+         ("C-x b" . persp-counsel-switch-buffer)
          ("C-x C-f" . find-file)
          :map minibuffer-local-map ;; minibuffer only mapping
          ("C-r" . counsel-minibuffer-history))
@@ -454,6 +454,13 @@
 ;; (use-package dired-open
 ;;   :config
 ;;   (setq dired-open-extensions '(("png" . "open"))))
+
+(use-package perspective
+  :bind (("C-x k" . persp-kill-buffer*)
+         ("s-}" . persp-next)
+         ("s-{" . persp-prev))
+  :init
+  (persp-mode))
 
 ;; make garbage collection pauses faster by decreasing the memory consumption threshold
 ;; this basically reverts threshold increase at the beginning of the file (which helps with load time)

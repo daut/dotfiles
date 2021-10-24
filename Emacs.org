@@ -326,7 +326,7 @@ which-key is a useful UI panel that appears when you start pressing any key bind
 ;; better UI for the M-x command, C-x b etc.
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-ibuffer)
+         ("C-x b" . persp-counsel-switch-buffer)
          ("C-x C-f" . find-file)
          :map minibuffer-local-map ;; minibuffer only mapping
          ("C-r" . counsel-minibuffer-history))
@@ -688,6 +688,18 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
 
 #+end_src
 
+* Workspace Managment
+** Perspective
+#+begin_src emacs-lisp
+
+(use-package perspective
+  :bind (("C-x k" . persp-kill-buffer*)
+         ("s-}" . persp-next)
+         ("s-{" . persp-prev))
+  :init
+  (persp-mode))
+
+#+end_src
 * Runtime Performance
 #+begin_src emacs-lisp
 
