@@ -92,7 +92,7 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 ;; backward kill behave more like VS Code 
-(defun backward-kill-char-or-word ()
+(defun daut/backward-kill-char-or-word ()
   (interactive)
   (cond 
    ((looking-back (rx (char word)) 1)
@@ -102,7 +102,7 @@
    (t
     (backward-delete-char 1))))
 
-(define-key (current-global-map) [remap backward-kill-word] 'backward-kill-char-or-word)
+(define-key (current-global-map) [remap backward-kill-word] 'daut/backward-kill-char-or-word)
 
 ;; page up/down like functionality
 (global-set-key (kbd "C-s-,")
@@ -149,7 +149,7 @@
   (electric-pair-mode +1))
 
 (use-package multiple-cursors
-  :bind ("s-d" . mc/mark-next-like-this-word))
+  :bind ("s-d" . mc/mark-next-like-this-symbol))
 
 (use-package move-text
   :bind
@@ -364,7 +364,8 @@
 (use-package lsp-ui
   :hook (lsp-mode . lsp-ui-mode)
   :config
-  (setq lsp-ui-doc-position 'bottom))
+  (setq lsp-ui-doc-position 'bottom)
+  (setq lsp-ui-doc-delay 0.5))
 
 (use-package lsp-ivy
   :after lsp)
@@ -386,6 +387,12 @@
   :hook
   (go-mode . lsp-deferred)
   (before-save . gofmt-before-save)
+  (go-mode . (lambda () (setq tab-width 2))))
+
+(use-package json-mode
+  :mode "\\.json\\'"
+  :hook
+  (json-mode . lsp-deferred)
   (go-mode . (lambda () (setq tab-width 2))))
 
 (use-package term
@@ -443,8 +450,6 @@
 (use-package dired
   :ensure nil
   :commands (dired dired-jump)
-  :bind
-  ([remap dired-find-file] . dired-find-alternate-file)
   :config
   (when (string= system-type "darwin")
     (setq insert-directory-program "/opt/homebrew/bin/gls"))
