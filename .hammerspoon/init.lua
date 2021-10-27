@@ -46,6 +46,10 @@ hs.hotkey.bind({ "cmd", "ctrl" }, "T", function ()
     hs.execute("/usr/local/bin/code ~/playground/todos/todo.txt")
 end)
 
+hs.hotkey.bind({ "cmd", "ctrl" }, "M", function ()
+    hs.urlevent.openURL("https://mail.google.com")
+end)
+
 -- this is workaround for the key repeat issue
 -- https://stackoverflow.com/questions/40986242/key-repeats-are-delayed-in-my-hammerspoon-script
 function keyStroke (key)
