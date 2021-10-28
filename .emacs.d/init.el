@@ -37,6 +37,9 @@
   (auto-package-update-at-time "09:00"))
 
 ;; Save all of the custom data in custom.el
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
 (use-package no-littering)
 
 (use-package exec-path-from-shell)
@@ -431,6 +434,9 @@
     (setq eshell-destroy-buffer-when-process-dies t)
     (setq eshell-visual-commands '("zsh" "vim")))
   (eshell-git-prompt-use-theme 'powerline))
+
+(use-package esh-autosuggest
+  :hook (eshell-mode . esh-autosuggest-mode))
 
 ;; Auto refresh buffers
 (global-auto-revert-mode 1)
