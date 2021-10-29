@@ -356,7 +356,9 @@
   :bind (("s-b" . dired-sidebar-toggle-sidebar))
   :commands (dired-sidebar-toggle-sidebar)
   :custom
-  (dired-sidebar-display-alist '((side . right))))
+  (dired-sidebar-display-alist '((side . right)))
+  :config
+  (setq dired-sidebar-theme 'vscode))
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
