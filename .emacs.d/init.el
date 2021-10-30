@@ -18,7 +18,7 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-;; Initialize use-package on non-Linux platforms			 
+;; Initialize use-package on non-Linux platforms
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
@@ -42,9 +42,13 @@
   (load custom-file))
 (use-package no-littering)
 
-(use-package exec-path-from-shell)
+(use-package exec-path-from-shell
+    :init
+    (setq exec-path-from-shell-variables '("PATH" "MANPATH")
+          exec-path-from-shell-arguments '("-l"))
+    (exec-path-from-shell-initialize))
 
-;; Hide startup message  
+;; Hide startup message
 (setq inhibit-startup-message t)
 
 ;; set line-spacing
@@ -94,10 +98,10 @@
 ;; Make ESC quit promps
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-;; backward kill behave more like VS Code 
+;; backward kill behave more like VS Code
 (defun daut/backward-kill-char-or-word ()
   (interactive)
-  (cond 
+  (cond
    ((looking-back (rx (char word)) 1)
     (backward-kill-word 1))
    ((looking-back (rx (char blank)) 1)
@@ -258,7 +262,7 @@
 
 ;; same effect for `tab' as in the language major mode buffer
 (setq
- org-src-preserve-indentation t 
+ org-src-preserve-indentation t
  org-src-tab-acts-natively t)
 
 (use-package org-bullets
@@ -376,7 +380,7 @@
   :after lsp)
 
 (use-package typescript-mode
-  :mode "\\.ts\\'"
+  :mode "\\.ts[x]\\'"
   :hook (typescript-mode . lsp-deferred)
   :config
   (setq typescript-indent-level 2))
@@ -460,7 +464,7 @@
   :commands (dired dired-jump)
   :config
   (when (string= system-type "darwin")
-    (setq insert-directory-program "/opt/homebrew/bin/gls"))
+    (setq insert-directory-program (executable-find "gls")))
   :custom
   (dired-listing-switches "-agho --group-directories-first")
   (setq delete-by-moving-to-trash t))
