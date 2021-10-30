@@ -43,10 +43,11 @@
 (use-package no-littering)
 
 (use-package exec-path-from-shell
-    :init
-    (setq exec-path-from-shell-variables '("PATH" "MANPATH")
-          exec-path-from-shell-arguments '("-l"))
-    (exec-path-from-shell-initialize))
+  :init
+  (setq exec-path-from-shell-check-startup-files nil)
+  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOPATH"))
+  (setq exec-path-from-shell-arguments '("-l"))
+  (exec-path-from-shell-initialize))
 
 ;; Hide startup message
 (setq inhibit-startup-message t)
@@ -307,8 +308,9 @@
   :diminish projectile-mode
   :config (projectile-mode)
   :custom ((projectile-completion-system 'ivy))
-  :bind-keymap
-  ("s-p" . projectile-command-map)
+  :bind
+  ("C-c p" . projectile-command-map)
+  ("s-p" . projectile-find-file)
   :init
   (when (file-directory-p "~/projects")
     (setq projectile-project-search-path '("~/projects")))
