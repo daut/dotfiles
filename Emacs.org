@@ -198,7 +198,7 @@ Environment variables sometimes aren't right, this fixes it.
 ** Tab Widths
 #+begin_src emacs-lisp
 
-(setq tab-width 2)
+(setq-default tab-width 2)
 
 #+end_src
 
@@ -476,14 +476,16 @@ Helpful is an alternative to emacs builtin help which provides much more context
   ("C-c p" . projectile-command-map)
   ("s-p" . projectile-find-file)
   :init
+  (setq projectile-sort-order 'recentf)
   (when (file-directory-p "~/projects")
     (setq projectile-project-search-path '("~/projects")))
-  (setq projectile-switch-project-action #'projectile-dired))
+  (setq projectile-switch-project-action #'projectile-dired)
+  (setq projectile-use-git-grep t))
 
 ;; integrate counsel with projectile
-(use-package counsel-projectile
-  :after projectile
-  :config (counsel-projectile-mode))
+;; (use-package counsel-projectile
+;;   :after projectile
+;;   :config (counsel-projectile-mode))
 
 #+end_src
 
@@ -616,6 +618,13 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :hook
   (json-mode . lsp-deferred)
   (go-mode . (lambda () (setq tab-width 2))))
+
+#+end_src
+*** Restclient
+#+begin_src emacs-lisp
+
+(use-package restclient
+  :mode ("\\.http\\'" . restclient-mode))
 
 #+end_src
 * Terminals

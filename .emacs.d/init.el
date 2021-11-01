@@ -139,7 +139,7 @@
 
 (delete-selection-mode t)
 
-(setq tab-width 2)
+(setq-default tab-width 2)
 
 (setq-default indent-tabs-mode nil)
 
@@ -312,14 +312,16 @@
   ("C-c p" . projectile-command-map)
   ("s-p" . projectile-find-file)
   :init
+  (setq projectile-sort-order 'recentf)
   (when (file-directory-p "~/projects")
     (setq projectile-project-search-path '("~/projects")))
-  (setq projectile-switch-project-action #'projectile-dired))
+  (setq projectile-switch-project-action #'projectile-dired)
+  (setq projectile-use-git-grep t))
 
 ;; integrate counsel with projectile
-(use-package counsel-projectile
-  :after projectile
-  :config (counsel-projectile-mode))
+;; (use-package counsel-projectile
+;;   :after projectile
+;;   :config (counsel-projectile-mode))
 
 (use-package magit
   :commands magit-status)
@@ -405,6 +407,9 @@
   :hook
   (json-mode . lsp-deferred)
   (go-mode . (lambda () (setq tab-width 2))))
+
+(use-package restclient
+  :mode ("\\.http\\'" . restclient-mode))
 
 (use-package term
   :commands term
