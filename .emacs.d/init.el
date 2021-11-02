@@ -306,13 +306,13 @@
 
 (use-package projectile
   :diminish projectile-mode
-  :config (projectile-mode)
-  :custom ((projectile-completion-system 'ivy))
+  :hook (after-init . projectile-mode)
   :bind
   ("C-c p" . projectile-command-map)
   ("s-p" . projectile-find-file)
   :init
   (setq projectile-sort-order 'recentf)
+  (setq projectile-enable-caching t)
   (when (file-directory-p "~/projects")
     (setq projectile-project-search-path '("~/projects")))
   (setq projectile-switch-project-action #'projectile-dired)
