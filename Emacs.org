@@ -250,6 +250,17 @@ Environment variables sometimes aren't right, this fixes it.
   ("C-s-k" . 'move-text-up))
 
 #+end_src
+** Folding with origami
+#+begin_src emacs-lisp
+
+(use-package origami
+  :bind (:map origami-mode-map
+         ("C-s-[" . origami-close-node)
+         ("C-s-]" . origami-open-node))
+  :hook (prog-mode . origami-mode)
+  :init (setq origami-show-fold-header t))
+
+#+end_src
 * UI Configuration
 ** Command Log Mode
 
@@ -579,6 +590,14 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :after lsp)
 
 #+end_src
+*** Debugging with dap-mode
+#+begin_src emacs-lisp
+
+(use-package dap-mode
+  :config
+  (setq dap-print-io t))
+
+#+end_src
 *** TypeScript
 #+begin_src emacs-lisp
 
@@ -586,7 +605,9 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :mode "\\.ts[x]\\'"
   :hook (typescript-mode . lsp-deferred)
   :config
-  (setq typescript-indent-level 2))
+  (setq typescript-indent-level 2)
+  (require 'dap-node)
+  (dap-node-setup))
 
 #+end_src
 *** Lua
@@ -607,7 +628,10 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :hook
   (go-mode . lsp-deferred)
   (before-save . gofmt-before-save)
-  (go-mode . (lambda () (setq tab-width 2))))
+  (go-mode . (lambda () (setq tab-width 2)))
+  :config
+  (require 'dap-go)
+  (dap-go-setup))
 
 #+end_src
 *** JSON

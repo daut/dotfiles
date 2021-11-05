@@ -164,6 +164,13 @@
   ("C-s-j" . 'move-text-down)
   ("C-s-k" . 'move-text-up))
 
+(use-package origami
+  :bind (:map origami-mode-map
+         ("C-s-[" . origami-close-node)
+         ("C-s-]" . origami-open-node))
+  :hook (prog-mode . origami-mode)
+  :init (setq origami-show-fold-header t))
+
 ;; defer loading of the package until command-log-mode is invoked
 (use-package command-log-mode
   :commands command-log-mode)
@@ -383,11 +390,17 @@
 (use-package lsp-ivy
   :after lsp)
 
+(use-package dap-mode
+  :config
+  (setq dap-print-io t))
+
 (use-package typescript-mode
   :mode "\\.ts[x]\\'"
   :hook (typescript-mode . lsp-deferred)
   :config
-  (setq typescript-indent-level 2))
+  (setq typescript-indent-level 2)
+  (require 'dap-node)
+  (dap-node-setup))
 
 (use-package lua-mode
   :mode "\\.lua\\'"
@@ -400,7 +413,10 @@
   :hook
   (go-mode . lsp-deferred)
   (before-save . gofmt-before-save)
-  (go-mode . (lambda () (setq tab-width 2))))
+  (go-mode . (lambda () (setq tab-width 2)))
+  :config
+  (require 'dap-go)
+  (dap-go-setup))
 
 (use-package json-mode
   :mode "\\.json\\'"
