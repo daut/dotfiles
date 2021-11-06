@@ -164,12 +164,19 @@
   ("C-s-j" . 'move-text-down)
   ("C-s-k" . 'move-text-up))
 
-(use-package origami
-  :bind (:map origami-mode-map
-         ("C-s-[" . origami-close-node)
-         ("C-s-]" . origami-open-node))
-  :hook (prog-mode . origami-mode)
-  :init (setq origami-show-fold-header t))
+;; (use-package origami
+;;   :bind (:map origami-mode-map
+;;          ("C-s-[" . origami-close-node)
+;;          ("C-s-]" . origami-open-node))
+;;   :hook (prog-mode . origami-mode)
+;;   :init (setq origami-show-fold-header t))
+
+(use-package hideshow
+  :diminish hs-minor-mode
+  :hook (prog-mode . hs-minor-mode)
+  :bind
+  ("C-s-[" . hs-hide-block)
+  ("C-s-]" . hs-show-block))
 
 ;; defer loading of the package until command-log-mode is invoked
 (use-package command-log-mode
