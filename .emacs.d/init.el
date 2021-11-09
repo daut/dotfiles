@@ -178,6 +178,18 @@
   ("C-s-[" . hs-hide-block)
   ("C-s-]" . hs-show-block))
 
+(use-package minimap
+  :defer t
+  :config
+  (setq minimap-window-location 'right
+        minimap-update-delay 0
+        minimap-width-fraction 0.09
+        minimap-minimum-width 15))
+
+(use-package aggressive-indent
+  :diminish
+  :hook (emacs-lisp-mode . aggressive-indent-mode))
+
 ;; defer loading of the package until command-log-mode is invoked
 (use-package command-log-mode
   :commands command-log-mode)
@@ -433,6 +445,9 @@
 
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode))
+
+(use-package yaml-mode
+  :mode "\\.y[a]ml\\'")
 
 (use-package term
   :commands term
