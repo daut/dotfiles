@@ -245,7 +245,7 @@
 ;; better UI for the M-x command, C-x b etc.
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-switch-buffer)
+         ("C-x b" . persp-ivy-switch-buffer)
          ("C-x C-f" . find-file)
          :map minibuffer-local-map ;; minibuffer only mapping
          ("C-r" . counsel-minibuffer-history))
