@@ -471,7 +471,8 @@ Helpful is an alternative to emacs builtin help which provides much more context
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
-     (python . t)))
+     (python . t)
+     (sql . t)))
 
   (setq org-confirm-babel-evaluate nil))
 
@@ -485,7 +486,8 @@ Helpful is an alternative to emacs builtin help which provides much more context
 
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-  (add-to-list 'org-structure-template-alist '("py" . "src python")))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("sq" . "src sql")))
 
 #+end_src
 ** Auto-tangle Configuration Files

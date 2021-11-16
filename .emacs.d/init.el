@@ -309,7 +309,8 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
-     (python . t)))
+     (python . t)
+     (sql . t)))
 
   (setq org-confirm-babel-evaluate nil))
 
@@ -319,7 +320,8 @@
 
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-  (add-to-list 'org-structure-template-alist '("py" . "src python")))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("sq" . "src sql")))
 
 ;; Automatically tangle Emacs.org config file on save
 (defun daut/org-babel-tangle-configuration ()
