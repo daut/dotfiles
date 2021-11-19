@@ -173,9 +173,13 @@ Environment variables sometimes aren't right, this fixes it.
     :prefix "C-C")
   (daut/leader-keys
     "t"  '(:ignore t :which-key "toggles")
+    "o"  '(:ignore t :which-key "org-files")
+    "s"  '(:ignore t :which-key "shell")
     "tt" '(counsel-load-theme :which-key "choose theme")
-    "fde" '(lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org")) :which-key "open Emacs.org")
-    "se" '(eshell :which-key "eshell")))
+    "se" '(eshell :which-key "eshell")
+    "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
+    "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
+    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")))
 
 #+end_src
 ** Crux package
@@ -262,7 +266,9 @@ Environment variables sometimes aren't right, this fixes it.
 
 (use-package hideshow
   :diminish hs-minor-mode
-  :hook (prog-mode . hs-minor-mode)
+  :hook
+  (prog-mode . hs-minor-mode)
+  (restclient-mode . hs-minor-mode)
   :bind
   ("C-s-[" . hs-hide-block)
   ("C-s-]" . hs-show-block))
@@ -342,6 +348,7 @@ which-key is a useful UI panel that appears when you start pressing any key bind
 ;; better mini-buffer completion
 (use-package ivy
   :diminish
+  :hook (after-init . ivy-mode)
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
          ("TAB" . ivy-alt-done)
@@ -354,9 +361,7 @@ which-key is a useful UI panel that appears when you start pressing any key bind
          ("C-d" . ivy-switch-buffer-kill)
          :map ivy-reverse-i-search-map
          ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
+         ("C-d" . ivy-reverse-i-search-kill)))
 
 ;; ivy-rich get extra information about commands
 ;; like description and keybinding
@@ -375,6 +380,7 @@ which-key is a useful UI panel that appears when you start pressing any key bind
   :bind (("M-x" . counsel-M-x)
          ("C-x b" . persp-ivy-switch-buffer)
          ("C-x C-f" . find-file)
+         ("C-s-f" . counsel-git-grep)
          :map minibuffer-local-map ;; minibuffer only mapping
          ("C-r" . counsel-minibuffer-history))
   :config
@@ -744,14 +750,15 @@ Helpful is an alternative to emacs builtin help which provides much more context
 #+begin_src emacs-lisp
 
 ;; Auto refresh buffers
-(global-auto-revert-mode 1)
+(global-auto-revert-mode t)
 
 ;; Also auto refresh dired, but be quiet about it
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
 ;; Backup files directory path
-(setq backup-directory-alist `(("." . "~/.emacs-backups")))
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 (setq backup-by-copying-when-linked t)
 (setq delete-old-versions t
       kept-new-versions 6
@@ -781,15 +788,26 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
 #+end_src
 
 * Workspace Managment
+** Ace Window
+#+begin_src emacs-lisp
+
+(use-package ace-window
+  :hook (emacs-startup . ace-window-display-mode)
+  :bind
+  ("s-[" . ace-window)
+  ("s-]" . ace-window)
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
+#+end_src
 ** Perspective
 #+begin_src emacs-lisp
 
 (use-package perspective
+  :init (persp-mode)
   :bind (("C-x k" . persp-kill-buffer*)
          ("s-}" . persp-next)
-         ("s-{" . persp-prev))
-  :init
-  (persp-mode))
+         ("s-{" . persp-prev)))
 
 #+end_src
 * Runtime Performance

@@ -128,9 +128,13 @@
     :prefix "C-C")
   (daut/leader-keys
     "t"  '(:ignore t :which-key "toggles")
+    "o"  '(:ignore t :which-key "org-files")
+    "s"  '(:ignore t :which-key "shell")
     "tt" '(counsel-load-theme :which-key "choose theme")
-    "fde" '(lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org")) :which-key "open Emacs.org")
-    "se" '(eshell :which-key "eshell")))
+    "se" '(eshell :which-key "eshell")
+    "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
+    "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
+    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")))
 
 (use-package crux
   :bind
@@ -173,7 +177,9 @@
 
 (use-package hideshow
   :diminish hs-minor-mode
-  :hook (prog-mode . hs-minor-mode)
+  :hook
+  (prog-mode . hs-minor-mode)
+  (restclient-mode . hs-minor-mode)
   :bind
   ("C-s-[" . hs-hide-block)
   ("C-s-]" . hs-show-block))
@@ -214,6 +220,7 @@
 ;; better mini-buffer completion
 (use-package ivy
   :diminish
+  :hook (after-init . ivy-mode)
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
          ("TAB" . ivy-alt-done)
@@ -226,9 +233,7 @@
          ("C-d" . ivy-switch-buffer-kill)
          :map ivy-reverse-i-search-map
          ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
+         ("C-d" . ivy-reverse-i-search-kill)))
 
 ;; ivy-rich get extra information about commands
 ;; like description and keybinding
@@ -247,6 +252,7 @@
   :bind (("M-x" . counsel-M-x)
          ("C-x b" . persp-ivy-switch-buffer)
          ("C-x C-f" . find-file)
+         ("C-s-f" . counsel-git-grep)
          :map minibuffer-local-map ;; minibuffer only mapping
          ("C-r" . counsel-minibuffer-history))
   :config
@@ -492,14 +498,15 @@
   :hook (eshell-mode . esh-autosuggest-mode))
 
 ;; Auto refresh buffers
-(global-auto-revert-mode 1)
+(global-auto-revert-mode t)
 
 ;; Also auto refresh dired, but be quiet about it
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
 ;; Backup files directory path
-(setq backup-directory-alist `(("." . "~/.emacs-backups")))
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 (setq backup-by-copying-when-linked t)
 (setq delete-old-versions t
       kept-new-versions 6
@@ -520,12 +527,19 @@
 ;;   :config
 ;;   (setq dired-open-extensions '(("png" . "open"))))
 
+(use-package ace-window
+  :hook (emacs-startup . ace-window-display-mode)
+  :bind
+  ("s-[" . ace-window)
+  ("s-]" . ace-window)
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
 (use-package perspective
+  :init (persp-mode)
   :bind (("C-x k" . persp-kill-buffer*)
          ("s-}" . persp-next)
-         ("s-{" . persp-prev))
-  :init
-  (persp-mode))
+         ("s-{" . persp-prev)))
 
 ;; make garbage collection pauses faster by decreasing the memory consumption threshold
 ;; this basically reverts threshold increase at the beginning of the file (which helps with load time)

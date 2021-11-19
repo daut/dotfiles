@@ -46,6 +46,7 @@ hs.hotkey.bind({ "cmd", "ctrl" }, "T", function ()
     hs.execute("/usr/local/bin/code ~/playground/todos/todo.txt")
 end)
 
+-- Open Gmail
 hs.hotkey.bind({ "cmd", "ctrl" }, "M", function ()
     hs.urlevent.openURL("https://mail.google.com")
 end)
