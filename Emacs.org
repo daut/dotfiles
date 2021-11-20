@@ -175,6 +175,8 @@ Environment variables sometimes aren't right, this fixes it.
     "t"  '(:ignore t :which-key "toggles")
     "o"  '(:ignore t :which-key "org-files")
     "s"  '(:ignore t :which-key "shell")
+    "f"  '(:ignore t :which-key "files/folders")
+    "fdp" '((lambda () (interactive) (dired "~/projects")) :which-key "projects")
     "tt" '(counsel-load-theme :which-key "choose theme")
     "se" '(eshell :which-key "eshell")
     "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
@@ -522,7 +524,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
   ("s-p" . projectile-find-file)
   :init
   (setq projectile-sort-order 'recentf)
-  (setq projectile-enable-caching t)
+  ;; (setq projectile-enable-caching t)
   (when (file-directory-p "~/projects")
     (setq projectile-project-search-path '("~/projects")))
   (setq projectile-switch-project-action #'projectile-dired)
@@ -569,9 +571,13 @@ Helpful is an alternative to emacs builtin help which provides much more context
         ("<tab>" . company-complete-selection))
   (:map lsp-mode-map
         ("<tab>" . company-indent-or-complete-column))
-  :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-dealy 0.0))
+  :config
+  (setq company-minimum-prefix-length 2)
+  (setq company-idle-delay 0.2)
+  :init
+  (setq company-backends '((company-capf :with company-yasnippet)
+                           (company-dabbrev-code company-keywords company-files)
+                           company-dabbrev)))
 
 (use-package company-box
   :hook (company-mode . company-box-mode))
