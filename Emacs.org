@@ -794,16 +794,13 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
 #+end_src
 
 * Workspace Managment
-** Ace Window
+** Other Window
 #+begin_src emacs-lisp
 
 (use-package ace-window
-  :hook (emacs-startup . ace-window-display-mode)
-  :bind
-  ("s-[" . ace-window)
-  ("s-]" . ace-window)
-  :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+  :bind 
+  (("s-[" . (lambda () (interactive) (other-window -1)))
+  ("s-]" . (lambda () (interactive) (other-window 1)))))
 
 #+end_src
 ** Perspective

@@ -534,12 +534,9 @@
 ;;   (setq dired-open-extensions '(("png" . "open"))))
 
 (use-package ace-window
-  :hook (emacs-startup . ace-window-display-mode)
-  :bind
-  ("s-[" . ace-window)
-  ("s-]" . ace-window)
-  :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+  :bind 
+  (("s-[" . (lambda () (interactive) (other-window -1)))
+  ("s-]" . (lambda () (interactive) (other-window 1)))))
 
 (use-package perspective
   :init (persp-mode)
