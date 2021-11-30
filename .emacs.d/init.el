@@ -130,10 +130,13 @@
     "t"  '(:ignore t :which-key "toggles")
     "o"  '(:ignore t :which-key "org-files")
     "s"  '(:ignore t :which-key "shell")
-    "f"  '(:ignore t :which-key "files/folders")
+    "f"  '(:ignore t :which-key "files or folders")
+    "h"  '(:ignore t :which-key "hydra")
+    "fd" '(:ignore t :which-key "directories")
     "fdp" '((lambda () (interactive) (dired "~/projects")) :which-key "projects")
     "tt" '(counsel-load-theme :which-key "choose theme")
     "se" '(eshell :which-key "eshell")
+    "sE" '((lambda () (interactive) (eshell t)) :which-key "New eshell")
     "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
     "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
     "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")))
@@ -252,7 +255,7 @@
 ;; better UI for the M-x command, C-x b etc.
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
-         ("C-x b" . persp-ivy-switch-buffer)
+         ("C-x b" . persp-counsel-switch-buffer)
          ("C-x C-f" . find-file)
          ("C-s-f" . counsel-git-grep)
          :map minibuffer-local-map ;; minibuffer only mapping
@@ -352,6 +355,7 @@
   (when (file-directory-p "~/projects")
     (setq projectile-project-search-path '("~/projects")))
   (setq projectile-switch-project-action #'projectile-dired)
+  (setq projectile-git-submodule-command nil)
   (setq projectile-use-git-grep t))
 
 ;; integrate counsel with projectile
@@ -417,13 +421,16 @@
 (use-package lsp-ui
   :hook (lsp-mode . lsp-ui-mode)
   :config
-  (setq lsp-ui-doc-position 'bottom)
-  (setq lsp-ui-doc-delay 0.5))
+  (setq lsp-ui-doc-position 'top)
+  (setq lsp-ui-doc-delay 0.5)
+  (setq lsp-ui-doc-max-width 80))
 
 (use-package lsp-ivy
   :after lsp)
 
 (use-package dap-mode
+  :bind
+  ("C-c h d" . dap-hydra)
   :config
   (setq dap-print-io t))
 
@@ -457,11 +464,38 @@
   (json-mode . lsp-deferred)
   (go-mode . (lambda () (setq tab-width 2))))
 
+(use-package jq-mode)
+
 (use-package restclient
-  :mode ("\\.http\\'" . restclient-mode))
+  :mode ("\\.http\\'" . restclient-mode)
+  :config
+  (require 'restclient-jq)
+  (with-eval-after-load 'company
+    (use-package company-restclient
+      :defines company-backends
+      :init (add-to-list 'company-backends 'company-restclient))))
 
 (use-package yaml-mode
   :mode "\\.y[a]ml\\'")
+
+(use-package flycheck
+  :diminish
+  :commands flycheck-redefine-standard-error-levels
+  :hook (after-init . global-flycheck-mode))
+
+(use-package ejc-sql
+  :hook
+  (sql-mode . ejc-sql-mode)
+  :config
+  (setq clomacs-httpd-default-port 8090)
+  (setq ejc-complete-on-dot t)
+  (setq ejc-completion-system 'standard)
+  (require 'ejc-company)
+  (push 'ejc-company-backend company-backends)
+  (add-hook 'ejc-sql-minor-mode-hook
+            (lambda ()
+              (company-mode t)
+              (ejc-eldoc-setup))))
 
 (use-package term
   :commands term
