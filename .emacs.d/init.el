@@ -129,7 +129,7 @@
   (daut/leader-keys
     "t"  '(:ignore t :which-key "toggles")
     "o"  '(:ignore t :which-key "org-files")
-    "s"  '(:ignore t :which-key "shell")
+    "s"  '(:ignore t :which-key "shell/sql")
     "f"  '(:ignore t :which-key "files or folders")
     "h"  '(:ignore t :which-key "hydra")
     "fd" '(:ignore t :which-key "directories")
@@ -137,6 +137,7 @@
     "tt" '(counsel-load-theme :which-key "choose theme")
     "se" '(eshell :which-key "eshell")
     "sE" '((lambda () (interactive) (eshell t)) :which-key "New eshell")
+    "sc" '(sql-connect :which-key "sql-connect")
     "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
     "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
     "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")))
