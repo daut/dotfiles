@@ -432,8 +432,15 @@
 (use-package dap-mode
   :bind
   ("C-c h d" . dap-hydra)
+  :custom
+  (lsp-enable-dap-auto-configure nil)
   :config
-  (setq dap-print-io t))
+  (setq dap-print-io t)
+  (dap-ui-mode 1)
+  (general-define-key
+   :keymaps 'lsp-mode-map
+   :prefix lsp-keymap-prefix
+   "d" '(dap-hydra t :wk "debugger")))
 
 (use-package typescript-mode
   :mode "\\.ts[x]\\'"
