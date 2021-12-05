@@ -99,18 +99,31 @@
 ;; Make ESC quit promps
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-;; backward kill behave more like VS Code
-(defun daut/backward-kill-char-or-word ()
+(defun daut/backward-delete-word (arg)
+  "Delete characters backward until encountering the beginning of a word.
+With argument ARG, do this that many times."
+  (interactive)
+  (delete-region (point) (progn (backward-word arg) (point))))
+
+(defun daut/delete-word (arg)
+  "Delete characters forwards until encountering the beginning of a word.
+With argument ARG, do this that many times."
+  (interactive "p")
+  (delete-region (point) (progn (forward-word arg) (point))))
+
+(defun daut/backward-delete-char-or-word ()
+  "backward delete behave more like VS Code"
   (interactive)
   (cond
    ((looking-back (rx (char word)) 1)
-    (backward-kill-word 1))
+    (daut/backward-delete-word 1))
    ((looking-back (rx (char blank)) 1)
     (delete-horizontal-space t))
    (t
     (backward-delete-char 1))))
 
-(define-key (current-global-map) [remap backward-kill-word] 'daut/backward-kill-char-or-word)
+(define-key (current-global-map) [remap backward-kill-word] 'daut/backward-delete-char-or-word)
+(define-key (current-global-map) [remap kill-word] 'daut/delete-word)
 
 ;; page up/down like functionality
 (global-set-key (kbd "C-s-,")
