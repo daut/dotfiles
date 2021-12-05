@@ -40,7 +40,9 @@
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
-(use-package no-littering)
+(use-package no-littering
+  :config
+  (setq create-lockfiles nil))
 
 (use-package exec-path-from-shell
   :init
@@ -503,20 +505,6 @@ With argument ARG, do this that many times."
   :diminish
   :commands flycheck-redefine-standard-error-levels
   :hook (after-init . global-flycheck-mode))
-
-(use-package ejc-sql
-  :hook
-  (sql-mode . ejc-sql-mode)
-  :config
-  (setq clomacs-httpd-default-port 8090)
-  (setq ejc-complete-on-dot t)
-  (setq ejc-completion-system 'standard)
-  (require 'ejc-company)
-  (push 'ejc-company-backend company-backends)
-  (add-hook 'ejc-sql-minor-mode-hook
-            (lambda ()
-              (company-mode t)
-              (ejc-eldoc-setup))))
 
 (use-package term
   :commands term
