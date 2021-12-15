@@ -274,6 +274,7 @@ With argument ARG, do this that many times."
          ("C-x b" . persp-counsel-switch-buffer)
          ("C-x C-f" . find-file)
          ("C-s-f" . counsel-git-grep)
+         ("s-F" . counsel-git-grep)
          :map minibuffer-local-map ;; minibuffer only mapping
          ("C-r" . counsel-minibuffer-history))
   :config
