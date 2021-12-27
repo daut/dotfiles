@@ -51,6 +51,8 @@
   (setq exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
 
+(server-start)
+
 ;; Hide startup message
 (setq inhibit-startup-message t)
 
@@ -506,6 +508,15 @@ With argument ARG, do this that many times."
   :diminish
   :commands flycheck-redefine-standard-error-levels
   :hook (after-init . global-flycheck-mode))
+
+(use-package avy
+  :bind (("s-." . avy-goto-word-or-subword-1)
+         ("s-," . avy-goto-char)
+         ("C-c ." . avy-goto-word-or-subword-1)
+         ("C-c ," . avy-goto-char)
+         ("M-g f" . avy-goto-line))
+  :config
+  (setq avy-background t))
 
 (use-package term
   :commands term

@@ -76,6 +76,10 @@ Environment variables sometimes aren't right, this fixes it.
   (setq exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
 #+end_src
+* Server Mode
+#+begin_src emacs-lisp
+(server-start)
+#+end_src
 * UI Configuration
 ** Basic
 #+begin_src emacs-lisp
@@ -745,6 +749,17 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :commands flycheck-redefine-standard-error-levels
   :hook (after-init . global-flycheck-mode))
 
+#+end_src
+** Avy
+#+begin_src emacs-lisp
+(use-package avy
+  :bind (("s-." . avy-goto-word-or-subword-1)
+         ("s-," . avy-goto-char)
+         ("C-c ." . avy-goto-word-or-subword-1)
+         ("C-c ," . avy-goto-char)
+         ("M-g f" . avy-goto-line))
+  :config
+  (setq avy-background t))
 #+end_src
 * Terminals
 ** term-mode
