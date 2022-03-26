@@ -45,9 +45,9 @@
   (setq create-lockfiles nil))
 
 (use-package exec-path-from-shell
-  :init
+  :config
   (setq exec-path-from-shell-check-startup-files nil)
-  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOPATH"))
+  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOPATH" "GOPRIVATE"))
   (setq exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
 
@@ -491,6 +491,18 @@ With argument ARG, do this that many times."
   (go-mode . (lambda () (setq tab-width 2))))
 
 (use-package jq-mode)
+
+;;; load restclient-jq - allow restclient mode to use jq to process JSON results.
+;; (fetch it from remote url if it's already there)
+(let
+    ((restclient-jq-filename "~/.emacs.d/restclient-jq.el")
+     (restclient-jq-url
+      "https://raw.githubusercontent.com/pashky/restclient.el/master/restclient-jq.el"))
+  (progn
+    (unless (file-exists-p restclient-jq-filename)
+      (url-copy-file restclient-jq-url restclient-jq-filename))
+    (load "~/.emacs.d/restclient-jq.el")
+    ))
 
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode)
