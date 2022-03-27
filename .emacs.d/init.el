@@ -155,6 +155,10 @@ With argument ARG, do this that many times."
     "se" '(eshell :which-key "eshell")
     "sE" '((lambda () (interactive) (eshell t)) :which-key "New eshell")
     "sc" '(sql-connect :which-key "sql-connect")
+
+    "oc" '(org-capture t :which-key "org-capture")
+    "oa" '(org-agenda t :which-key "org-agenda")
+    "oi" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/inbox.org"))) :which-key "Inbox.org")
     "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
     "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
     "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")))
@@ -313,19 +317,32 @@ With argument ARG, do this that many times."
   (setq org-ellipsis " ▾")
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)
+  (setq org-tag-alist '(("@errands" . ?e)
+                       ("@home" . ?h)
+                       ("@shop" . ?s)))
   (setq org-agenda-files
-        '("~/projects/emacs-from-scratch/org-files/Tasks.org"
-          "~/projects/emacs-from-scratch/org-files/Birthdays.org")))
+        '("~/projects/org/gtd/inbox.org"
+          "~/projects/org/gtd/gtd.org"
+          "~/projects/org/gtd/tickler.org"))
+  (setq org-refile-targets '(("~/projects/org/gtd/gtd.org" :maxlevel . 3)
+                             ("~/projects/org/gtd/someday.org" :level . 1)
+                             ("~/projects/org/gtd/tickler.org" :maxlevel . 2)))
+  (setq org-capture-templates '(("t" "TODO [inbox]" entry
+                                 (file+headline "~/projects/org/gtd/inbox.org" "Tasks")
+                                 "* TODO %i%?")
+                                ("T" "Tickler" entry
+                                 (file+headline "~/projects/org/gtd/tickler.org" "Tickler")
+                                 "* %i% \n %U"))))
 
 ;; same effect for `tab' as in the language major mode buffer
 (setq
  org-src-preserve-indentation t
  org-src-tab-acts-natively t)
 
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+;; (use-package org-bullets
+;;   :hook (org-mode . org-bullets-mode)
+;;   :custom
+;;   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 (defun daut/org-mode-visual-fill ()
   (setq visual-fill-column-width 100
