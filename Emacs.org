@@ -323,6 +323,11 @@ With argument ARG, do this that many times."
   :hook (emacs-lisp-mode . aggressive-indent-mode))
 
 #+end_src
+** Expand Region
+#+begin_src emacs-lisp
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
+#+end_src
 * UI Configuration
 ** Command Log Mode
 
@@ -733,8 +738,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
 (use-package json-mode
   :mode "\\.json\\'"
   :hook
-  (json-mode . lsp-deferred)
-  (go-mode . (lambda () (setq tab-width 2))))
+  (json-mode . lsp-deferred))
 
 #+end_src
 *** Restclient
@@ -911,6 +915,8 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
 ;; this basically reverts threshold increase at the beginning of the file (which helps with load time)
 (setq gc-cons-threshold (* 2 1000 1000))
 
+;; Should make working with long lines faster https://emacs.stackexchange.com/questions/598/how-do-i-prevent-extremely-long-lines-making-emacs-slow
+(setq bidi-inhibit-bpa t)
 ;; this package looks interesting
 ;; https://github.com/emacsmirror/gcmh/blob/master/gcmh.el
 

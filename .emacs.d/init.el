@@ -223,6 +223,9 @@ With argument ARG, do this that many times."
   :diminish
   :hook (emacs-lisp-mode . aggressive-indent-mode))
 
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
+
 ;; defer loading of the package until command-log-mode is invoked
 (use-package command-log-mode
   :commands command-log-mode)
@@ -504,8 +507,7 @@ With argument ARG, do this that many times."
 (use-package json-mode
   :mode "\\.json\\'"
   :hook
-  (json-mode . lsp-deferred)
-  (go-mode . (lambda () (setq tab-width 2))))
+  (json-mode . lsp-deferred))
 
 (use-package jq-mode)
 
@@ -632,5 +634,7 @@ With argument ARG, do this that many times."
 ;; this basically reverts threshold increase at the beginning of the file (which helps with load time)
 (setq gc-cons-threshold (* 2 1000 1000))
 
+;; Should make working with long lines faster https://emacs.stackexchange.com/questions/598/how-do-i-prevent-extremely-long-lines-making-emacs-slow
+(setq bidi-inhibit-bpa t)
 ;; this package looks interesting
 ;; https://github.com/emacsmirror/gcmh/blob/master/gcmh.el
