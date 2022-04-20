@@ -611,6 +611,7 @@ With argument ARG, do this that many times."
   :config
   (when (string= system-type "darwin")
     (setq insert-directory-program (executable-find "gls")))
+  (setq dired-kill-when-opening-new-dired-buffer t)
   :custom
   (dired-listing-switches "-agho --group-directories-first")
   (setq delete-by-moving-to-trash t))
@@ -636,5 +637,7 @@ With argument ARG, do this that many times."
 
 ;; Should make working with long lines faster https://emacs.stackexchange.com/questions/598/how-do-i-prevent-extremely-long-lines-making-emacs-slow
 (setq bidi-inhibit-bpa t)
+(setq bidi-paragraph-direction 'left-to-right)
+(global-so-long-mode 1)
 ;; this package looks interesting
 ;; https://github.com/emacsmirror/gcmh/blob/master/gcmh.el

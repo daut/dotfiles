@@ -868,7 +868,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
 
 #+end_src
 
-** Dired
+** TODO Dired
 Note: coreutils had to be installed on MacOS systems for group-directories-first to work so run `brew install coreutils`.
 #+begin_src emacs-lisp
 
@@ -878,6 +878,7 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
   :config
   (when (string= system-type "darwin")
     (setq insert-directory-program (executable-find "gls")))
+  (setq dired-kill-when-opening-new-dired-buffer t)
   :custom
   (dired-listing-switches "-agho --group-directories-first")
   (setq delete-by-moving-to-trash t))
@@ -917,6 +918,8 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
 
 ;; Should make working with long lines faster https://emacs.stackexchange.com/questions/598/how-do-i-prevent-extremely-long-lines-making-emacs-slow
 (setq bidi-inhibit-bpa t)
+(setq bidi-paragraph-direction 'left-to-right)
+(global-so-long-mode 1)
 ;; this package looks interesting
 ;; https://github.com/emacsmirror/gcmh/blob/master/gcmh.el
 
