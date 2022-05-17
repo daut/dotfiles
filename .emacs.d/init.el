@@ -535,6 +535,16 @@ With argument ARG, do this that many times."
 (use-package yaml-mode
   :mode "\\.y[a]ml\\'")
 
+;; vue-language-server should be installed too. npm i -g vls
+(use-package vue-mode
+  :mode "\\.vue\\'"
+  :hook (vue-mode . lsp-deferred)
+  :custom
+  (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
+
+(use-package eslint-mode
+  :hook (eslint-mode . lsp-deferred))
+
 (use-package flycheck
   :diminish
   :commands flycheck-redefine-standard-error-levels
@@ -629,7 +639,9 @@ With argument ARG, do this that many times."
   :init (persp-mode)
   :bind (("C-x k" . persp-kill-buffer*)
          ("s-}" . persp-next)
-         ("s-{" . persp-prev)))
+         ("s-{" . persp-prev))
+  :custom
+  (persp-mode-prefix-key (kbd "C-c M-p")))
 
 ;; make garbage collection pauses faster by decreasing the memory consumption threshold
 ;; this basically reverts threshold increase at the beginning of the file (which helps with load time)

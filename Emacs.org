@@ -774,6 +774,20 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :mode "\\.y[a]ml\\'")
 
 #+end_src
+*** Vue
+#+begin_src emacs-lisp
+;; vue-language-server should be installed too. npm i -g vls
+(use-package vue-mode
+  :mode "\\.vue\\'"
+  :hook (vue-mode . lsp-deferred)
+  :custom
+  (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
+#+end_src
+*** ESLint
+#+begin_src emacs-lisp
+(use-package eslint-mode
+  :hook (eslint-mode . lsp-deferred))
+#+end_src
 ** Flycheck
 #+begin_src emacs-lisp
 
@@ -906,7 +920,9 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
   :init (persp-mode)
   :bind (("C-x k" . persp-kill-buffer*)
          ("s-}" . persp-next)
-         ("s-{" . persp-prev)))
+         ("s-{" . persp-prev))
+  :custom
+  (persp-mode-prefix-key (kbd "C-c M-p")))
 
 #+end_src
 * Runtime Performance
