@@ -783,11 +783,6 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :custom
   (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
 #+end_src
-*** ESLint
-#+begin_src emacs-lisp
-(use-package eslint-mode
-  :hook (eslint-mode . lsp-deferred))
-#+end_src
 ** Flycheck
 #+begin_src emacs-lisp
 

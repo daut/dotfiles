@@ -542,9 +542,6 @@ With argument ARG, do this that many times."
   :custom
   (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
 
-(use-package eslint-mode
-  :hook (eslint-mode . lsp-deferred))
-
 (use-package flycheck
   :diminish
   :commands flycheck-redefine-standard-error-levels
