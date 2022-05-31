@@ -430,13 +430,6 @@ With argument ARG, do this that many times."
 ;;   :after projectile
 ;;   :config (counsel-projectile-mode))
 
-(use-package magit
-  :commands magit-status)
-
-;; add options to magit like create PR, track issues etc.
-(use-package forge
-  :after magit)
-
 ;; install rainbow delimiters and hook them to any prog-mode (programming language mode)
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -583,6 +576,19 @@ With argument ARG, do this that many times."
          ("M-g f" . avy-goto-line))
   :config
   (setq avy-background t))
+
+(use-package magit
+  :commands magit-status)
+
+;; add options to magit like create PR, track issues etc.
+(use-package forge
+  :after magit)
+
+(use-package git-gutter
+  :hook
+  ((prog-mode . git-gutter-mode)
+   (conf-mode . git-gutter-mode)))
+;; try hl-mode (dired-mode . diff-hl-dired-mode)
 
 (use-package term
   :commands term

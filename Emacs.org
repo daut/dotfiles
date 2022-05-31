@@ -616,19 +616,6 @@ Helpful is an alternative to emacs builtin help which provides much more context
 
 #+end_src
 
-** Magit
-
-#+begin_src emacs-lisp
-
-(use-package magit
-  :commands magit-status)
-
-;; add options to magit like create PR, track issues etc.
-(use-package forge
-  :after magit)
-
-#+end_src
-
 ** Rainbow Delimiters
 
 #+begin_src emacs-lisp
@@ -834,6 +821,26 @@ Helpful is an alternative to emacs builtin help which provides much more context
          ("M-g f" . avy-goto-line))
   :config
   (setq avy-background t))
+#+end_src
+* VCS
+** Magit
+#+begin_src emacs-lisp
+
+(use-package magit
+  :commands magit-status)
+
+;; add options to magit like create PR, track issues etc.
+(use-package forge
+  :after magit)
+
+#+end_src
+** Git Gutter
+#+begin_src emacs-lisp
+(use-package git-gutter
+  :hook
+  ((prog-mode . git-gutter-mode)
+   (conf-mode . git-gutter-mode)))
+;; try hl-mode (dired-mode . diff-hl-dired-mode)
 #+end_src
 * Terminals
 ** term-mode
