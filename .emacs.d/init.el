@@ -226,6 +226,22 @@ With argument ARG, do this that many times."
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
+(defvar daut/killed-file-list nil
+  "List of recently killed files")
+
+(defun daut/add-file-to-killed-file-list ()
+  (when buffer-file-name
+    (push buffer-file-name daut/killed-file-list)))
+
+(add-hook 'kill-buffer-hook #'daut/add-file-to-killed-file-list)
+
+(defun daut/reopen-killed-file ()
+  (interactive)
+  (when daut/killed-file-list
+    (find-file (pop daut/killed-file-list))))
+
+(global-set-key (kbd "s-T") 'daut/reopen-killed-file)
+
 ;; defer loading of the package until command-log-mode is invoked
 (use-package command-log-mode
   :commands command-log-mode)
