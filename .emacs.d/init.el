@@ -455,11 +455,12 @@ With argument ARG, do this that many times."
 
 ;; yasnippet
 (use-package yasnippet
-  :disabled)
+  :diminish yas-minor-mode
+  :hook (after-init . yas-global-mode))
+
 (use-package yasnippet-snippets
   :after yasnippet
-  :config
-  (yas-global-mode t))
+  :config (yasnippet-snippets-initialize))
 
 ;; dired-sidebar uses these
 (use-package vscode-icon)
@@ -475,7 +476,8 @@ With argument ARG, do this that many times."
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :config
-  (lsp-enable-which-key-integration t))
+  (lsp-enable-which-key-integration t)
+  (setq lsp-completion-provider :none))
 
 ;; enhanced ui e.g. documentation popup
 (use-package lsp-ui

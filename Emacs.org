@@ -654,14 +654,14 @@ Helpful is an alternative to emacs builtin help which provides much more context
 
 ;; yasnippet
 (use-package yasnippet
-  :disabled)
+  :diminish yas-minor-mode
+  :hook (after-init . yas-global-mode))
+
 (use-package yasnippet-snippets
   :after yasnippet
-  :config
-  (yas-global-mode t))
+  :config (yasnippet-snippets-initialize))
 
 #+end_src
-
 ** Dired sidebar
 #+begin_src emacs-lisp
 
@@ -684,7 +684,8 @@ Helpful is an alternative to emacs builtin help which provides much more context
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :config
-  (lsp-enable-which-key-integration t))
+  (lsp-enable-which-key-integration t)
+  (setq lsp-completion-provider :none))
 
 ;; enhanced ui e.g. documentation popup
 (use-package lsp-ui
