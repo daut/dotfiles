@@ -270,7 +270,7 @@ With argument ARG, do this that many times."
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
          ("TAB" . ivy-alt-done)
-         ("C-l" . ivy-alt-done)
+         ("C-l" . ivy-partial)
          ("C-j" . ivy-next-line)
          ("C-k" . ivy-previous-line)
          :map ivy-switch-buffer-map
@@ -445,6 +445,11 @@ With argument ARG, do this that many times."
   :config
   (setq company-minimum-prefix-length 2)
   (setq company-idle-delay 0.2)
+  (setq company-dabbrev-code-ignore-case t)
+  (setq company-keywords-ignore-case t)
+  (setq company-dabbrev-ignore-case t)
+  (setq company-dabbrev-downcase t)
+  (setq completion-ignore-case t)
   :init
   (setq company-backends '((company-capf :with company-yasnippet)
                            (company-dabbrev-code company-keywords company-files)
@@ -530,7 +535,9 @@ With argument ARG, do this that many times."
 (use-package json-mode
   :mode "\\.json\\'"
   :hook
-  (json-mode . lsp-deferred))
+  (json-mode . lsp-deferred)
+  :config
+  (setq js-indent-level 2))
 
 (use-package jq-mode)
 
@@ -564,6 +571,13 @@ With argument ARG, do this that many times."
   :hook (vue-mode . lsp-deferred)
   :custom
   (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
+
+;; Needs sqls installed and sqlint would be nice also
+;; sqls: go get github.com/lighttiger2505/sqls
+;; sqlint: gem install sqlint
+(use-package sql
+  :hook
+  (sql-mode . lsp))
 
 (use-package flycheck
   :diminish
