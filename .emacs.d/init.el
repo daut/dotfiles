@@ -654,6 +654,14 @@ With argument ARG, do this that many times."
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
+;; Make buffer list usable after previous changes
+;; https://github.com/syl20bnr/spacemacs/issues/7661
+;; https://github.com/syl20bnr/spacemacs/issues/2667#issuecomment-136155556
+(add-hook 'Buffer-menu-mode-hook 
+          (lambda ()
+            (setq-local revert-buffer-function
+                        (lambda (&rest args)))))
+
 ;; Backup files directory path
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
