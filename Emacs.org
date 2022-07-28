@@ -205,7 +205,8 @@ With argument ARG, do this that many times."
 
     "oc" '(org-capture t :which-key "org-capture")
     "oa" '(org-agenda t :which-key "org-agenda")
-    "oi" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/inbox.org"))) :which-key "Inbox.org")
+    "oi" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/inbox.org"))) :which-key "inbox.org")
+    "og" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/gtd.org"))) :which-key "gtd.org")
     "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
     "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
     "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")))
