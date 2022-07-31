@@ -566,6 +566,34 @@ With argument ARG, do this that many times."
 (use-package yaml-mode
   :mode "\\.y[a]ml\\'")
 
+;; Major mode for editing web templates
+(use-package web-mode
+  :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\)$"
+  :config
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2))
+
+;; CSS mode
+(use-package css-mode
+  :ensure nil
+  :init (setq css-indent-offset 2))
+
+;; SCSS mode
+(use-package scss-mode
+  :init
+  ;; Disable complilation on save
+  (setq scss-compile-at-save nil))
+
+(use-package emmet-mode
+  :hook
+  ((css-mode  . emmet-mode)
+   (php-mode  . emmet-mode)
+   (sgml-mode . emmet-mode)
+   (rjsx-mode . emmet-mode)
+   (web-mode  . emmet-mode)
+   (vue-mode  . emmet-mode)))
+
 ;; vue-language-server should be installed too. npm i -g vls
 (use-package vue-mode
   :mode "\\.vue\\'"

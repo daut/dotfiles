@@ -801,6 +801,36 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :mode "\\.y[a]ml\\'")
 
 #+end_src
+*** Web
+#+begin_src emacs-lisp
+;; Major mode for editing web templates
+(use-package web-mode
+  :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\)$"
+  :config
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2))
+
+;; CSS mode
+(use-package css-mode
+  :ensure nil
+  :init (setq css-indent-offset 2))
+
+;; SCSS mode
+(use-package scss-mode
+  :init
+  ;; Disable complilation on save
+  (setq scss-compile-at-save nil))
+
+(use-package emmet-mode
+  :hook
+  ((css-mode  . emmet-mode)
+   (php-mode  . emmet-mode)
+   (sgml-mode . emmet-mode)
+   (rjsx-mode . emmet-mode)
+   (web-mode  . emmet-mode)
+   (vue-mode  . emmet-mode)))
+#+end_src
 *** Vue
 #+begin_src emacs-lisp
 ;; vue-language-server should be installed too. npm i -g vls
