@@ -1,6 +1,9 @@
 ;; The default is 800 kilobytes. Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
 
+;; Improve lsp perf https://emacs-lsp.github.io/lsp-mode/page/performance/#increase-the-amount-of-data-which-emacs-reads-from-the-process
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+
 (defun daut/display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
            (format "%.2f seconds"
@@ -270,13 +273,13 @@ With argument ARG, do this that many times."
   :hook (after-init . ivy-mode)
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)
-         ("C-l" . ivy-partial)
+         ("TAB" . ivy-partial-or-done)
+         ("C-l" . ivy-immediate-done)
          ("C-j" . ivy-next-line)
          ("C-k" . ivy-previous-line)
          :map ivy-switch-buffer-map
          ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
+         ("C-l" . ivy-immediate-done)
          ("C-d" . ivy-switch-buffer-kill)
          :map ivy-reverse-i-search-map
          ("C-k" . ivy-previous-line)
@@ -411,6 +414,8 @@ With argument ARG, do this that many times."
   :config
   (org-roam-setup))
 
+(setq org-clock-sound t)
+
 (use-package projectile
   :diminish projectile-mode
   :hook (after-init . projectile-mode)
@@ -436,20 +441,17 @@ With argument ARG, do this that many times."
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package company
-  :after lsp-mode
-  :hook (lsp-mode . company-mode)
+  :hook (after-init . global-company-mode)
   :bind
   (:map company-active-map
         ("<tab>" . company-complete-selection))
-  (:map lsp-mode-map
-        ("<tab>" . company-indent-or-complete-column))
+  ;; (:map lsp-mode-map
+  ;;       ("<tab>" . company-indent-or-complete-column))
   :config
-  (setq company-minimum-prefix-length 2)
+  (setq company-minimum-prefix-length 1)
   (setq company-idle-delay 0.2)
   (setq company-dabbrev-code-ignore-case t)
   (setq company-keywords-ignore-case t)
-  (setq company-dabbrev-ignore-case t)
-  (setq company-dabbrev-downcase t)
   (setq completion-ignore-case t)
   :init
   (setq company-backends '((company-capf :with company-yasnippet)
@@ -483,7 +485,7 @@ With argument ARG, do this that many times."
   :commands (lsp lsp-deferred)
   :config
   (lsp-enable-which-key-integration t)
-  (setq lsp-completion-provider :none))
+  (setq lsp-completion-provider :capf))
 
 ;; enhanced ui e.g. documentation popup
 (use-package lsp-ui
