@@ -477,6 +477,12 @@ Helpful is an alternative to emacs builtin help which provides much more context
   "ts" '(hydra-text-scale :which-key "scale text"))
 
 #+end_src
+** Indent Guides
+#+begin_src emacs-lisp
+(use-package highlight-indent-guides
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :custom (highlight-indent-guides-method 'character))
+#+end_src
 * Org Mode Configuration
 ** Basic Configuration
 
@@ -759,6 +765,15 @@ Helpful is an alternative to emacs builtin help which provides much more context
   (require 'dap-go)
   (dap-go-setup))
 
+(use-package go-playground
+  :after go-mode)
+
+(use-package gotest
+  :after go-mode)
+
+(use-package flycheck-golangci-lint
+  :hook (go-mode . flycheck-golangci-lint-setup))
+
 #+end_src
 *** JSON
 #+begin_src emacs-lisp
@@ -840,8 +855,10 @@ Helpful is an alternative to emacs builtin help which provides much more context
 (use-package vue-mode
   :mode "\\.vue\\'"
   :hook (vue-mode . lsp-deferred)
-  :custom
-  (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
+  :config
+  (setq mmm-submode-decoration-level 2))
+  ;; :custom
+  ;; (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
 #+end_src
 *** SQL
 #+begin_src emacs-lisp
@@ -887,9 +904,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
 ** Git Gutter
 #+begin_src emacs-lisp
 (use-package git-gutter
-  :hook
-  ((prog-mode . git-gutter-mode)
-   (conf-mode . git-gutter-mode)))
+  :config (global-git-gutter-mode t))
 ;; try hl-mode (dired-mode . diff-hl-dired-mode)
 #+end_src
 * Terminals

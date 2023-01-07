@@ -329,6 +329,10 @@ With argument ARG, do this that many times."
 (daut/leader-keys
   "ts" '(hydra-text-scale :which-key "scale text"))
 
+(use-package highlight-indent-guides
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :custom (highlight-indent-guides-method 'character))
+
 (defun daut/org-mode-setup ()
   (org-indent-mode)
   (visual-line-mode 1))
@@ -535,6 +539,15 @@ With argument ARG, do this that many times."
   (require 'dap-go)
   (dap-go-setup))
 
+(use-package go-playground
+  :after go-mode)
+
+(use-package gotest
+  :after go-mode)
+
+(use-package flycheck-golangci-lint
+  :hook (go-mode . flycheck-golangci-lint-setup))
+
 (use-package json-mode
   :mode "\\.json\\'"
   :hook
@@ -600,8 +613,10 @@ With argument ARG, do this that many times."
 (use-package vue-mode
   :mode "\\.vue\\'"
   :hook (vue-mode . lsp-deferred)
-  :custom
-  (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
+  :config
+  (setq mmm-submode-decoration-level 2))
+  ;; :custom
+  ;; (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
 
 ;; Needs sqls installed and sqlint would be nice also
 ;; sqls: go get github.com/lighttiger2505/sqls
@@ -632,9 +647,7 @@ With argument ARG, do this that many times."
   :after magit)
 
 (use-package git-gutter
-  :hook
-  ((prog-mode . git-gutter-mode)
-   (conf-mode . git-gutter-mode)))
+  :config (global-git-gutter-mode t))
 ;; try hl-mode (dired-mode . diff-hl-dired-mode)
 
 (use-package term
