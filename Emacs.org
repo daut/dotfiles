@@ -221,7 +221,9 @@ With argument ARG, do this that many times."
 (use-package crux
   :bind
   ([remap move-beginning-of-line] . crux-move-beginning-of-line)
-  ("C-c d" . crux-duplicate-current-line-or-region))
+  ("C-c d" . crux-duplicate-current-line-or-region)
+  ("C-c k" . crux-kill-other-buffers)
+  ("C-c b s" . crux-create-scratch-buffer))
 
 #+end_src
 
