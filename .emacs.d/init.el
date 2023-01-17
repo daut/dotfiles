@@ -489,6 +489,7 @@ With argument ARG, do this that many times."
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
+  :hook ((html-mode) . lsp-deferred)
   :config
   (lsp-enable-which-key-integration t)
   (setq lsp-completion-provider :capf))
@@ -524,6 +525,19 @@ With argument ARG, do this that many times."
   (setq typescript-indent-level 2)
   (require 'dap-node)
   (dap-node-setup))
+
+;; npm i -g eslint
+;; M-x lsp-install-server RET eslint
+(use-package js2-mode
+  :mode "\\.js\\'"
+  :hook (js2-mode . lsp-deferred)
+  :config
+  (setq js-indent-level 2)
+  (with-eval-after-load 'flycheck
+    ;; https://github.com/mantoni/eslint_d.js
+    ;; Install: npm -i -g eslint_d
+    (when (executable-find "eslint")
+      (setq flycheck-javascript-eslint-executable "eslint"))))
 
 (use-package lua-mode
   :mode "\\.lua\\'"
