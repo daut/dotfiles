@@ -154,6 +154,7 @@ With argument ARG, do this that many times."
     "s"  '(:ignore t :which-key "shell/sql")
     "f"  '(:ignore t :which-key "files or folders")
     "h"  '(:ignore t :which-key "hydra")
+    "w"  '(:ignore t :which-key "window")
     "fd" '(:ignore t :which-key "directories")
     "fdp" '((lambda () (interactive) (dired "~/projects")) :which-key "projects")
     "tt" '(counsel-load-theme :which-key "choose theme")
@@ -325,13 +326,24 @@ With argument ARG, do this that many times."
 
 (use-package hydra
   :defer t)
+
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
   ("j" text-scale-increase "in")
   ("k" text-scale-decrease "out")
-  ("f" nil "finished" :exit t))
+  ("f" nil "cancel" :exit t))
+
+(defhydra hydra-window-scale (:timeout 4)
+  "scale window horizontally"
+  ("j" (enlarge-window-horizontally 5) "enlarge horizontally")
+  ("k" (shrink-window-horizontally 5) "shrink horizontally")
+  ("p" (enlarge-window 5) "enlarge vertically")
+  ("n" (shrink-window 5) "shrink vertically")
+  ("f" nil "cancel" :exit t))
+
 (daut/leader-keys
-  "ts" '(hydra-text-scale :which-key "scale text"))
+  "ts" '(hydra-text-scale/body :which-key "scale text")
+  "ws" '(hydra-window-scale/body :which-key "horizontally scale window"))
 
 (use-package highlight-indent-guides
   :hook (prog-mode . highlight-indent-guides-mode)
