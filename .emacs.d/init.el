@@ -460,6 +460,7 @@ With argument ARG, do this that many times."
   (setq company-idle-delay 0.2)
   (setq company-dabbrev-code-ignore-case t)
   (setq company-keywords-ignore-case t)
+  (setq company-dabbrev-downcase t)
   (setq completion-ignore-case t)
   :init
   (setq company-backends '((company-capf :with company-yasnippet)
