@@ -524,7 +524,7 @@ With argument ARG, do this that many times."
   (general-define-key
    :keymaps 'lsp-mode-map
    :prefix lsp-keymap-prefix
-   "d" '(dap-hydra t :wk "debugger")))
+   "d" '(dap-hydra t :which-key "debugger")))
 
 (use-package typescript-mode
   :mode "\\.ts[x]\\'"
