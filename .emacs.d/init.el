@@ -503,7 +503,12 @@ With argument ARG, do this that many times."
   :config
   (setq lsp-ui-doc-position 'top)
   (setq lsp-ui-doc-delay 0.5)
-  (setq lsp-ui-doc-max-width 80))
+  (setq lsp-ui-doc-max-width 80)
+  (general-define-key
+   :keymaps 'lsp-mode-map
+   :prefix lsp-keymap-prefix
+   "u" '(:ignore t :wk "lsp ui")
+   "ui" '(lsp-ui-imenu t :which-key "imenu")))
 
 (use-package lsp-ivy
   :after lsp)
