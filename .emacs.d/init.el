@@ -647,7 +647,10 @@ With argument ARG, do this that many times."
 ;; sqlint: gem install sqlint
 (use-package sql
   :hook
-  (sql-mode . lsp))
+  (sql-mode . lsp)
+  :config
+  (setq lsp-sqls-timeout 10)
+  (setq lsp-sqls-workspace-config-path "root"))
 
 (use-package flycheck
   :diminish
