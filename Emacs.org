@@ -57,6 +57,10 @@
   (auto-package-update-at-time "09:00"))
 
 #+end_src
+* Restart Emacs Command
+#+begin_src emacs-lisp
+(use-package restart-emacs)
+#+end_src
 * Keep init.el Clean
 #+begin_src emacs-lisp
 
