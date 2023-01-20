@@ -546,18 +546,24 @@ With argument ARG, do this that many times."
   (require 'dap-node)
   (dap-node-setup))
 
+(use-package js-mode
+  :ensure nil
+  :hook (js-mode . lsp-deferred)
+  :config
+  (setq js-indent-level 2))
+
 ;; npm i -g eslint
 ;; M-x lsp-install-server RET eslint
-(use-package js2-mode
-  :mode "\\.js\\'"
-  :hook (js2-mode . lsp-deferred)
-  :config
-  (setq js-indent-level 2)
-  (with-eval-after-load 'flycheck
-    ;; https://github.com/mantoni/eslint_d.js
-    ;; Install: npm -i -g eslint_d
-    (when (executable-find "eslint")
-      (setq flycheck-javascript-eslint-executable "eslint"))))
+;; (use-package js2-mode
+;;   :mode "\\.js\\'"
+;;   :hook (js2-mode . lsp-deferred)
+;;   :config
+;;   (setq js-indent-level 2)
+;;   (with-eval-after-load 'flycheck
+;;     ;; https://github.com/mantoni/eslint_d.js
+;;     ;; Install: npm -i -g eslint_d
+;;     (when (executable-find "eslint")
+;;       (setq flycheck-javascript-eslint-executable "eslint"))))
 
 (use-package lua-mode
   :mode "\\.lua\\'"
