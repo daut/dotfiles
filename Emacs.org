@@ -357,6 +357,12 @@ With argument ARG, do this that many times."
 
 (global-set-key (kbd "s-T") 'daut/reopen-killed-file)
 #+end_src
+** Respect .editorconfig
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+#+end_src
 * UI Configuration
 ** Command Log Mode
 
@@ -717,7 +723,6 @@ Helpful is an alternative to emacs builtin help which provides much more context
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :hook ((html-mode) . lsp-deferred)
   :config
   (lsp-enable-which-key-integration t)
   (setq lsp-completion-provider :capf))
@@ -770,9 +775,22 @@ Helpful is an alternative to emacs builtin help which provides much more context
 #+end_src
 *** JavaScript
 #+begin_src emacs-lisp
+(defun daut/js-standard-fix-file ()
+  (interactive)
+  (when (eq major-mode 'js-mode)
+    (shell-command (concat "standard --fix " (buffer-file-name)))
+    (revert-buffer t t)))
+
 (use-package js-mode
   :ensure nil
-  :hook (js-mode . lsp-deferred)
+  :mode "\\.js[x]\\'"
+  :hook
+  (js-mode . lsp-deferred)
+  (after-save . daut/js-standard-fix-file)
+  :bind
+  ("C-c /" . daut/js-standard-fix-file)
+  :init
+  (setq lsp-diagnostics-provider :none)
   :config
   (setq js-indent-level 2))
 

@@ -251,6 +251,10 @@ With argument ARG, do this that many times."
 
 (global-set-key (kbd "s-T") 'daut/reopen-killed-file)
 
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+
 ;; defer loading of the package until command-log-mode is invoked
 (use-package command-log-mode
   :commands command-log-mode)
@@ -504,7 +508,6 @@ With argument ARG, do this that many times."
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :hook ((html-mode) . lsp-deferred)
   :config
   (lsp-enable-which-key-integration t)
   (setq lsp-completion-provider :capf))
@@ -546,9 +549,22 @@ With argument ARG, do this that many times."
   (require 'dap-node)
   (dap-node-setup))
 
+(defun daut/js-standard-fix-file ()
+  (interactive)
+  (when (eq major-mode 'js-mode)
+    (shell-command (concat "standard --fix " (buffer-file-name)))
+    (revert-buffer t t)))
+
 (use-package js-mode
   :ensure nil
-  :hook (js-mode . lsp-deferred)
+  :mode "\\.js[x]\\'"
+  :hook
+  (js-mode . lsp-deferred)
+  (after-save . daut/js-standard-fix-file)
+  :bind
+  ("C-c /" . daut/js-standard-fix-file)
+  :init
+  (setq lsp-diagnostics-provider :none)
   :config
   (setq js-indent-level 2))
 
