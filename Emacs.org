@@ -578,7 +578,8 @@ Helpful is an alternative to emacs builtin help which provides much more context
    'org-babel-load-languages
    '((emacs-lisp . t)
      (python . t)
-     (sql . t)))
+     (sql . t)
+     (js . t)))
 
   (setq org-confirm-babel-evaluate nil))
 
@@ -924,6 +925,12 @@ Helpful is an alternative to emacs builtin help which provides much more context
   (setq mmm-submode-decoration-level 2))
   ;; :custom
   ;; (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
+#+end_src
+*** Elixir
+#+begin_src emacs-lisp
+(use-package elixir-mode
+  :mode "\\.exs\\'"
+  :hook (elixir-mode . lsp-deferred))
 #+end_src
 *** SQL
 #+begin_src emacs-lisp

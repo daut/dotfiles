@@ -404,7 +404,8 @@ With argument ARG, do this that many times."
    'org-babel-load-languages
    '((emacs-lisp . t)
      (python . t)
-     (sql . t)))
+     (sql . t)
+     (js . t)))
 
   (setq org-confirm-babel-evaluate nil))
 
@@ -675,6 +676,10 @@ With argument ARG, do this that many times."
   (setq mmm-submode-decoration-level 2))
   ;; :custom
   ;; (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
+
+(use-package elixir-mode
+  :mode "\\.exs\\'"
+  :hook (elixir-mode . lsp-deferred))
 
 ;; Needs sqls installed and sqlint would be nice also
 ;; sqls: go get github.com/lighttiger2505/sqls
