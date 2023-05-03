@@ -77,9 +77,11 @@
 Environment variables sometimes aren't right, this fixes it.
 #+begin_src emacs-lisp
 (use-package exec-path-from-shell
+  :if (memq window-system '(mac ns x))
+  :demand
   :config
   (setq exec-path-from-shell-check-startup-files nil)
-  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOPATH" "GOPRIVATE"))
+  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOPATH" "GOPRIVATE" "PYTHONPATH" "NODE_PATH" "RUSTUP_HOME" "CARGO_HOME"))
   (setq exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
 #+end_src
@@ -134,16 +136,14 @@ Environment variables sometimes aren't right, this fixes it.
 * Font Configuration
 
 #+begin_src emacs-lisp
-
- ;; font size variable
- (defvar daut/default-font-size 150)
- ;; setup font type and size
- (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size)
-
+(use-package emacs
+  :config
+  (defvar daut/default-font-size 150)
+  (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size))
 #+end_src
 
 * Keybinding Configuration
-** Basic
+** Custom functions
 #+begin_src emacs-lisp
 
 ;; scroll up/down one line
@@ -175,20 +175,6 @@ With argument ARG, do this that many times."
     (delete-horizontal-space t))
    (t
     (backward-delete-char 1))))
-
-(define-key (current-global-map) [remap backward-kill-word] 'daut/backward-delete-char-or-word)
-(define-key (current-global-map) [remap kill-word] 'daut/delete-word)
-
-;; page up/down like functionality
-(global-set-key (kbd "C-s-,")
-                (lambda () (interactive) (forward-line -30)))
-(global-set-key (kbd "C-s-.")
-                (lambda () (interactive) (forward-line 30)))
-
-;; beginning/end of a buffer
-(global-set-key (kbd "s-<") #'beginning-of-buffer)
-(global-set-key (kbd "s->") #'end-of-buffer)
-
 #+end_src
 ** General package
 #+begin_src emacs-lisp
@@ -217,7 +203,23 @@ With argument ARG, do this that many times."
     "og" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/gtd.org"))) :which-key "gtd.org")
     "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
     "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
-    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")))
+    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org"))
+
+  (general-define-key
+   :keymaps 'global-map
+   "C-s-n" (kbd "C-u 1 C-v")
+   "C-s-p" (kbd "C-u 1 M-v")
+
+   "<escape>" 'keyboard-escape-quit
+
+   [remap backward-kill-word] 'daut/backward-delete-char-or-word
+   [remap kill-word] 'daut/delete-word
+
+   "C-s-," (lambda () (interactive) (forward-line -30))
+   "C-s-." (lambda () (interactive) (forward-line 30))
+
+   "s-<" #'beginning-of-buffer
+   "s->" #'end-of-buffer))
 
 #+end_src
 ** Crux package
@@ -296,13 +298,6 @@ With argument ARG, do this that many times."
 #+end_src
 ** Folding with hideshow
 #+begin_src emacs-lisp
-
-;; (use-package origami
-;;   :bind (:map origami-mode-map
-;;          ("C-s-[" . origami-close-node)
-;;          ("C-s-]" . origami-open-node))
-;;   :hook (prog-mode . origami-mode)
-;;   :init (setq origami-show-fold-header t))
 
 (use-package hideshow
   :diminish hs-minor-mode
@@ -643,7 +638,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
   (setq projectile-sort-order 'recentf)
   ;; (setq projectile-enable-caching t)
   (when (file-directory-p "~/projects")
-    (setq projectile-project-search-path '("~/projects")))
+    (setq projectile-project-search-path '(("~/projects" . 2))))
   (setq projectile-switch-project-action #'projectile-dired)
   (setq projectile-git-submodule-command nil)
   (setq projectile-use-git-grep t))

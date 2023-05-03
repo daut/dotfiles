@@ -50,9 +50,11 @@
   (setq create-lockfiles nil))
 
 (use-package exec-path-from-shell
+  :if (memq window-system '(mac ns x))
+  :demand
   :config
   (setq exec-path-from-shell-check-startup-files nil)
-  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOPATH" "GOPRIVATE"))
+  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "GOPATH" "GOPRIVATE" "PYTHONPATH" "NODE_PATH" "RUSTUP_HOME" "CARGO_HOME"))
   (setq exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
 
@@ -96,10 +98,10 @@
 ;; disable the annoying bell ring
 (setq ring-bell-function 'ignore)
 
- ;; font size variable
- (defvar daut/default-font-size 150)
- ;; setup font type and size
- (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size)
+(use-package emacs
+  :config
+  (defvar daut/default-font-size 150)
+  (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size))
 
 ;; scroll up/down one line
 (global-set-key (kbd "C-s-n") (kbd "C-u 1 C-v"))
@@ -131,19 +133,6 @@ With argument ARG, do this that many times."
    (t
     (backward-delete-char 1))))
 
-(define-key (current-global-map) [remap backward-kill-word] 'daut/backward-delete-char-or-word)
-(define-key (current-global-map) [remap kill-word] 'daut/delete-word)
-
-;; page up/down like functionality
-(global-set-key (kbd "C-s-,")
-                (lambda () (interactive) (forward-line -30)))
-(global-set-key (kbd "C-s-.")
-                (lambda () (interactive) (forward-line 30)))
-
-;; beginning/end of a buffer
-(global-set-key (kbd "s-<") #'beginning-of-buffer)
-(global-set-key (kbd "s->") #'end-of-buffer)
-
 (use-package general
   :config
   (general-create-definer daut/leader-keys
@@ -168,7 +157,23 @@ With argument ARG, do this that many times."
     "og" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/gtd.org"))) :which-key "gtd.org")
     "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
     "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
-    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")))
+    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org"))
+
+  (general-define-key
+   :keymaps 'global-map
+   "C-s-n" (kbd "C-u 1 C-v")
+   "C-s-p" (kbd "C-u 1 M-v")
+
+   "<escape>" 'keyboard-escape-quit
+
+   [remap backward-kill-word] 'daut/backward-delete-char-or-word
+   [remap kill-word] 'daut/delete-word
+
+   "C-s-," (lambda () (interactive) (forward-line -30))
+   "C-s-." (lambda () (interactive) (forward-line 30))
+
+   "s-<" #'beginning-of-buffer
+   "s->" #'end-of-buffer))
 
 (use-package crux
   :bind
@@ -203,13 +208,6 @@ With argument ARG, do this that many times."
   :bind
   ("C-s-j" . 'move-text-down)
   ("C-s-k" . 'move-text-up))
-
-;; (use-package origami
-;;   :bind (:map origami-mode-map
-;;          ("C-s-[" . origami-close-node)
-;;          ("C-s-]" . origami-open-node))
-;;   :hook (prog-mode . origami-mode)
-;;   :init (setq origami-show-fold-header t))
 
 (use-package hideshow
   :diminish hs-minor-mode
@@ -451,7 +449,7 @@ With argument ARG, do this that many times."
   (setq projectile-sort-order 'recentf)
   ;; (setq projectile-enable-caching t)
   (when (file-directory-p "~/projects")
-    (setq projectile-project-search-path '("~/projects")))
+    (setq projectile-project-search-path '(("~/projects" . 2))))
   (setq projectile-switch-project-action #'projectile-dired)
   (setq projectile-git-submodule-command nil)
   (setq projectile-use-git-grep t))
