@@ -959,6 +959,10 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :config
   (setq avy-background t))
 #+end_src
+* AI Assistants
+#+begin_src emacs-lisp
+(use-package gptel)
+#+end_src
 * VCS
 ** Magit
 #+begin_src emacs-lisp

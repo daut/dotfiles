@@ -703,6 +703,8 @@ With argument ARG, do this that many times."
   :config
   (setq avy-background t))
 
+(use-package gptel)
+
 (use-package magit
   :commands magit-status)
 
