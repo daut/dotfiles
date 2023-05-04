@@ -940,6 +940,10 @@ Helpful is an alternative to emacs builtin help which provides much more context
   (setq lsp-sqls-timeout 10)
   (setq lsp-sqls-workspace-config-path "root"))
 #+end_src
+*** Markdown
+#+begin_src emacs-lisp
+(use-package markdown-mode)
+#+end_src
 ** Flycheck
 #+begin_src emacs-lisp
 
