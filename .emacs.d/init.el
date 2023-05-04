@@ -1,3 +1,6 @@
+;; Bug in Emacs 28.2 remove once updated https://emacs.stackexchange.com/questions/74289/emacs-28-2-error-in-macos-ventura-image-type-invalid-image-type-svg
+(add-to-list 'image-types 'svg)
+
 ;; The default is 800 kilobytes. Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
 
@@ -509,7 +512,7 @@ With argument ARG, do this that many times."
   :commands (lsp lsp-deferred)
   :config
   (lsp-enable-which-key-integration t)
-  (setq lsp-completion-provider :capf))
+  (setq lsp-completion-provider :none))
 
 ;; enhanced ui e.g. documentation popup
 (use-package lsp-ui
