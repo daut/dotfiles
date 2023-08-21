@@ -270,6 +270,8 @@ With argument ARG, do this that many times."
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
 
+(use-package nerd-icons)
+
 (use-package which-key
   :defer 0
   :diminish which-key-mode
@@ -560,7 +562,7 @@ With argument ARG, do this that many times."
   :mode "\\.js[x]\\'"
   :hook
   (js-mode . lsp-deferred)
-  (after-save . daut/js-standard-fix-file)
+  ;; (after-save . daut/js-standard-fix-file)
   :bind
   ("C-c /" . daut/js-standard-fix-file)
   :init
@@ -643,6 +645,8 @@ With argument ARG, do this that many times."
 
 ;; Major mode for editing web templates
 (use-package web-mode
+  :ensure nil
+  :hook (web-mode . lsp-deferred)
   :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\)$"
   :config
   (setq web-mode-markup-indent-offset 2)
@@ -652,13 +656,8 @@ With argument ARG, do this that many times."
 ;; CSS mode
 (use-package css-mode
   :ensure nil
+  :hook (css-mode . lsp-deferred)
   :init (setq css-indent-offset 2))
-
-;; SCSS mode
-(use-package scss-mode
-  :init
-  ;; Disable complilation on save
-  (setq scss-compile-at-save nil))
 
 (use-package emmet-mode
   :hook
@@ -707,6 +706,8 @@ With argument ARG, do this that many times."
          ("M-g f" . avy-goto-line))
   :config
   (setq avy-background t))
+
+(use-package simple-httpd)
 
 (use-package gptel)
 

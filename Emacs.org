@@ -297,7 +297,7 @@ With argument ARG, do this that many times."
   ("C-s-k" . 'move-text-up))
 
 #+end_src
-** Folding with hideshow
+** Text folding
 #+begin_src emacs-lisp
 
 (use-package hideshow
@@ -388,6 +388,8 @@ With argument ARG, do this that many times."
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
+
+(use-package nerd-icons)
 
 #+end_src
 
@@ -781,7 +783,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :mode "\\.js[x]\\'"
   :hook
   (js-mode . lsp-deferred)
-  (after-save . daut/js-standard-fix-file)
+  ;; (after-save . daut/js-standard-fix-file)
   :bind
   ("C-c /" . daut/js-standard-fix-file)
   :init
@@ -888,6 +890,8 @@ An alternative to Restclient package
 #+begin_src emacs-lisp
 ;; Major mode for editing web templates
 (use-package web-mode
+  :ensure nil
+  :hook (web-mode . lsp-deferred)
   :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\)$"
   :config
   (setq web-mode-markup-indent-offset 2)
@@ -897,13 +901,8 @@ An alternative to Restclient package
 ;; CSS mode
 (use-package css-mode
   :ensure nil
+  :hook (css-mode . lsp-deferred)
   :init (setq css-indent-offset 2))
-
-;; SCSS mode
-(use-package scss-mode
-  :init
-  ;; Disable complilation on save
-  (setq scss-compile-at-save nil))
 
 (use-package emmet-mode
   :hook
@@ -966,6 +965,10 @@ An alternative to Restclient package
          ("M-g f" . avy-goto-line))
   :config
   (setq avy-background t))
+#+end_src
+** Simple HTTPD
+#+begin_src emacs-lisp
+(use-package simple-httpd)
 #+end_src
 * AI Assistants
 #+begin_src emacs-lisp
