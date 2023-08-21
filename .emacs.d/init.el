@@ -362,12 +362,10 @@ With argument ARG, do this that many times."
   :hook (org-mode . daut/org-mode-setup)
   :commands (org-capture org-agenda)
   :config
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (setq org-ellipsis " ▾")
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)
-  (setq org-tag-alist '(("@errands" . ?e)
-                       ("@home" . ?h)
-                       ("@shop" . ?s)))
   (setq org-agenda-files
         '("~/projects/org/gtd/inbox.org"
           "~/projects/org/gtd/gtd.org"
@@ -637,6 +635,8 @@ With argument ARG, do this that many times."
     (use-package company-restclient
       :defines company-backends
       :init (add-to-list 'company-backends 'company-restclient))))
+
+(use-package verb)
 
 (use-package yaml-mode
   :mode "\\.y[a]ml\\'")
