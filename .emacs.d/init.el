@@ -480,6 +480,8 @@ With argument ARG, do this that many times."
   (setq company-keywords-ignore-case t)
   (setq company-dabbrev-downcase t)
   (setq completion-ignore-case t)
+  (setq company-transformers '(delete-consecutive-dups
+                             company-sort-by-occurrence))
   :init
   (setq company-backends '((company-capf :with company-yasnippet)
                            (company-dabbrev-code company-keywords company-files)
@@ -647,7 +649,7 @@ With argument ARG, do this that many times."
 (use-package web-mode
   :ensure nil
   :hook (web-mode . lsp-deferred)
-  :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\)$"
+  :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\|svelte\\)$"
   :config
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
