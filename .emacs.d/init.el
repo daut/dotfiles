@@ -808,6 +808,9 @@ With argument ARG, do this that many times."
   (("s-[" . (lambda () (interactive) (other-window -1)))
   ("s-]" . (lambda () (interactive) (other-window 1)))))
 
+(defun daut/persp-misc ()
+  (interactive)
+  (persp-switch "misc"))
 (use-package perspective
   :init (persp-mode)
   :bind (("C-x k" . persp-kill-buffer*)

@@ -1110,7 +1110,9 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
 #+end_src
 ** Perspective
 #+begin_src emacs-lisp
-
+(defun daut/persp-misc ()
+  (interactive)
+  (persp-switch "misc"))
 (use-package perspective
   :init (persp-mode)
   :bind (("C-x k" . persp-kill-buffer*)
