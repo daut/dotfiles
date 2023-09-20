@@ -217,9 +217,20 @@ With argument ARG, do this that many times."
   :hook
   (prog-mode . hs-minor-mode)
   (restclient-mode . hs-minor-mode)
+  (nxml-mode . hs-minor-mode)
+  (web-mode . hs-minor-mode)
+  (html-mode .hs-minor-mode)
   :bind
   ("C-s-[" . hs-hide-block)
-  ("C-s-]" . hs-show-block))
+  ("C-s-]" . hs-show-block)
+  :config
+  (add-to-list 'hs-special-modes-alist
+               '(nxml-mode
+                 "<!--\\|<[^/>]*[^/]>"
+                 "-->\\|</[^/>]*[^/]>"
+                 "<!--"
+                 sgml-skip-tag-forward
+                 nil)))
 
 (use-package minimap
   :defer t
