@@ -492,7 +492,8 @@ With argument ARG, do this that many times."
   (setq company-dabbrev-downcase t)
   (setq completion-ignore-case t)
   (setq company-transformers '(delete-consecutive-dups
-                             company-sort-by-occurrence))
+                             company-sort-by-occurrence
+                             company-sort-by-backend-importance))
   :init
   (setq company-backends '((company-capf :with company-yasnippet)
                            (company-dabbrev-code company-keywords company-files)
@@ -671,6 +672,12 @@ With argument ARG, do this that many times."
   :ensure nil
   :hook (css-mode . lsp-deferred)
   :init (setq css-indent-offset 2))
+
+(use-package lsp-tailwindcss
+  :init
+  (setq lsp-tailwindcss-add-on-mode t)
+  :config
+  (add-to-list 'lsp-tailwindcss-major-modes 'web-mode))
 
 (use-package emmet-mode
   :hook
