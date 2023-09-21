@@ -316,6 +316,12 @@ With argument ARG, do this that many times."
   :init
   (ivy-rich-mode 1))
 
+(use-package ivy-posframe
+  :hook (after-init . ivy-posframe-mode)
+  :init
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-width 170))
+
 ;; package used to do search inside file
 (use-package swiper
   :after ivy)

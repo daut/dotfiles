@@ -449,6 +449,12 @@ which-key is a useful UI panel that appears when you start pressing any key bind
   :init
   (ivy-rich-mode 1))
 
+(use-package ivy-posframe
+  :hook (after-init . ivy-posframe-mode)
+  :init
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-width 170))
+
 ;; package used to do search inside file
 (use-package swiper
   :after ivy)
