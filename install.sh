@@ -20,6 +20,7 @@ brew install uchardet
 brew install zsh-autosuggestions
 brew install cmake
 brew install coreutils
+brew install ripgrep
 
 # add taps
 brew tap homebrew/cask-versions
