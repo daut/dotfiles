@@ -997,6 +997,10 @@ An alternative to Restclient package
 #+begin_src emacs-lisp
 (use-package simple-httpd)
 #+end_src
+** Ripgrep
+#+begin_src emacs-lisp
+(use-package rg)
+#+end_src
 * AI Assistants
 #+begin_src emacs-lisp
 (use-package gptel)

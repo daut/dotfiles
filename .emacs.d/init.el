@@ -735,6 +735,8 @@ With argument ARG, do this that many times."
 
 (use-package simple-httpd)
 
+(use-package rg)
+
 (use-package gptel)
 
 (use-package magit
