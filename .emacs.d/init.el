@@ -585,8 +585,6 @@ With argument ARG, do this that many times."
   ;; (after-save . daut/js-standard-fix-file)
   :bind
   ("C-c /" . daut/js-standard-fix-file)
-  :init
-  (setq lsp-diagnostics-provider :none)
   :config
   (setq js-indent-level 2))
 
