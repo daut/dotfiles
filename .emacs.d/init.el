@@ -68,6 +68,61 @@
   (defvar daut/default-font-size 150)
   (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size))
 
+(use-package which-key
+  :defer 0
+  :diminish which-key-mode
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 0.3))
+
+;; better mini-buffer completion
+(use-package ivy
+  :diminish
+  :hook (after-init . ivy-mode)
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-partial-or-done)
+         ("C-l" . ivy-immediate-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-immediate-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill)))
+
+;; ivy-rich get extra information about commands
+;; like description and keybinding
+;; works only with counsel
+(use-package ivy-rich
+  :after ivy
+  :init
+  (ivy-rich-mode 1))
+
+(use-package ivy-posframe
+  :hook (after-init . ivy-posframe-mode)
+  :init
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-width 120))
+
+;; package used to do search inside file
+(use-package swiper
+  :after ivy)
+
+;; better UI for the M-x command, C-x b etc.
+(use-package counsel
+  :bind (("M-x" . counsel-M-x)
+         ("C-x b" . persp-counsel-switch-buffer)
+         ("C-x C-f" . find-file)
+         ("C-s-f" . counsel-git-grep)
+         ("s-F" . counsel-git-grep)
+         :map minibuffer-local-map ;; minibuffer only mapping
+         ("C-r" . counsel-minibuffer-history))
+  :config
+  (counsel-mode 1))
+
 ;; scroll up/down one line
 (global-set-key (kbd "C-s-n") (kbd "C-u 1 C-v"))
 (global-set-key (kbd "C-s-p") (kbd "C-u 1 M-v"))
@@ -211,61 +266,6 @@ With argument ARG, do this that many times."
            ;; embark-collect-mode
            lsp-ui-imenu-mode
            pdf-annot-list-mode) . hide-mode-line-mode)))
-
-(use-package which-key
-  :defer 0
-  :diminish which-key-mode
-  :config
-  (which-key-mode)
-  (setq which-key-idle-delay 0.3))
-
-;; better mini-buffer completion
-(use-package ivy
-  :diminish
-  :hook (after-init . ivy-mode)
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-partial-or-done)
-         ("C-l" . ivy-immediate-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-immediate-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill)))
-
-;; ivy-rich get extra information about commands
-;; like description and keybinding
-;; works only with counsel
-(use-package ivy-rich
-  :after ivy
-  :init
-  (ivy-rich-mode 1))
-
-(use-package ivy-posframe
-  :hook (after-init . ivy-posframe-mode)
-  :init
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  (setq ivy-posframe-width 120))
-
-;; package used to do search inside file
-(use-package swiper
-  :after ivy)
-
-;; better UI for the M-x command, C-x b etc.
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . persp-counsel-switch-buffer)
-         ("C-x C-f" . find-file)
-         ("C-s-f" . counsel-git-grep)
-         ("s-F" . counsel-git-grep)
-         :map minibuffer-local-map ;; minibuffer only mapping
-         ("C-r" . counsel-minibuffer-history))
-  :config
-  (counsel-mode 1))
 
 (use-package helpful
   :custom
@@ -440,6 +440,8 @@ With argument ARG, do this that many times."
 (use-package editorconfig
   :config
   (editorconfig-mode 1))
+
+(use-package olivetti)
 
 (defun daut/org-mode-setup ()
   (org-indent-mode)
@@ -912,12 +914,17 @@ With argument ARG, do this that many times."
   (interactive)
   (persp-switch "misc"))
 (use-package perspective
-  :init (persp-mode)
+  :hook (kill-emacs . persp-state-save)
+  :init
+  (persp-mode)
+  (persp-switch "misc")
   :bind (("C-x k" . persp-kill-buffer*)
          ("s-}" . persp-next)
          ("s-{" . persp-prev))
   :custom
-  (persp-mode-prefix-key (kbd "C-c M-p")))
+  (persp-mode-prefix-key (kbd "C-c M-p"))
+  :config
+  (setq persp-state-default-file (concat user-emacs-directory "persp.el")))
 
 ;; make garbage collection pauses faster by decreasing the memory consumption threshold
 ;; this basically reverts threshold increase at the beginning of the file (which helps with load time)
