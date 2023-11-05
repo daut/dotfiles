@@ -42,7 +42,8 @@
   (auto-package-update-maybe)
   (auto-package-update-at-time "09:00"))
 
-(use-package restart-emacs)
+(use-package restart-emacs
+  :bind ("C-c r" . restart-emacs))
 
 ;; Save all of the custom data in custom.el
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -235,6 +236,16 @@ With argument ARG, do this that many times."
 
 ;; remove cursor from non-focused windows
 (setq-default cursor-in-non-selected-windows nil)
+
+;; Display ugly ^L page breaks as tidy horizontal lines
+(use-package page-break-lines
+  :diminish
+  :hook (after-init . global-page-break-lines-mode))
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
 
 ;; Make certain buffers different in color
 ;; e.g. popups, sidebars, terminals, etc.
@@ -658,6 +669,17 @@ With argument ARG, do this that many times."
   :config
   (setq js-indent-level 2))
 
+;; Adds node_modules/.bin directory to `exec_path'
+;; This allows Emacs to find project based installs of e.g. eslint.
+(use-package add-node-modules-path
+  :hook ((web-mode js-mode js2-mode) . add-node-modules-path))
+
+(when (executable-find "prettier")
+  (use-package prettier
+    :diminish
+    :hook ((js-mode js2-mode css-mode sgml-mode web-mode) . prettier-mode)
+    :init (setq prettier-pre-warm 'none)))
+
 ;; npm i -g eslint
 ;; M-x lsp-install-server RET eslint
 ;; (use-package js2-mode
@@ -735,7 +757,27 @@ With argument ARG, do this that many times."
 (use-package web-mode
   :ensure nil
   :hook (web-mode . lsp-deferred)
-  :mode "\\.\\(phtml\\|php\\|[gj]sp\\|as[cp]x\\|erb\\|djhtml\\|html?\\|hbs\\|ejs\\|jade\\|swig\\|tm?pl\\|svelte\\)$"
+  :mode "\\.[px]?html?\\'"
+  :mode "\\.\\(?:tpl\\|blade\\)\\(?:\\.php\\)?\\'"
+  :mode "\\.erb\\'"
+  :mode "\\.[lh]?eex\\'"
+  :mode "\\.jsp\\'"
+  :mode "\\.as[cp]x\\'"
+  :mode "\\.ejs\\'"
+  :mode "\\.hbs\\'"
+  :mode "\\.mustache\\'"
+  :mode "\\.svelte\\'"
+  :mode "\\.twig\\'"
+  :mode "\\.jinja2?\\'"
+  :mode "\\.eco\\'"
+  :mode "wp-content/themes/.+/.+\\.php\\'"
+  :mode "templates/.+\\.php\\'"
+  :init
+  ;; If the user has installed `vue-mode' then, by appending this to
+  ;; `auto-mode-alist' rather than prepending it, its autoload will have
+  ;; priority over this one.
+  (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode) 'append)
+  :mode "\\.vue\\'"
   :config
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
@@ -746,21 +788,6 @@ With argument ARG, do this that many times."
   :ensure nil
   :hook (css-mode . lsp-deferred)
   :init (setq css-indent-offset 2))
-
-(use-package lsp-tailwindcss
-  :init
-  (setq lsp-tailwindcss-add-on-mode t)
-  :config
-  (add-to-list 'lsp-tailwindcss-major-modes 'web-mode))
-
-(use-package emmet-mode
-  :hook
-  ((css-mode  . emmet-mode)
-   (php-mode  . emmet-mode)
-   (sgml-mode . emmet-mode)
-   (rjsx-mode . emmet-mode)
-   (web-mode  . emmet-mode)
-   (vue-mode  . emmet-mode)))
 
 ;; vue-language-server should be installed too. npm i -g vls
 (use-package vue-mode
