@@ -63,44 +63,6 @@
 
 (server-start)
 
-;; Hide startup message
-(setq inhibit-startup-message t)
-
-;; set line-spacing
-(setq default-text-properties '(line-spacing 0.05 line-height 1.1))
-
-(scroll-bar-mode -1) ; Disable visible scrollbar
-(tool-bar-mode -1)   ; Disable the toolbar
-(tooltip-mode -1)    ; Disable tooltips
-(set-fringe-mode 10) ; Give some breathing room
-
-(menu-bar-mode -1)   ; Disable menu bar
-
-;; display line numbers
-(column-number-mode)
-(global-display-line-numbers-mode t)
-
-;; disable line numbers for some modes
-(dolist (mode '(org-mode-hook
-                term-mode-hook
-                shell-mode-hook
-                eshell-mode-hook
-                vterm-mode-hook
-                treemacs-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
-
-;; highlight current cursor line
-(global-hl-line-mode +1)
-
-;; change cursor type
-(setq-default cursor-type 'bar)
-
-;; open in fullscreen
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-
-;; disable the annoying bell ring
-(setq ring-bell-function 'ignore)
-
 (use-package emacs
   :config
   (defvar daut/default-font-size 150)
@@ -184,6 +146,174 @@ With argument ARG, do this that many times."
   ("C-c d" . crux-duplicate-current-line-or-region)
   ("C-c k" . crux-kill-other-buffers)
   ("C-c b s" . crux-create-scratch-buffer))
+
+;; Hide startup message
+(setq inhibit-startup-message t)
+
+;; set line-spacing
+(setq default-text-properties '(line-spacing 0.05 line-height 1.1))
+
+(scroll-bar-mode -1) ; Disable visible scrollbar
+(tool-bar-mode -1)   ; Disable the toolbar
+(tooltip-mode -1)    ; Disable tooltips
+(set-fringe-mode 10) ; Give some breathing room
+
+(menu-bar-mode -1)   ; Disable menu bar
+
+;; display line numbers
+(column-number-mode)
+(global-display-line-numbers-mode t)
+
+;; disable line numbers for some modes
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                eshell-mode-hook
+                vterm-mode-hook
+                treemacs-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+;; highlight current cursor line
+(global-hl-line-mode +1)
+
+;; change cursor type
+(setq-default cursor-type 'bar)
+
+;; open in fullscreen
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
+;; disable the annoying bell ring
+(setq ring-bell-function 'ignore)
+
+;; remove cursor from non-focused windows
+(setq-default cursor-in-non-selected-windows nil)
+
+;; Make certain buffers different in color
+;; e.g. popups, sidebars, terminals, etc.
+(use-package solaire-mode
+  :hook (after-load-theme . solaire-global-mode))
+
+;; defer loading of the package until command-log-mode is invoked
+(use-package command-log-mode
+  :commands command-log-mode)
+
+(use-package zenburn-theme)
+
+(use-package doom-themes
+  :config
+  (load-theme 'doom-zenburn t)
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config))
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))
+
+(use-package nerd-icons)
+
+;; Hide modelline in some major modes
+(use-package hide-mode-line
+  :hook (((eshell-mode shell-mode
+           term-mode vterm-mode
+           ;; embark-collect-mode
+           lsp-ui-imenu-mode
+           pdf-annot-list-mode) . hide-mode-line-mode)))
+
+(use-package which-key
+  :defer 0
+  :diminish which-key-mode
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 0.3))
+
+;; better mini-buffer completion
+(use-package ivy
+  :diminish
+  :hook (after-init . ivy-mode)
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-partial-or-done)
+         ("C-l" . ivy-immediate-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-immediate-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill)))
+
+;; ivy-rich get extra information about commands
+;; like description and keybinding
+;; works only with counsel
+(use-package ivy-rich
+  :after ivy
+  :init
+  (ivy-rich-mode 1))
+
+(use-package ivy-posframe
+  :hook (after-init . ivy-posframe-mode)
+  :init
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-width 120))
+
+;; package used to do search inside file
+(use-package swiper
+  :after ivy)
+
+;; better UI for the M-x command, C-x b etc.
+(use-package counsel
+  :bind (("M-x" . counsel-M-x)
+         ("C-x b" . persp-counsel-switch-buffer)
+         ("C-x C-f" . find-file)
+         ("C-s-f" . counsel-git-grep)
+         ("s-F" . counsel-git-grep)
+         :map minibuffer-local-map ;; minibuffer only mapping
+         ("C-r" . counsel-minibuffer-history))
+  :config
+  (counsel-mode 1))
+
+(use-package helpful
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
+
+(use-package hydra
+  :defer t)
+
+(defhydra hydra-text-scale (:timeout 4)
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "cancel" :exit t))
+
+(defhydra hydra-window-scale (:timeout 4)
+  "scale window horizontally"
+  ("j" (enlarge-window-horizontally 5) "enlarge horizontally")
+  ("k" (shrink-window-horizontally 5) "shrink horizontally")
+  ("p" (enlarge-window 5) "enlarge vertically")
+  ("n" (shrink-window 5) "shrink vertically")
+  ("f" nil "cancel" :exit t))
+
+(daut/leader-keys
+  "ts" '(hydra-text-scale/body :which-key "scale text")
+  "ws" '(hydra-window-scale/body :which-key "horizontally scale window"))
+
+(use-package highlight-indent-guides
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :custom (highlight-indent-guides-method 'character))
+
+(use-package flyspell
+  :ensure nil
+  :diminish
+  :if (executable-find "aspell")
+  :hook ((markdown-mode text-mode outline-mode) . flyspell-mode))
 
 ;; Handling capitalized subwords in a nomenclature
 (use-package subword
@@ -273,112 +403,6 @@ With argument ARG, do this that many times."
 (use-package editorconfig
   :config
   (editorconfig-mode 1))
-
-;; defer loading of the package until command-log-mode is invoked
-(use-package command-log-mode
-  :commands command-log-mode)
-
-(use-package zenburn-theme
-  :config
-  (load-theme 'zenburn t))
-
-(use-package all-the-icons)
-
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
-
-(use-package nerd-icons)
-
-(use-package which-key
-  :defer 0
-  :diminish which-key-mode
-  :config
-  (which-key-mode)
-  (setq which-key-idle-delay 0.3))
-
-;; better mini-buffer completion
-(use-package ivy
-  :diminish
-  :hook (after-init . ivy-mode)
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-partial-or-done)
-         ("C-l" . ivy-immediate-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-immediate-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill)))
-
-;; ivy-rich get extra information about commands
-;; like description and keybinding
-;; works only with counsel
-(use-package ivy-rich
-  :after ivy
-  :init
-  (ivy-rich-mode 1))
-
-(use-package ivy-posframe
-  :hook (after-init . ivy-posframe-mode)
-  :init
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  (setq ivy-posframe-width 170))
-
-;; package used to do search inside file
-(use-package swiper
-  :after ivy)
-
-;; better UI for the M-x command, C-x b etc.
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . persp-counsel-switch-buffer)
-         ("C-x C-f" . find-file)
-         ("C-s-f" . counsel-git-grep)
-         ("s-F" . counsel-git-grep)
-         :map minibuffer-local-map ;; minibuffer only mapping
-         ("C-r" . counsel-minibuffer-history))
-  :config
-  (counsel-mode 1))
-
-(use-package helpful
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
-
-(use-package hydra
-  :defer t)
-
-(defhydra hydra-text-scale (:timeout 4)
-  "scale text"
-  ("j" text-scale-increase "in")
-  ("k" text-scale-decrease "out")
-  ("f" nil "cancel" :exit t))
-
-(defhydra hydra-window-scale (:timeout 4)
-  "scale window horizontally"
-  ("j" (enlarge-window-horizontally 5) "enlarge horizontally")
-  ("k" (shrink-window-horizontally 5) "shrink horizontally")
-  ("p" (enlarge-window 5) "enlarge vertically")
-  ("n" (shrink-window 5) "shrink vertically")
-  ("f" nil "cancel" :exit t))
-
-(daut/leader-keys
-  "ts" '(hydra-text-scale/body :which-key "scale text")
-  "ws" '(hydra-window-scale/body :which-key "horizontally scale window"))
-
-(use-package highlight-indent-guides
-  :hook (prog-mode . highlight-indent-guides-mode)
-  :custom (highlight-indent-guides-method 'character))
 
 (defun daut/org-mode-setup ()
   (org-indent-mode)
@@ -525,7 +549,7 @@ With argument ARG, do this that many times."
   :config (yasnippet-snippets-initialize))
 
 ;; dired-sidebar uses these
-(use-package vscode-icon)
+;; (use-package vscode-icon)
 
 (use-package dired-sidebar
   :bind (("s-b" . dired-sidebar-toggle-sidebar))
@@ -830,9 +854,17 @@ With argument ARG, do this that many times."
   (dired-listing-switches "-agho --group-directories-first")
   (setq delete-by-moving-to-trash t))
 
-;; (use-package dired-open
-;;   :config
-;;   (setq dired-open-extensions '(("png" . "open"))))
+;; Colorful dired
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode))
+
+;; Shows icons
+(use-package nerd-icons-dired
+  :diminish
+  ;; :when (icons-displayable-p)
+  ;; :custom-face
+  ;; (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
+  :hook (dired-mode . nerd-icons-dired-mode))
 
 (use-package ace-window
   :bind 
@@ -858,5 +890,12 @@ With argument ARG, do this that many times."
 (setq bidi-inhibit-bpa t)
 (setq bidi-paragraph-direction 'left-to-right)
 (global-so-long-mode 1)
-;; this package looks interesting
-;; https://github.com/emacsmirror/gcmh/blob/master/gcmh.el
+
+;; Garbage Collector Magic Hack
+(use-package gcmh
+  :diminish
+  :hook (emacs-startup . gcmh-mode)
+  :init
+  (setq gcmh-idle-delay 'auto
+        gcmh-auto-idle-delay-factor 10
+        gcmh-high-cons-threshold #x1000000)) ; 16MB

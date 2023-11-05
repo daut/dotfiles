@@ -90,50 +90,6 @@ Environment variables sometimes aren't right, this fixes it.
 #+begin_src emacs-lisp
 (server-start)
 #+end_src
-* UI Configuration
-** Basic
-#+begin_src emacs-lisp
-
-;; Hide startup message
-(setq inhibit-startup-message t)
-
-;; set line-spacing
-(setq default-text-properties '(line-spacing 0.05 line-height 1.1))
-
-(scroll-bar-mode -1) ; Disable visible scrollbar
-(tool-bar-mode -1)   ; Disable the toolbar
-(tooltip-mode -1)    ; Disable tooltips
-(set-fringe-mode 10) ; Give some breathing room
-
-(menu-bar-mode -1)   ; Disable menu bar
-
-;; display line numbers
-(column-number-mode)
-(global-display-line-numbers-mode t)
-
-;; disable line numbers for some modes
-(dolist (mode '(org-mode-hook
-                term-mode-hook
-                shell-mode-hook
-                eshell-mode-hook
-                vterm-mode-hook
-                treemacs-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
-
-;; highlight current cursor line
-(global-hl-line-mode +1)
-
-;; change cursor type
-(setq-default cursor-type 'bar)
-
-;; open in fullscreen
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-
-;; disable the annoying bell ring
-(setq ring-bell-function 'ignore)
-
-#+end_src
-
 * Font Configuration
 
 #+begin_src emacs-lisp
@@ -235,7 +191,226 @@ With argument ARG, do this that many times."
 
 #+end_src
 
+* UI Configuration
+** Basic
+#+begin_src emacs-lisp
+
+;; Hide startup message
+(setq inhibit-startup-message t)
+
+;; set line-spacing
+(setq default-text-properties '(line-spacing 0.05 line-height 1.1))
+
+(scroll-bar-mode -1) ; Disable visible scrollbar
+(tool-bar-mode -1)   ; Disable the toolbar
+(tooltip-mode -1)    ; Disable tooltips
+(set-fringe-mode 10) ; Give some breathing room
+
+(menu-bar-mode -1)   ; Disable menu bar
+
+;; display line numbers
+(column-number-mode)
+(global-display-line-numbers-mode t)
+
+;; disable line numbers for some modes
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                eshell-mode-hook
+                vterm-mode-hook
+                treemacs-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+;; highlight current cursor line
+(global-hl-line-mode +1)
+
+;; change cursor type
+(setq-default cursor-type 'bar)
+
+;; open in fullscreen
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
+;; disable the annoying bell ring
+(setq ring-bell-function 'ignore)
+
+;; remove cursor from non-focused windows
+(setq-default cursor-in-non-selected-windows nil)
+
+#+end_src
+** Solaire Mode
+#+begin_src emacs-lisp
+;; Make certain buffers different in color
+;; e.g. popups, sidebars, terminals, etc.
+(use-package solaire-mode
+  :hook (after-load-theme . solaire-global-mode))
+#+end_src
+** Command Log Mode
+
+#+begin_src emacs-lisp
+
+;; defer loading of the package until command-log-mode is invoked
+(use-package command-log-mode
+  :commands command-log-mode)
+
+#+end_src
+
+** Color Themes
+#+begin_src emacs-lisp
+(use-package zenburn-theme)
+
+(use-package doom-themes
+  :config
+  (load-theme 'doom-zenburn t)
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config))
+
+#+end_src
+** Better Modeline
+#+begin_src emacs-lisp
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))
+
+(use-package nerd-icons)
+
+;; Hide modelline in some major modes
+(use-package hide-mode-line
+  :hook (((eshell-mode shell-mode
+           term-mode vterm-mode
+           ;; embark-collect-mode
+           lsp-ui-imenu-mode
+           pdf-annot-list-mode) . hide-mode-line-mode)))
+
+#+end_src
+
+** Which Key
+
+which-key is a useful UI panel that appears when you start pressing any key binding in Emacs to offer you all possible completions for the prefix.
+
+#+begin_src emacs-lisp
+
+(use-package which-key
+  :defer 0
+  :diminish which-key-mode
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 0.3))
+
+#+end_src
+
+** Ivy and Counsel
+
+#+begin_src emacs-lisp
+
+;; better mini-buffer completion
+(use-package ivy
+  :diminish
+  :hook (after-init . ivy-mode)
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-partial-or-done)
+         ("C-l" . ivy-immediate-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-immediate-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill)))
+
+;; ivy-rich get extra information about commands
+;; like description and keybinding
+;; works only with counsel
+(use-package ivy-rich
+  :after ivy
+  :init
+  (ivy-rich-mode 1))
+
+(use-package ivy-posframe
+  :hook (after-init . ivy-posframe-mode)
+  :init
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-width 120))
+
+;; package used to do search inside file
+(use-package swiper
+  :after ivy)
+
+;; better UI for the M-x command, C-x b etc.
+(use-package counsel
+  :bind (("M-x" . counsel-M-x)
+         ("C-x b" . persp-counsel-switch-buffer)
+         ("C-x C-f" . find-file)
+         ("C-s-f" . counsel-git-grep)
+         ("s-F" . counsel-git-grep)
+         :map minibuffer-local-map ;; minibuffer only mapping
+         ("C-r" . counsel-minibuffer-history))
+  :config
+  (counsel-mode 1))
+
+
+#+end_src
+
+** Helpful Help Commands
+Helpful is an alternative to emacs builtin help which provides much more contextual information andbetter user experience
+#+begin_src emacs-lisp
+
+(use-package helpful
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
+
+#+end_src
+
+** Hydra
+
+#+begin_src emacs-lisp
+
+(use-package hydra
+  :defer t)
+
+(defhydra hydra-text-scale (:timeout 4)
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "cancel" :exit t))
+
+(defhydra hydra-window-scale (:timeout 4)
+  "scale window horizontally"
+  ("j" (enlarge-window-horizontally 5) "enlarge horizontally")
+  ("k" (shrink-window-horizontally 5) "shrink horizontally")
+  ("p" (enlarge-window 5) "enlarge vertically")
+  ("n" (shrink-window 5) "shrink vertically")
+  ("f" nil "cancel" :exit t))
+
+(daut/leader-keys
+  "ts" '(hydra-text-scale/body :which-key "scale text")
+  "ws" '(hydra-window-scale/body :which-key "horizontally scale window"))
+
+#+end_src
+** Indent Guides
+#+begin_src emacs-lisp
+(use-package highlight-indent-guides
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :custom (highlight-indent-guides-method 'character))
+#+end_src
 * Editing Configuration
+** Flyspell
+#+begin_src emacs-lisp
+(use-package flyspell
+  :ensure nil
+  :diminish
+  :if (executable-find "aspell")
+  :hook ((markdown-mode text-mode outline-mode) . flyspell-mode))
+#+end_src
 ** Subword
 #+begin_src emacs-lisp
 ;; Handling capitalized subwords in a nomenclature
@@ -378,158 +553,6 @@ With argument ARG, do this that many times."
 (use-package editorconfig
   :config
   (editorconfig-mode 1))
-#+end_src
-* UI Configuration
-** Command Log Mode
-
-#+begin_src emacs-lisp
-
-;; defer loading of the package until command-log-mode is invoked
-(use-package command-log-mode
-  :commands command-log-mode)
-
-#+end_src
-
-** Color Theme
-#+begin_src emacs-lisp
-
-(use-package zenburn-theme
-  :config
-  (load-theme 'zenburn t))
-
-#+end_src
-** Better Modeline
-*NOTE:* The first time you load your configuration on a new machine, you'll need to run `M-x all-the-icons-install-fonts` so that mode line icons display correctly.
-
-#+begin_src emacs-lisp
-
-(use-package all-the-icons)
-
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
-
-(use-package nerd-icons)
-
-#+end_src
-
-** Which Key
-
-which-key is a useful UI panel that appears when you start pressing any key binding in Emacs to offer you all possible completions for the prefix.
-
-#+begin_src emacs-lisp
-
-(use-package which-key
-  :defer 0
-  :diminish which-key-mode
-  :config
-  (which-key-mode)
-  (setq which-key-idle-delay 0.3))
-
-#+end_src
-
-** Ivy and Counsel
-
-#+begin_src emacs-lisp
-
-;; better mini-buffer completion
-(use-package ivy
-  :diminish
-  :hook (after-init . ivy-mode)
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-partial-or-done)
-         ("C-l" . ivy-immediate-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-immediate-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill)))
-
-;; ivy-rich get extra information about commands
-;; like description and keybinding
-;; works only with counsel
-(use-package ivy-rich
-  :after ivy
-  :init
-  (ivy-rich-mode 1))
-
-(use-package ivy-posframe
-  :hook (after-init . ivy-posframe-mode)
-  :init
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  (setq ivy-posframe-width 170))
-
-;; package used to do search inside file
-(use-package swiper
-  :after ivy)
-
-;; better UI for the M-x command, C-x b etc.
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . persp-counsel-switch-buffer)
-         ("C-x C-f" . find-file)
-         ("C-s-f" . counsel-git-grep)
-         ("s-F" . counsel-git-grep)
-         :map minibuffer-local-map ;; minibuffer only mapping
-         ("C-r" . counsel-minibuffer-history))
-  :config
-  (counsel-mode 1))
-
-
-#+end_src
-
-** Helpful Help Commands
-Helpful is an alternative to emacs builtin help which provides much more contextual information andbetter user experience
-#+begin_src emacs-lisp
-
-(use-package helpful
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
-
-#+end_src
-
-** Hydra
-
-#+begin_src emacs-lisp
-
-(use-package hydra
-  :defer t)
-
-(defhydra hydra-text-scale (:timeout 4)
-  "scale text"
-  ("j" text-scale-increase "in")
-  ("k" text-scale-decrease "out")
-  ("f" nil "cancel" :exit t))
-
-(defhydra hydra-window-scale (:timeout 4)
-  "scale window horizontally"
-  ("j" (enlarge-window-horizontally 5) "enlarge horizontally")
-  ("k" (shrink-window-horizontally 5) "shrink horizontally")
-  ("p" (enlarge-window 5) "enlarge vertically")
-  ("n" (shrink-window 5) "shrink vertically")
-  ("f" nil "cancel" :exit t))
-
-(daut/leader-keys
-  "ts" '(hydra-text-scale/body :which-key "scale text")
-  "ws" '(hydra-window-scale/body :which-key "horizontally scale window"))
-
-#+end_src
-** Indent Guides
-#+begin_src emacs-lisp
-(use-package highlight-indent-guides
-  :hook (prog-mode . highlight-indent-guides-mode)
-  :custom (highlight-indent-guides-method 'character))
 #+end_src
 * Org Mode Configuration
 ** Basic Configuration
@@ -732,7 +755,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
 #+begin_src emacs-lisp
 
 ;; dired-sidebar uses these
-(use-package vscode-icon)
+;; (use-package vscode-icon)
 
 (use-package dired-sidebar
   :bind (("s-b" . dired-sidebar-toggle-sidebar))
@@ -1112,7 +1135,7 @@ An alternative to Restclient package
 
 #+end_src
 
-** TODO Dired
+** Dired
 Note: coreutils had to be installed on MacOS systems for group-directories-first to work so run `brew install coreutils`.
 #+begin_src emacs-lisp
 
@@ -1127,9 +1150,17 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
   (dired-listing-switches "-agho --group-directories-first")
   (setq delete-by-moving-to-trash t))
 
-;; (use-package dired-open
-;;   :config
-;;   (setq dired-open-extensions '(("png" . "open"))))
+;; Colorful dired
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode))
+
+;; Shows icons
+(use-package nerd-icons-dired
+  :diminish
+  ;; :when (icons-displayable-p)
+  ;; :custom-face
+  ;; (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
+  :hook (dired-mode . nerd-icons-dired-mode))
 
 #+end_src
 
@@ -1168,7 +1199,14 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
 (setq bidi-inhibit-bpa t)
 (setq bidi-paragraph-direction 'left-to-right)
 (global-so-long-mode 1)
-;; this package looks interesting
-;; https://github.com/emacsmirror/gcmh/blob/master/gcmh.el
+
+;; Garbage Collector Magic Hack
+(use-package gcmh
+  :diminish
+  :hook (emacs-startup . gcmh-mode)
+  :init
+  (setq gcmh-idle-delay 'auto
+        gcmh-auto-idle-delay-factor 10
+        gcmh-high-cons-threshold #x1000000)) ; 16MB
 
 #+end_src
