@@ -236,6 +236,15 @@ With argument ARG, do this that many times."
 #+end_src
 
 * Editing Configuration
+** Subword
+#+begin_src emacs-lisp
+;; Handling capitalized subwords in a nomenclature
+(use-package subword
+  :ensure nil
+  :diminish
+  :hook ((prog-mode . subword-mode)
+         (minibuffer-setup . subword-mode)))
+#+end_src
 ** Delete selection with a keypress
 #+begin_src emacs-lisp
 

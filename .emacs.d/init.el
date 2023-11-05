@@ -185,6 +185,13 @@ With argument ARG, do this that many times."
   ("C-c k" . crux-kill-other-buffers)
   ("C-c b s" . crux-create-scratch-buffer))
 
+;; Handling capitalized subwords in a nomenclature
+(use-package subword
+  :ensure nil
+  :diminish
+  :hook ((prog-mode . subword-mode)
+         (minibuffer-setup . subword-mode)))
+
 (delete-selection-mode t)
 
 (setq-default tab-width 2)
