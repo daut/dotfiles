@@ -156,22 +156,15 @@ With argument ARG, do this that many times."
 (scroll-bar-mode -1) ; Disable visible scrollbar
 (tool-bar-mode -1)   ; Disable the toolbar
 (tooltip-mode -1)    ; Disable tooltips
-(set-fringe-mode 10) ; Give some breathing room
+(set-fringe-mode 5) ; Give some breathing room
 
 (menu-bar-mode -1)   ; Disable menu bar
 
-;; display line numbers
-(column-number-mode)
-(global-display-line-numbers-mode t)
-
-;; disable line numbers for some modes
-(dolist (mode '(org-mode-hook
-                term-mode-hook
-                shell-mode-hook
-                eshell-mode-hook
-                vterm-mode-hook
-                treemacs-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+;; Show line numbers
+(use-package display-line-numbers
+  :ensure nil
+  :hook ((prog-mode yaml-mode conf-mode) . display-line-numbers-mode)
+  :init (setq display-line-numbers-width-start t))
 
 ;; highlight current cursor line
 (global-hl-line-mode +1)
@@ -308,6 +301,50 @@ With argument ARG, do this that many times."
 (use-package highlight-indent-guides
   :hook (prog-mode . highlight-indent-guides-mode)
   :custom (highlight-indent-guides-method 'character))
+
+;; When you visit a file, point goes to the last place
+;; where it was when you previously visited the same file.
+(use-package save-place
+  :ensure nil
+  :hook (after-init . save-place-mode))
+
+;; Recentf is a minor mode that builds a list of recently opened files.
+;; This list is automatically saved across sessions on exiting
+;; Emacs - you can then access this list through a command or the menu.
+(use-package recentf
+  :bind (("C-x C-r" . recentf-open-files))
+  :hook (after-init . recentf-mode)
+  :init (setq recentf-max-saved-items 300
+	            recentf-exclude
+	            '("\\.?cache" ".cask" "url" "COMMIT_EDITMSG\\'" "bookmarks"
+                "\\.\\(?:gz\\|gif\\|svg\\|png\\|jpe?g\\|bmp\\|xpm\\)$"
+                "\\.?ido\\.last$" "\\.revive$" "/G?TAGS$" "/.elfeed/"
+                "^/tmp/" "^/var/folders/.+$" "^/ssh:" "/persp-confs/"
+                (lambda (file) (file-in-directory-p file package-user-dir))))
+  :config
+  (push (expand-file-name recentf-save-file) recentf-exclude)
+  (add-to-list 'recentf-filename-handlers #'abbreviate-file-name))
+
+;; Simple
+(use-package simple
+  :ensure nil
+  :hook ((after-init . size-indication-mode)
+	       (text-mode . visual-line-mode)
+	       ((prog-mode markdown-mode conf-mode) . enable-delete-trailing-whitespace))
+  :init
+  (setq column-number-mode t
+	      line-number-mode t)
+  ;; Visualize TAB, (HARD) SPACE, NEWLINE
+  (setq-default show-trailing-whitespace nil) ; Don't show trailing whitespace by default
+  (defun enable-delete-trailing-whitespace ()
+    "Show trailing spaces and delete on saving."
+    (setq show-trailing-whitespace t)
+    (add-hook 'before-save-hook #'delete-trailing-whitespace nil t)))
+
+;; ;; Enable short answers
+(if (boundp 'use-short-answers)
+    (setq use-short-answers t)
+  (fset 'yes-or-no-p 'y-or-n-p))
 
 (use-package flyspell
   :ensure nil
