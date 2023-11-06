@@ -932,6 +932,21 @@ With argument ARG, do this that many times."
   ;; (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
   :hook (dired-mode . nerd-icons-dired-mode))
 
+(use-package winner-mode
+  :ensure nil
+  :commands (winner-undo winner-redo)
+  :hook (after-init . winner-mode)
+  :init (setq winner-boring-buffers '("*Completions*"
+                                      "*Compile-Log*"
+                                      "*inferior-lisp*"
+                                      "*Fuzzy Completions*"
+                                      "*Apropos*"
+                                      "*Help*"
+                                      "*cvs*"
+                                      "*Buffer List*"
+                                      "*Ibuffer*"
+                                      "*esh command on file*")))
+
 (use-package ace-window
   :bind 
   (("s-[" . (lambda () (interactive) (other-window -1)))
@@ -944,7 +959,10 @@ With argument ARG, do this that many times."
   :hook (kill-emacs . persp-state-save)
   :init
   (persp-mode)
+  ;; create misc persp
   (persp-switch "misc")
+  ;; switch back to main persp
+  (persp-switch "main")
   :bind (("C-x k" . persp-kill-buffer*)
          ("s-}" . persp-next)
          ("s-{" . persp-prev))

@@ -1235,7 +1235,24 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
   :hook (dired-mode . nerd-icons-dired-mode))
 
 #+end_src
-
+* Window Management
+** Winner Mode
+#+begin_src emacs-lisp
+(use-package winner-mode
+  :ensure nil
+  :commands (winner-undo winner-redo)
+  :hook (after-init . winner-mode)
+  :init (setq winner-boring-buffers '("*Completions*"
+                                      "*Compile-Log*"
+                                      "*inferior-lisp*"
+                                      "*Fuzzy Completions*"
+                                      "*Apropos*"
+                                      "*Help*"
+                                      "*cvs*"
+                                      "*Buffer List*"
+                                      "*Ibuffer*"
+                                      "*esh command on file*")))
+#+end_src
 * Workspace Management
 ** Other Window
 #+begin_src emacs-lisp
@@ -1255,7 +1272,10 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
   :hook (kill-emacs . persp-state-save)
   :init
   (persp-mode)
+  ;; create misc persp
   (persp-switch "misc")
+  ;; switch back to main persp
+  (persp-switch "main")
   :bind (("C-x k" . persp-kill-buffer*)
          ("s-}" . persp-next)
          ("s-{" . persp-prev))
