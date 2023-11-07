@@ -352,10 +352,12 @@ With argument ARG, do this that many times."
     (setq show-trailing-whitespace t)
     (add-hook 'before-save-hook #'delete-trailing-whitespace nil t)))
 
-;; ;; Enable short answers
+;; Enable short answers
 (if (boundp 'use-short-answers)
     (setq use-short-answers t)
   (fset 'yes-or-no-p 'y-or-n-p))
+
+(setq-default indent-tabs-mode nil) ; Permanently indent with spaces, never with TABs
 
 (use-package flyspell
   :ensure nil
