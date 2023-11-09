@@ -250,7 +250,7 @@ With argument ARG, do this that many times."
 ;; Make certain buffers different in color
 ;; e.g. popups, sidebars, terminals, etc.
 (use-package solaire-mode
-  :hook (after-load-theme . solaire-global-mode))
+  :hook (after-init . solaire-global-mode))
 
 ;; defer loading of the package until command-log-mode is invoked
 (use-package command-log-mode
