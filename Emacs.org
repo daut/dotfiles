@@ -336,7 +336,8 @@ With argument ARG, do this that many times."
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-zenburn t)
+  ;; (load-theme 'doom-zenburn t)
+  (load-theme 'doom-challenger-deep t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config))
 
