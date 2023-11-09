@@ -245,7 +245,12 @@ With argument ARG, do this that many times."
 (use-package dashboard
   :ensure t
   :config
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  (setq dashboard-center-content t
+        dashboard-items '((projects . 4)
+                          (recents . 4)
+                          (bookmarks . 4)
+                          (agenda . 4))))
 
 ;; Make certain buffers different in color
 ;; e.g. popups, sidebars, terminals, etc.
