@@ -89,7 +89,7 @@ Environment variables sometimes aren't right, this fixes it.
 #+end_src
 * Server Mode
 #+begin_src emacs-lisp
-(server-start)
+;; (server-start)
 #+end_src
 * Font Configuration
 
@@ -482,9 +482,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
 #+end_src
 ** Tab Widths
 #+begin_src emacs-lisp
-
 (setq-default tab-width 2)
-
 #+end_src
 
 ** Use spaces instead of tabs for indentation

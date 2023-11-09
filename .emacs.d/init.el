@@ -62,7 +62,7 @@
   (setq exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
 
-(server-start)
+;; (server-start)
 
 (use-package emacs
   :config
