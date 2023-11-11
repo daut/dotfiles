@@ -585,7 +585,7 @@ With argument ARG, do this that many times."
   ;;       ("<tab>" . company-indent-or-complete-column))
   :config
   (setq company-minimum-prefix-length 1)
-  (setq company-idle-delay 0.2)
+  (setq company-idle-delay 0.15)
   (setq company-dabbrev-code-ignore-case t)
   (setq company-keywords-ignore-case t)
   (setq company-dabbrev-downcase t)
