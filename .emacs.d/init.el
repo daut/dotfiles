@@ -250,7 +250,9 @@ With argument ARG, do this that many times."
         dashboard-items '((projects . 4)
                           (recents . 4)
                           (bookmarks . 4)
-                          (agenda . 4))))
+                          (agenda . 4))
+        dashboard-set-file-icons t
+        dashboard-set-heading-icons t))
 
 ;; Make certain buffers different in color
 ;; e.g. popups, sidebars, terminals, etc.
@@ -317,7 +319,9 @@ With argument ARG, do this that many times."
 
 (use-package highlight-indent-guides
   :hook (prog-mode . highlight-indent-guides-mode)
-  :custom (highlight-indent-guides-method 'character))
+  :init (setq highlight-indent-guides-method 'character
+              highlight-indent-guides-responsive 'top
+              highlight-indent-guides-suppress-auto-error t))
 
 ;; When you visit a file, point goes to the last place
 ;; where it was when you previously visited the same file.
@@ -763,7 +767,6 @@ With argument ARG, do this that many times."
 
 ;; Major mode for editing web templates
 (use-package web-mode
-  :ensure nil
   :hook (web-mode . lsp-deferred)
   :mode "\\.[px]?html?\\'"
   :mode "\\.\\(?:tpl\\|blade\\)\\(?:\\.php\\)?\\'"
@@ -798,11 +801,11 @@ With argument ARG, do this that many times."
   :init (setq css-indent-offset 2))
 
 ;; vue-language-server should be installed too. npm i -g vls
-(use-package vue-mode
-  :mode "\\.vue\\'"
-  :hook (vue-mode . lsp-deferred)
-  :config
-  (setq mmm-submode-decoration-level 2))
+;; (use-package vue-mode
+;;   :mode "\\.vue\\'"
+;;   :hook (vue-mode . lsp-deferred)
+;;   :config
+;;   (setq mmm-submode-decoration-level 2))
   ;; :custom
   ;; (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
 
