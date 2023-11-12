@@ -1083,7 +1083,16 @@ An alternative to Restclient package
 #+end_src
 *** Markdown
 #+begin_src emacs-lisp
-(use-package markdown-mode)
+(use-package markdown-mode
+  :hook (markdown-mode . olivetti-mode))
+#+end_src
+*** Mermaid
+Install `mmdc`
+`npm install -g @mermaid-js/mermaid-cli`
+https://github.com/mermaid-js/mermaid-cli
+#+begin_src emacs-lisp
+(use-package mermaid-mode
+  :mode "\\.mermaid\\'")
 #+end_src
 
 ** Flycheck

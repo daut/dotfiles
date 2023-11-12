@@ -825,7 +825,11 @@ With argument ARG, do this that many times."
   (setq lsp-sqls-timeout 10)
   (setq lsp-sqls-workspace-config-path "root"))
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :hook (markdown-mode . olivetti-mode))
+
+(use-package mermaid-mode
+  :mode "\\.mermaid\\'")
 
 (use-package flycheck
   :diminish
