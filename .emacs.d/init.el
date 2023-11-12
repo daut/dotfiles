@@ -212,7 +212,7 @@ With argument ARG, do this that many times."
 (scroll-bar-mode -1) ; Disable visible scrollbar
 (tool-bar-mode -1)   ; Disable the toolbar
 (tooltip-mode -1)    ; Disable tooltips
-(set-fringe-mode 5) ; Give some breathing room
+(set-fringe-mode 5)  ; Give some breathing room
 
 (menu-bar-mode -1)   ; Disable menu bar
 
@@ -625,7 +625,9 @@ With argument ARG, do this that many times."
   :commands (lsp lsp-deferred)
   :config
   (lsp-enable-which-key-integration t)
-  (setq lsp-completion-provider :none))
+  (setq lsp-completion-provider :none)
+  (add-to-list 'lsp-disabled-clients '(typescript-mode . vue-semantic-server))
+  (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server)))
 
 ;; enhanced ui e.g. documentation popup
 (use-package lsp-ui
