@@ -461,8 +461,7 @@ With argument ARG, do this that many times."
 (global-set-key (kbd "s-T") 'daut/reopen-killed-file)
 
 (use-package editorconfig
-  :config
-  (editorconfig-mode 1))
+  :hook (after-init . editorconfig-mode))
 
 (use-package olivetti)
 

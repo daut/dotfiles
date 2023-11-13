@@ -613,8 +613,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
 ** Respect .editorconfig
 #+begin_src emacs-lisp
 (use-package editorconfig
-  :config
-  (editorconfig-mode 1))
+  :hook (after-init . editorconfig-mode))
 #+end_src
 ** Olivetti for nicer text editing
 #+begin_src emacs-lisp
