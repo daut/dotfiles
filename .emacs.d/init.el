@@ -1,4 +1,4 @@
-;; Bug in Emacs 28.2 remove once updated https://emacs.stackexchange.com/questions/74289/emacs-28-2-error-in-macos-ventura-image-type-invalid-image-type-svg
+;; TODO: Bug in Emacs 28.2 remove once updated https://emacs.stackexchange.com/questions/74289/emacs-28-2-error-in-macos-ventura-image-type-invalid-image-type-svg
 (add-to-list 'image-types 'svg)
 
 ;; The default is 800 kilobytes. Measured in bytes.
