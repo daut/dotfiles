@@ -351,7 +351,7 @@ With argument ARG, do this that many times."
   :ensure nil
   :hook ((after-init . size-indication-mode)
 	       (text-mode . visual-line-mode)
-	       ((prog-mode markdown-mode conf-mode) . enable-delete-trailing-whitespace))
+	       ((prog-mode markdown-mode conf-mode restclient-mode) . enable-delete-trailing-whitespace))
   :init
   (setq column-number-mode t
 	      line-number-mode t)
