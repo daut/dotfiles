@@ -709,7 +709,7 @@ With argument ARG, do this that many times."
   :custom
   (dired-sidebar-display-alist '((side . right)))
   :config
-  (setq dired-sidebar-theme 'vscode))
+  (setq dired-sidebar-theme 'nerd))
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)

@@ -921,7 +921,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :custom
   (dired-sidebar-display-alist '((side . right)))
   :config
-  (setq dired-sidebar-theme 'vscode))
+  (setq dired-sidebar-theme 'nerd))
 
 #+end_src
 ** Languages
