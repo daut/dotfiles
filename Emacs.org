@@ -933,6 +933,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :config
   (lsp-enable-which-key-integration t)
   (setq lsp-completion-provider :none)
+  (setq lsp-headerline-breadcrumb-enable nil)
   (add-to-list 'lsp-disabled-clients '(typescript-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server)))
 

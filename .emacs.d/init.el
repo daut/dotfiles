@@ -716,6 +716,7 @@ With argument ARG, do this that many times."
   :config
   (lsp-enable-which-key-integration t)
   (setq lsp-completion-provider :none)
+  (setq lsp-headerline-breadcrumb-enable nil)
   (add-to-list 'lsp-disabled-clients '(typescript-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server)))
 
