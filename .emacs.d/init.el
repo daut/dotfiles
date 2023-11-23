@@ -832,6 +832,15 @@ With argument ARG, do this that many times."
 
 (use-package jq-mode)
 
+(use-package restclient
+  :mode ("\\.http\\'" . restclient-mode)
+  :config
+  (require 'restclient-jq)
+  (with-eval-after-load 'company
+    (use-package company-restclient
+      :defines company-backends
+      :init (add-to-list 'company-backends 'company-restclient))))
+
 ;;; load restclient-jq - allow restclient mode to use jq to process JSON results.
 ;; (fetch it from remote url if it's already there)
 (let
@@ -843,15 +852,6 @@ With argument ARG, do this that many times."
       (url-copy-file restclient-jq-url restclient-jq-filename))
     (load "~/.emacs.d/restclient-jq.el")
     ))
-
-(use-package restclient
-  :mode ("\\.http\\'" . restclient-mode)
-  :config
-  (require 'restclient-jq)
-  (with-eval-after-load 'company
-    (use-package company-restclient
-      :defines company-backends
-      :init (add-to-list 'company-backends 'company-restclient))))
 
 (use-package verb)
 
