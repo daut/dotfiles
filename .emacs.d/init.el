@@ -92,7 +92,9 @@
          ("C-d" . ivy-switch-buffer-kill)
          :map ivy-reverse-i-search-map
          ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill)))
+         ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (setq ivy-height 12))
 
 ;; ivy-rich get extra information about commands
 ;; like description and keybinding
