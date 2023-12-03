@@ -686,7 +686,7 @@ With argument ARG, do this that many times."
                              company-sort-by-occurrence
                              company-sort-by-backend-importance))
   :init
-  (setq company-backends '((company-capf :with company-yasnippet)
+  (setq company-backends '((company-capf :with company-yasnippet company-dabbrev-code)
                            (company-dabbrev-code company-keywords company-files)
                            company-dabbrev)))
 
