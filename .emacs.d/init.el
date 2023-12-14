@@ -781,11 +781,11 @@ With argument ARG, do this that many times."
 (use-package add-node-modules-path
   :hook ((web-mode js-mode js2-mode) . add-node-modules-path))
 
-(when (executable-find "prettier")
-  (use-package prettier
-    :diminish
-    :hook ((js-mode js2-mode css-mode sgml-mode web-mode) . prettier-mode)
-    :init (setq prettier-pre-warm 'none)))
+;; (when (executable-find "prettier")
+;;   (use-package prettier
+;;     :diminish
+;;     :hook ((js-mode js2-mode css-mode sgml-mode web-mode) . prettier-mode)
+;;     :init (setq prettier-pre-warm 'none)))
 
 ;; npm i -g eslint
 ;; M-x lsp-install-server RET eslint
@@ -887,7 +887,9 @@ With argument ARG, do this that many times."
   :config
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
-  (setq web-mode-code-indent-offset 2))
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-script-padding 0)
+  (setq web-mode-style-padding 0))
 
 ;; CSS mode
 (use-package css-mode
