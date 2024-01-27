@@ -404,7 +404,8 @@ With argument ARG, do this that many times."
 
 (use-package elec-pair
   :config
-  (electric-pair-mode +1))
+  (electric-pair-mode +1)
+  :init (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
 
 (use-package multiple-cursors
   :bind ("s-d" . mc/mark-next-like-this-symbol))
@@ -868,9 +869,16 @@ With argument ARG, do this that many times."
 (use-package yaml-mode
   :mode "\\.y[a]ml\\'")
 
+(defvar web-mode-electric-pairs '((?' . ?')) "Electric pairs for org-mode.")
+
+(defun web-mode-add-electric-pairs ()
+  (setq-local electric-pair-pairs (append electric-pair-pairs web-mode-electric-pairs))
+  (setq-local electric-pair-text-pairs electric-pair-pairs))
 ;; Major mode for editing web templates
 (use-package web-mode
-  :hook (web-mode . lsp-deferred)
+  :hook
+  (web-mode . lsp-deferred)
+  (web-mode . web-mode-add-electric-pairs)
   :mode "\\.[px]?html?\\'"
   :mode "\\.\\(?:tpl\\|blade\\)\\(?:\\.php\\)?\\'"
   :mode "\\.erb\\'"
@@ -886,11 +894,6 @@ With argument ARG, do this that many times."
   :mode "\\.eco\\'"
   :mode "wp-content/themes/.+/.+\\.php\\'"
   :mode "templates/.+\\.php\\'"
-  :init
-  ;; If the user has installed `vue-mode' then, by appending this to
-  ;; `auto-mode-alist' rather than prepending it, its autoload will have
-  ;; priority over this one.
-  (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode) 'append)
   :mode "\\.vue\\'"
   :config
   (setq js-indent-level 2)
