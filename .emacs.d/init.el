@@ -424,17 +424,17 @@ With argument ARG, do this that many times."
   (restclient-mode . hs-minor-mode)
   (nxml-mode . hs-minor-mode)
   (web-mode . hs-minor-mode)
-  (html-mode .hs-minor-mode)
+  (html-mode . hs-minor-mode)
   :bind
   ("C-s-[" . hs-hide-block)
   ("C-s-]" . hs-show-block)
   :config
   (add-to-list 'hs-special-modes-alist
-               '(nxml-mode
+               '(web-mode
                  "<!--\\|<[^/>]*[^/]>"
                  "-->\\|</[^/>]*[^/]>"
                  "<!--"
-                 sgml-skip-tag-forward
+                 web-mode-forward-sexp
                  nil)))
 
 (use-package minimap
@@ -897,6 +897,7 @@ With argument ARG, do this that many times."
   :mode "wp-content/themes/.+/.+\\.php\\'"
   :mode "templates/.+\\.php\\'"
   :mode "\\.vue\\'"
+  :mode "\\.astro\\'"
   :config
   (setq js-indent-level 2)
   (setq web-mode-markup-indent-offset 2)
