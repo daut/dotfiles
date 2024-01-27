@@ -27,10 +27,13 @@
 ;; Initialize use-package on non-Linux platforms
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
-
 (require 'use-package)
 (setq use-package-always-ensure t)
 (setq use-package-verbose t) ;; write useful information about package loading
+
+(unless (package-installed-p 'vc-use-package)
+  (package-vc-install "https://github.com/slotThe/vc-use-package"))
+(require 'vc-use-package)
 
 (use-package auto-package-update
   :custom
@@ -722,7 +725,9 @@ With argument ARG, do this that many times."
   (setq lsp-completion-provider :none)
   (setq lsp-headerline-breadcrumb-enable nil)
   (add-to-list 'lsp-disabled-clients '(typescript-mode . vue-semantic-server))
-  (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server)))
+  (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server))
+  ;; https://github.com/emacs-lsp/lsp-mode/issues/2915#issuecomment-855156802
+  (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset))
 
 ;; enhanced ui e.g. documentation popup
 (use-package lsp-ui
@@ -888,6 +893,7 @@ With argument ARG, do this that many times."
   (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode) 'append)
   :mode "\\.vue\\'"
   :config
+  (setq js-indent-level 2)
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
@@ -906,8 +912,16 @@ With argument ARG, do this that many times."
 ;;   :hook (vue-mode . lsp-deferred)
 ;;   :config
 ;;   (setq mmm-submode-decoration-level 2))
-  ;; :custom
-  ;; (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
+;; :custom
+;; (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
+;; (setq treesit-language-source-alist
+;;       '((vue "https://github.com/ikatyang/tree-sitter-vue")
+;;         (css "https://github.com/tree-sitter/tree-sitter-css")
+;;         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
+;; (use-package vue-ts-mode
+;;   :vc (:fetcher github :repo 8uff3r/vue-ts-mode)
+;;   :mode "\\.vue\\'"
+;;   :hook (vue-ts-mode . lsp-deferred))
 
 (use-package elixir-mode
   :mode "\\.exs\\'"
