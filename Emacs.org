@@ -315,6 +315,8 @@ With argument ARG, do this that many times."
 #+begin_src emacs-lisp
 (use-package dashboard
   :ensure t
+  :custom
+  (dashboard-startup-banner 'logo)
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-center-content t

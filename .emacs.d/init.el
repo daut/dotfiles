@@ -249,6 +249,8 @@ With argument ARG, do this that many times."
 
 (use-package dashboard
   :ensure t
+  :custom
+  (dashboard-startup-banner 'logo)
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-center-content t
