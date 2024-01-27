@@ -714,6 +714,10 @@ Helpful is an alternative to emacs builtin help which provides much more context
   (meow-setup))
   ;; (meow-global-mode t))
 #+end_src
+** Guess Indent
+#+begin_src emacs-lisp
+(use-package dtrt-indent)
+#+end_src
 * Org Mode Configuration
 ** Basic Configuration
 
@@ -998,6 +1002,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :mode "\\.js[x]\\'"
   :hook
   (js-mode . lsp-deferred)
+  (js-mode . dtrt-indent-mode)
   ;; (after-save . daut/js-standard-fix-file)
   :bind
   ("C-c /" . daut/js-standard-fix-file)
@@ -1181,7 +1186,7 @@ An alternative to Restclient package
 *** Markdown
 #+begin_src emacs-lisp
 (use-package markdown-mode
-  :hook (markdown-mode . olivetti-mode))
+  :hook ((markdown-mode elfeed-show-mode) . olivetti-mode))
 #+end_src
 *** Mermaid
 Install `mmdc`
@@ -1422,4 +1427,12 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
         gcmh-auto-idle-delay-factor 10
         gcmh-high-cons-threshold #x1000000)) ; 16MB
 
+#+end_src
+* RSS
+#+begin_src emacs-lisp
+(use-package elfeed
+  :config
+  (setq elfeed-feeds
+        '(("https://world.hey.com/dhh/feed.atom" dhh)
+          ("https://stacker.news/rss" stacker))))
 #+end_src

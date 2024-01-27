@@ -558,6 +558,8 @@ With argument ARG, do this that many times."
   (meow-setup))
   ;; (meow-global-mode t))
 
+(use-package dtrt-indent)
+
 (defun daut/org-mode-setup ()
   (org-indent-mode)
   (visual-line-mode 1))
@@ -770,6 +772,7 @@ With argument ARG, do this that many times."
   :mode "\\.js[x]\\'"
   :hook
   (js-mode . lsp-deferred)
+  (js-mode . dtrt-indent-mode)
   ;; (after-save . daut/js-standard-fix-file)
   :bind
   ("C-c /" . daut/js-standard-fix-file)
@@ -921,7 +924,7 @@ With argument ARG, do this that many times."
   (setq lsp-sqls-workspace-config-path "root"))
 
 (use-package markdown-mode
-  :hook (markdown-mode . olivetti-mode))
+  :hook ((markdown-mode elfeed-show-mode) . olivetti-mode))
 
 (use-package mermaid-mode
   :mode "\\.mermaid\\'")
@@ -1100,3 +1103,9 @@ With argument ARG, do this that many times."
   (setq gcmh-idle-delay 'auto
         gcmh-auto-idle-delay-factor 10
         gcmh-high-cons-threshold #x1000000)) ; 16MB
+
+(use-package elfeed
+  :config
+  (setq elfeed-feeds
+        '(("https://world.hey.com/dhh/feed.atom" dhh)
+          ("https://stacker.news/rss" stacker))))
