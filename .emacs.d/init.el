@@ -706,9 +706,9 @@ With argument ARG, do this that many times."
   :diminish yas-minor-mode
   :hook (after-init . yas-global-mode))
 
-(use-package yasnippet-snippets
-  :after yasnippet
-  :config (yasnippet-snippets-initialize))
+;; (use-package yasnippet-snippets
+;;   :after yasnippet
+;;   :config (yasnippet-snippets-initialize))
 
 ;; dired-sidebar uses these
 ;; (use-package vscode-icon)
@@ -760,6 +760,11 @@ With argument ARG, do this that many times."
    :keymaps 'lsp-mode-map
    :prefix lsp-keymap-prefix
    "d" '(dap-hydra t :which-key "debugger")))
+
+(use-package bash-ts-mode
+  :ensure nil
+  :mode "\\.sh\\'"
+  :hook (bash-ts-mode . lsp-deferred))
 
 (use-package typescript-mode
   :mode "\\.ts[x]\\'"
@@ -817,12 +822,14 @@ With argument ARG, do this that many times."
   :config
   (setq lua-indent-level 2))
 
-(use-package go-mode
+(use-package go-ts-mode
+  :ensure nil
   :mode "\\.go\\'"
   :hook
-  (go-mode . lsp-deferred)
+  (go-ts-mode . lsp-deferred)
   (before-save . gofmt-before-save)
-  (go-mode . (lambda () (setq tab-width 2)))
+  :custom
+  (go-ts-mode-indent-offset 2)
   :config
   (require 'dap-go)
   (dap-go-setup))
@@ -920,10 +927,6 @@ With argument ARG, do this that many times."
 ;;   (setq mmm-submode-decoration-level 2))
 ;; :custom
 ;; (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
-;; (setq treesit-language-source-alist
-;;       '((vue "https://github.com/ikatyang/tree-sitter-vue")
-;;         (css "https://github.com/tree-sitter/tree-sitter-css")
-;;         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
 ;; (use-package vue-ts-mode
 ;;   :vc (:fetcher github :repo 8uff3r/vue-ts-mode)
 ;;   :mode "\\.vue\\'"
@@ -966,6 +969,21 @@ With argument ARG, do this that many times."
 (use-package simple-httpd)
 
 (use-package rg)
+
+(use-package treesit
+  :ensure nil
+  :config
+  (setq treesit-language-source-alist
+      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+        (css "https://github.com/tree-sitter/tree-sitter-css")
+        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+        (go "https://github.com/tree-sitter/tree-sitter-go")
+        (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        (vue "https://github.com/ikatyang/tree-sitter-vue")))
+  (setq treesit-font-lock-level 4))
 
 (use-package gptel)
 
