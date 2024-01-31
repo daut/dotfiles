@@ -1221,6 +1221,11 @@ https://github.com/mermaid-js/mermaid-cli
 (use-package mermaid-mode
   :mode "\\.mermaid\\'")
 #+end_src
+*** PHP
+#+begin_src emacs-lisp
+(use-package php-mode
+  :hook (php-mode . lsp-deferred))
+#+end_src
 
 ** Flycheck
 #+begin_src emacs-lisp

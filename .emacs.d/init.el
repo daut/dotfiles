@@ -952,6 +952,9 @@ With argument ARG, do this that many times."
 (use-package mermaid-mode
   :mode "\\.mermaid\\'")
 
+(use-package php-mode
+  :hook (php-mode . lsp-deferred))
+
 (use-package flycheck
   :diminish
   :commands flycheck-redefine-standard-error-levels
