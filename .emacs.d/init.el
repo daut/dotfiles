@@ -693,7 +693,8 @@ With argument ARG, do this that many times."
   (setq company-dabbrev-downcase t)
   (setq completion-ignore-case t)
   (setq company-transformers '(delete-consecutive-dups
-                             company-sort-by-occurrence))
+                             company-sort-by-occurrence
+                             company-sort-prefer-same-case-prefix))
   :init
   (setq company-backends '((company-capf :with company-yasnippet company-dabbrev-code)
                            (company-dabbrev-code company-keywords company-files)
@@ -727,11 +728,24 @@ With argument ARG, do this that many times."
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :config
+  ;; (with-eval-after-load 'lsp-mode
+  ;;   (add-to-list 'lsp-language-id-configuration
+  ;;                '(web-mode . "web"))
+  ;;   (lsp-register-client
+  ;;    (make-lsp-client :new-connection
+  ;;                     (lambda ()
+  ;;                       `(,(lsp-package-path 'emmet-language-server) "--stdio"))
+  ;;                     :activation-fn (lsp-activate-on "web")
+  ;;                     :priority -1
+  ;;                     :server-id 'emmet-language-server
+  ;;                     :add-on? t
+  ;;                     :multi-root t)))
   (lsp-enable-which-key-integration t)
   (setq lsp-completion-provider :none)
   (setq lsp-headerline-breadcrumb-enable nil)
   (add-to-list 'lsp-disabled-clients '(typescript-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server))
+  (add-to-list 'lsp-disabled-clients '(css-mode . vue-semantic-server))
   ;; https://github.com/emacs-lsp/lsp-mode/issues/2915#issuecomment-855156802
   (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset))
 
@@ -989,6 +1003,8 @@ With argument ARG, do this that many times."
           (vue "https://github.com/ikatyang/tree-sitter-vue")))
   (setq treesit-font-lock-level 4))
 
+(use-package devdocs)
+
 (use-package gptel)
 
 (use-package magit
@@ -1052,7 +1068,7 @@ With argument ARG, do this that many times."
 ;; Make buffer list usable after previous changes
 ;; https://github.com/syl20bnr/spacemacs/issues/7661
 ;; https://github.com/syl20bnr/spacemacs/issues/2667#issuecomment-136155556
-(add-hook 'Buffer-menu-mode-hook
+(add-hook 'Buffer-menu-mode-hook 
           (lambda ()
             (setq-local revert-buffer-function
                         (lambda (&rest args)))))
@@ -1105,7 +1121,7 @@ With argument ARG, do this that many times."
                                       "*esh command on file*")))
 
 (use-package ace-window
-  :bind
+  :bind 
   (("s-[" . (lambda () (interactive) (other-window -1)))
   ("s-]" . (lambda () (interactive) (other-window 1)))))
 

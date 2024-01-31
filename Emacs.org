@@ -899,7 +899,8 @@ Helpful is an alternative to emacs builtin help which provides much more context
   (setq company-dabbrev-downcase t)
   (setq completion-ignore-case t)
   (setq company-transformers '(delete-consecutive-dups
-                             company-sort-by-occurrence))
+                             company-sort-by-occurrence
+                             company-sort-prefer-same-case-prefix))
   :init
   (setq company-backends '((company-capf :with company-yasnippet company-dabbrev-code)
                            (company-dabbrev-code company-keywords company-files)
@@ -917,7 +918,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :diminish yas-minor-mode
   :hook (after-init . yas-global-mode)
   :config
-  (setq yas-snippet-dirs '("~/emacs.d/snippets")))
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
 ;; (use-package yasnippet-snippets
 ;;   :after yasnippet
@@ -946,11 +947,24 @@ Helpful is an alternative to emacs builtin help which provides much more context
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :config
+  ;; (with-eval-after-load 'lsp-mode
+  ;;   (add-to-list 'lsp-language-id-configuration
+  ;;                '(web-mode . "web"))
+  ;;   (lsp-register-client
+  ;;    (make-lsp-client :new-connection
+  ;;                     (lambda ()
+  ;;                       `(,(lsp-package-path 'emmet-language-server) "--stdio"))
+  ;;                     :activation-fn (lsp-activate-on "web")
+  ;;                     :priority -1
+  ;;                     :server-id 'emmet-language-server
+  ;;                     :add-on? t
+  ;;                     :multi-root t)))
   (lsp-enable-which-key-integration t)
   (setq lsp-completion-provider :none)
   (setq lsp-headerline-breadcrumb-enable nil)
   (add-to-list 'lsp-disabled-clients '(typescript-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server))
+  (add-to-list 'lsp-disabled-clients '(css-mode . vue-semantic-server))
   ;; https://github.com/emacs-lsp/lsp-mode/issues/2915#issuecomment-855156802
   (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset))
 
@@ -1272,6 +1286,10 @@ https://github.com/mermaid-js/mermaid-cli
           (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
           (vue "https://github.com/ikatyang/tree-sitter-vue")))
   (setq treesit-font-lock-level 4))
+#+end_src
+** Docs
+#+begin_src emacs-lisp
+(use-package devdocs)
 #+end_src
 * AI Assistants
 #+begin_src emacs-lisp
