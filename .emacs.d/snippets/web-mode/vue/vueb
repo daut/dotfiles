@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+name: vue-base
+key: vueb
+group: vue
+# --
+
+<script setup>
+
+</script>
+
+<template>
+
+</template>
+
+<script scoped>
+
+</script>

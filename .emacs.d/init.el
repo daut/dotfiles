@@ -285,6 +285,8 @@ With argument ARG, do this that many times."
 
 (use-package nerd-icons)
 
+(use-package nyan-mode
+  :hook (after-init . nyan-mode))
 ;; Hide modelline in some major modes
 (use-package hide-mode-line
   :hook (((eshell-mode shell-mode
@@ -691,8 +693,7 @@ With argument ARG, do this that many times."
   (setq company-dabbrev-downcase t)
   (setq completion-ignore-case t)
   (setq company-transformers '(delete-consecutive-dups
-                             company-sort-by-occurrence
-                             company-sort-by-backend-importance))
+                             company-sort-by-occurrence))
   :init
   (setq company-backends '((company-capf :with company-yasnippet company-dabbrev-code)
                            (company-dabbrev-code company-keywords company-files)
@@ -704,11 +705,13 @@ With argument ARG, do this that many times."
 ;; yasnippet
 (use-package yasnippet
   :diminish yas-minor-mode
-  :hook (after-init . yas-global-mode))
+  :hook (after-init . yas-global-mode)
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
-(use-package yasnippet-snippets
-  :after yasnippet
-  :config (yasnippet-snippets-initialize))
+;; (use-package yasnippet-snippets
+;;   :after yasnippet
+;;   :config (yasnippet-snippets-initialize))
 
 ;; dired-sidebar uses these
 ;; (use-package vscode-icon)
@@ -761,6 +764,9 @@ With argument ARG, do this that many times."
    :prefix lsp-keymap-prefix
    "d" '(dap-hydra t :which-key "debugger")))
 
+(use-package astro-ts-mode
+  :mode "\\.astro\\'")
+
 (use-package typescript-mode
   :mode "\\.ts[x]\\'"
   :hook (typescript-mode . lsp-deferred)
@@ -777,7 +783,7 @@ With argument ARG, do this that many times."
 
 (use-package js-mode
   :ensure nil
-  :mode "\\.js[x]\\'"
+  :mode "\\.[c]js[x]\\'"
   :hook
   (js-mode . lsp-deferred)
   (js-mode . dtrt-indent-mode)
@@ -920,10 +926,7 @@ With argument ARG, do this that many times."
 ;;   (setq mmm-submode-decoration-level 2))
 ;; :custom
 ;; (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
-;; (setq treesit-language-source-alist
-;;       '((vue "https://github.com/ikatyang/tree-sitter-vue")
-;;         (css "https://github.com/tree-sitter/tree-sitter-css")
-;;         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
+
 ;; (use-package vue-ts-mode
 ;;   :vc (:fetcher github :repo 8uff3r/vue-ts-mode)
 ;;   :mode "\\.vue\\'"
@@ -966,6 +969,22 @@ With argument ARG, do this that many times."
 (use-package simple-httpd)
 
 (use-package rg)
+
+(use-package treesit
+  :ensure nil
+  :config
+  (setq treesit-language-source-alist
+        '((astro "https://github.com/virchau13/tree-sitter-astro")
+          (bash "https://github.com/tree-sitter/tree-sitter-bash")
+          (css "https://github.com/tree-sitter/tree-sitter-css")
+          (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+          (go "https://github.com/tree-sitter/tree-sitter-go")
+          (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+          (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+          (vue "https://github.com/ikatyang/tree-sitter-vue")))
+  (setq treesit-font-lock-level 4))
 
 (use-package gptel)
 
@@ -1030,7 +1049,7 @@ With argument ARG, do this that many times."
 ;; Make buffer list usable after previous changes
 ;; https://github.com/syl20bnr/spacemacs/issues/7661
 ;; https://github.com/syl20bnr/spacemacs/issues/2667#issuecomment-136155556
-(add-hook 'Buffer-menu-mode-hook 
+(add-hook 'Buffer-menu-mode-hook
           (lambda ()
             (setq-local revert-buffer-function
                         (lambda (&rest args)))))
@@ -1083,7 +1102,7 @@ With argument ARG, do this that many times."
                                       "*esh command on file*")))
 
 (use-package ace-window
-  :bind 
+  :bind
   (("s-[" . (lambda () (interactive) (other-window -1)))
   ("s-]" . (lambda () (interactive) (other-window 1)))))
 
