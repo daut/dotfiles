@@ -224,7 +224,7 @@ With argument ARG, do this that many times."
 ;; Show line numbers
 (use-package display-line-numbers
   :ensure nil
-  :hook ((prog-mode yaml-mode conf-mode) . display-line-numbers-mode)
+  :hook ((prog-mode yaml-mode conf-mode astro-ts-mode) . display-line-numbers-mode)
   :init (setq display-line-numbers-width-start t))
 
 ;; highlight current cursor line
@@ -327,7 +327,7 @@ With argument ARG, do this that many times."
   "ws" '(hydra-window-scale/body :which-key "horizontally scale window"))
 
 (use-package highlight-indent-guides
-  :hook (prog-mode . highlight-indent-guides-mode)
+  :hook ((prog-mode astro-ts-mode) . highlight-indent-guides-mode)
   :init (setq highlight-indent-guides-method 'character
               highlight-indent-guides-responsive 'top
               highlight-indent-guides-suppress-auto-error t))
@@ -419,6 +419,12 @@ With argument ARG, do this that many times."
   ("C-s-j" . 'move-text-down)
   ("C-s-k" . 'move-text-up))
 
+(defun daut/html-forward (arg)
+  (interactive "P")
+  (pcase (get-text-property (point) `mhtml-submode)
+    (`nil (sgml-skip-tag-forward 1))
+    (submode (forward-sexp))))
+
 (use-package hideshow
   :diminish hs-minor-mode
   :hook
@@ -437,6 +443,13 @@ With argument ARG, do this that many times."
                  "-->\\|</[^/>]*[^/]>"
                  "<!--"
                  web-mode-forward-sexp
+                 nil))
+  (add-to-list 'hs-special-modes-alist
+               '(astro-ts-mode
+                 "<!--\\|<[^/>]*[^/]>"
+                 "-->\\|</[^/>]*[^/]>"
+                 "<!--"
+                 daut/html-forward
                  nil)))
 
 (use-package minimap
@@ -745,6 +758,7 @@ With argument ARG, do this that many times."
   (setq lsp-headerline-breadcrumb-enable nil)
   (add-to-list 'lsp-disabled-clients '(typescript-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server))
+  (add-to-list 'lsp-disabled-clients '(astro-ts-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(css-mode . vue-semantic-server))
   ;; https://github.com/emacs-lsp/lsp-mode/issues/2915#issuecomment-855156802
   (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset))
@@ -779,7 +793,8 @@ With argument ARG, do this that many times."
    "d" '(dap-hydra t :which-key "debugger")))
 
 (use-package astro-ts-mode
-  :mode "\\.astro\\'")
+  :mode "\\.astro\\'"
+  :hook (astro-ts-mode . lsp-deferred))
 
 (use-package typescript-mode
   :mode "\\.ts[x]\\'"
