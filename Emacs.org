@@ -961,18 +961,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :config
-  ;; (with-eval-after-load 'lsp-mode
-  ;;   (add-to-list 'lsp-language-id-configuration
-  ;;                '(web-mode . "web"))
-  ;;   (lsp-register-client
-  ;;    (make-lsp-client :new-connection
-  ;;                     (lambda ()
-  ;;                       `(,(lsp-package-path 'emmet-language-server) "--stdio"))
-  ;;                     :activation-fn (lsp-activate-on "web")
-  ;;                     :priority -1
-  ;;                     :server-id 'emmet-language-server
-  ;;                     :add-on? t
-  ;;                     :multi-root t)))
   (lsp-enable-which-key-integration t)
   (setq lsp-completion-provider :none)
   (setq lsp-headerline-breadcrumb-enable nil)
@@ -981,7 +969,8 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (add-to-list 'lsp-disabled-clients '(astro-ts-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(css-mode . vue-semantic-server))
   ;; https://github.com/emacs-lsp/lsp-mode/issues/2915#issuecomment-855156802
-  (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset))
+  (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset)
+  (setq lsp-diagnostics-provider :none))
 
 ;; enhanced ui e.g. documentation popup
 (use-package lsp-ui
