@@ -634,9 +634,10 @@ Helpful is an alternative to emacs builtin help which provides much more context
 (global-set-key (kbd "s-T") 'daut/reopen-killed-file)
 #+end_src
 ** Respect .editorconfig
+Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even though there is no .editorconfig present in the project. 
 #+begin_src emacs-lisp
-(use-package editorconfig
-  :hook (after-init . editorconfig-mode))
+;; (use-package editorconfig
+;;   :hook (after-init . editorconfig-mode))
 #+end_src
 ** Olivetti for nicer text editing
 #+begin_src emacs-lisp
