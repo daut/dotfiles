@@ -67,6 +67,9 @@
 
 ;; (server-start)
 
+(add-to-list 'Info-directory-list
+             (expand-file-name "./books" user-emacs-directory))
+
 (use-package emacs
   :config
   (defvar daut/default-font-size 150)

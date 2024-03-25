@@ -94,6 +94,11 @@ Environment variables sometimes aren't right, this fixes it.
 #+begin_src emacs-lisp
 ;; (server-start)
 #+end_src
+* Info Docs
+#+begin_src emacs-lisp
+(add-to-list 'Info-directory-list
+             (expand-file-name "./books" user-emacs-directory))
+#+end_src
 * Font Configuration
 
 #+begin_src emacs-lisp
