@@ -765,6 +765,7 @@ With argument ARG, do this that many times."
   (add-to-list 'lsp-disabled-clients '(css-mode . vue-semantic-server))
   ;; https://github.com/emacs-lsp/lsp-mode/issues/2915#issuecomment-855156802
   (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset)
+  ;; turn off lsp diagnostics to let flycheck do the job
   (setq lsp-diagnostics-provider :none))
 
 ;; enhanced ui e.g. documentation popup
@@ -936,9 +937,7 @@ With argument ARG, do this that many times."
   :mode "wp-content/themes/.+/.+\\.php\\'"
   :mode "templates/.+\\.php\\'"
   :mode "\\.vue\\'"
-  :mode "\\.astro\\'"
   :config
-  (setq js-indent-level 2)
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
