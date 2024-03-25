@@ -987,10 +987,18 @@ With argument ARG, do this that many times."
 (use-package php-mode
   :hook (php-mode . lsp-deferred))
 
+(use-package dotenv-mode
+  :mode "\\.env\\..*\\'")
+
 (use-package flycheck
   :diminish
   :commands flycheck-redefine-standard-error-levels
-  :hook (after-init . global-flycheck-mode))
+  :hook (after-init . global-flycheck-mode)
+  :config
+  (flycheck-add-mode 'javascript-eslint 'web-mode))
+
+(use-package apheleia
+  :hook (after-init . apheleia-global-mode))
 
 (use-package avy
   :bind (("s-." . avy-goto-word-or-subword-1)

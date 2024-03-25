@@ -1249,6 +1249,11 @@ https://github.com/mermaid-js/mermaid-cli
 (use-package php-mode
   :hook (php-mode . lsp-deferred))
 #+end_src
+*** DotEnv
+#+begin_src emacs-lisp
+(use-package dotenv-mode
+  :mode "\\.env\\..*\\'")
+#+end_src
 
 ** Flycheck
 #+begin_src emacs-lisp
@@ -1256,8 +1261,16 @@ https://github.com/mermaid-js/mermaid-cli
 (use-package flycheck
   :diminish
   :commands flycheck-redefine-standard-error-levels
-  :hook (after-init . global-flycheck-mode))
+  :hook (after-init . global-flycheck-mode)
+  :config
+  (flycheck-add-mode 'javascript-eslint 'web-mode))
 
+#+end_src
+
+** Code Formatting
+#+begin_src emacs-lisp
+(use-package apheleia
+  :hook (after-init . apheleia-global-mode))
 #+end_src
 ** Avy
 #+begin_src emacs-lisp
