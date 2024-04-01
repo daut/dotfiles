@@ -356,7 +356,8 @@ With argument ARG, do this that many times."
 (use-package doom-themes
   :config
   ;; (load-theme 'doom-zenburn t)
-  (load-theme 'doom-challenger-deep t)
+  ;; (load-theme 'doom-challenger-deep t)
+  (load-theme 'doom-ephemeral t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config))
 
@@ -970,13 +971,14 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (setq lsp-completion-provider :none)
   (setq lsp-headerline-breadcrumb-enable nil)
   (add-to-list 'lsp-disabled-clients '(typescript-mode . vue-semantic-server))
+  (add-to-list 'lsp-disabled-clients '(typescript-ts-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(astro-ts-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(css-mode . vue-semantic-server))
   ;; https://github.com/emacs-lsp/lsp-mode/issues/2915#issuecomment-855156802
-  (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset)
+  (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset))
   ;; turn off lsp diagnostics to let flycheck do the job
-  (setq lsp-diagnostics-provider :none))
+  ;; (setq lsp-diagnostics-provider :none))
 
 ;; enhanced ui e.g. documentation popup
 (use-package lsp-ui

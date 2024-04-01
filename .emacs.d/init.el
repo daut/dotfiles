@@ -278,7 +278,8 @@ With argument ARG, do this that many times."
 (use-package doom-themes
   :config
   ;; (load-theme 'doom-zenburn t)
-  (load-theme 'doom-challenger-deep t)
+  ;; (load-theme 'doom-challenger-deep t)
+  (load-theme 'doom-ephemeral t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config))
 
@@ -726,10 +727,6 @@ With argument ARG, do this that many times."
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
-;; (use-package yasnippet-snippets
-;;   :after yasnippet
-;;   :config (yasnippet-snippets-initialize))
-
 ;; dired-sidebar uses these
 ;; (use-package vscode-icon)
 
@@ -744,29 +741,18 @@ With argument ARG, do this that many times."
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :config
-  ;; (with-eval-after-load 'lsp-mode
-  ;;   (add-to-list 'lsp-language-id-configuration
-  ;;                '(web-mode . "web"))
-  ;;   (lsp-register-client
-  ;;    (make-lsp-client :new-connection
-  ;;                     (lambda ()
-  ;;                       `(,(lsp-package-path 'emmet-language-server) "--stdio"))
-  ;;                     :activation-fn (lsp-activate-on "web")
-  ;;                     :priority -1
-  ;;                     :server-id 'emmet-language-server
-  ;;                     :add-on? t
-  ;;                     :multi-root t)))
   (lsp-enable-which-key-integration t)
   (setq lsp-completion-provider :none)
   (setq lsp-headerline-breadcrumb-enable nil)
   (add-to-list 'lsp-disabled-clients '(typescript-mode . vue-semantic-server))
+  (add-to-list 'lsp-disabled-clients '(typescript-ts-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(astro-ts-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(css-mode . vue-semantic-server))
   ;; https://github.com/emacs-lsp/lsp-mode/issues/2915#issuecomment-855156802
-  (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset)
+  (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset))
   ;; turn off lsp diagnostics to let flycheck do the job
-  (setq lsp-diagnostics-provider :none))
+  ;; (setq lsp-diagnostics-provider :none))
 
 ;; enhanced ui e.g. documentation popup
 (use-package lsp-ui
