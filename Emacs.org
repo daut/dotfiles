@@ -940,10 +940,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
-;; (use-package yasnippet-snippets
-;;   :after yasnippet
-;;   :config (yasnippet-snippets-initialize))
-
 #+end_src
 ** Dired sidebar
 #+begin_src emacs-lisp
@@ -1315,9 +1311,26 @@ https://github.com/mermaid-js/mermaid-cli
 #+begin_src emacs-lisp
 (use-package devdocs)
 #+end_src
-* AI Assistants
+* Database Client
 #+begin_src emacs-lisp
-(use-package gptel)
+(use-package ejc-sql)
+#+end_src
+* AI Assistants
+** gptel
+#+begin_src emacs-lisp
+(use-package gptel
+  :config
+  (setq gptel-model "gpt-4-turbo-preview"))
+#+end_src
+** copilot.el
+#+begin_src emacs-lisp
+(use-package copilot
+  :vc (:fetcher github :repo copilot-emacs/copilot.el)
+  :hook (prog-mode . copilot-mode)
+  :config
+  (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
+  (setq copilot-indent-offset-warning-disable t))
 #+end_src
 * VCS
 ** Magit
