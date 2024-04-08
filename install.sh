@@ -21,6 +21,7 @@ brew install zsh-autosuggestions
 brew install cmake
 brew install coreutils
 brew install ripgrep
+brew install inetutils # for ftp
 
 # add taps
 brew tap homebrew/cask-versions
