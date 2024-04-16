@@ -1197,6 +1197,11 @@ An alternative to Restclient package
 #+end_src
 *** Vue
 #+begin_src emacs-lisp
+;; https://github.com/emacs-lsp/lsp-mode/issues/4313#issuecomment-2051461893
+(with-eval-after-load 'lsp-volar
+  (lsp-dependency 'typescript
+                  '(:npm :package "typescript"
+                         :path "tsserver")))
 ;; vue-language-server should be installed too. npm i -g vls
 ;; (use-package vue-mode
 ;;   :mode "\\.vue\\'"
