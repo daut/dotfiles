@@ -703,6 +703,8 @@ With argument ARG, do this that many times."
   ;; (:map lsp-mode-map
   ;;       ("<tab>" . company-indent-or-complete-column))
   :config
+  ;; Number the candidates (use M-1, M-2 etc to select completions).
+  (company-show-numbers t)
   (setq company-minimum-prefix-length 1)
   (setq company-idle-delay 0.15)
   (setq company-dabbrev-code-ignore-case t)
