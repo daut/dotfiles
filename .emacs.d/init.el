@@ -923,12 +923,15 @@ With argument ARG, do this that many times."
   :mode "wp-content/themes/.+/.+\\.php\\'"
   :mode "templates/.+\\.php\\'"
   :mode "\\.vue\\'"
+  :mode "\\.tmpl\\'"
   :config
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-script-padding 0)
-  (setq web-mode-style-padding 0))
+  (setq web-mode-style-padding 0)
+  (setq web-mode-engines-alist
+        '(("go" . "\\.tmpl\\'"))))
 
 ;; CSS mode
 (use-package css-mode
