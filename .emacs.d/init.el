@@ -1030,11 +1030,17 @@ With argument ARG, do this that many times."
 
 (use-package copilot
   :vc (:fetcher github :repo copilot-emacs/copilot.el)
-  :hook ((prog-mode restclient-mode) . copilot-mode)
+  :hook ((prog-mode restclient-mode eshell-mode) . copilot-mode)
   :config
   (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
-  (setq copilot-indent-offset-warning-disable t))
+  (setq copilot-indent-offset-warning-disable t)
+  (setq copilot-max-char 1000000)
+  (defun daut/activate-copilot ()
+    (if (> (buffer-size) copilot-max-char)
+        ;; Or don't even warn to get rid of it.
+        (warn "Buffer size exceeds copilot max char limit. Copilot will not be activated.")
+      (copilot-mode))))
 
 (use-package magit
   :commands magit-status)
