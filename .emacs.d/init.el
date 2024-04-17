@@ -989,6 +989,7 @@ With argument ARG, do this that many times."
   (flycheck-add-mode 'javascript-eslint 'web-mode))
 
 (use-package apheleia
+  :vc (:fetcher github :repo radian-software/apheleia)
   :hook (after-init . apheleia-global-mode))
 
 (use-package avy

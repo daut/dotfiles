@@ -1273,6 +1273,7 @@ https://github.com/mermaid-js/mermaid-cli
 ** Code Formatting
 #+begin_src emacs-lisp
 (use-package apheleia
+  :vc (:fetcher github :repo radian-software/apheleia)
   :hook (after-init . apheleia-global-mode))
 #+end_src
 ** Avy
