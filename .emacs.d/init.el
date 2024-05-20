@@ -73,7 +73,10 @@
 (use-package emacs
   :config
   (defvar daut/default-font-size 150)
-  (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size))
+  (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size)
+  ;; necessary as a fallback for org-modern mode
+  (set-fontset-font "fontset-default" '(#x2BC6 . #x2BC6)
+                    (font-spec :family "Iosevka Aile") nil 'append))
 
 (use-package which-key
   :defer 0
@@ -279,7 +282,8 @@ With argument ARG, do this that many times."
   :config
   ;; (load-theme 'doom-zenburn t)
   ;; (load-theme 'doom-challenger-deep t)
-  (load-theme 'doom-ephemeral t)
+  ;; (load-theme 'doom-ephemeral t)
+  (load-theme 'doom-tokyo-night)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config))
 
@@ -439,22 +443,15 @@ With argument ARG, do this that many times."
   (html-mode . hs-minor-mode)
   :bind
   ("C-s-[" . hs-hide-block)
-  ("C-s-]" . hs-show-block)
-  :config
-  (add-to-list 'hs-special-modes-alist
-               '(web-mode
-                 "<!--\\|<[^/>]*[^/]>"
-                 "-->\\|</[^/>]*[^/]>"
-                 "<!--"
-                 web-mode-forward-sexp
-                 nil))
-  (add-to-list 'hs-special-modes-alist
-               '(astro-ts-mode
-                 "<!--\\|<[^/>]*[^/]>"
-                 "-->\\|</[^/>]*[^/]>"
-                 "<!--"
-                 daut/html-forward
-                 nil)))
+  ("C-s-]" . hs-show-block))
+  ;; :config
+  ;; (add-to-list 'hs-special-modes-alist
+  ;;              '(web-mode
+  ;;                "<!--\\|<[^/>]*[^/]>"
+  ;;                "-->\\|</[^/>]*[^/]>"
+  ;;                "<!--"
+  ;;                web-mode-forward-sexp
+  ;;                nil)))
 
 (use-package minimap
   :defer t
@@ -611,6 +608,9 @@ With argument ARG, do this that many times."
                                  (file+headline "~/projects/org/gtd/tickler.org" "Tickler")
                                  "* %i% \n %U"))))
 
+(use-package org-modern
+  :hook (org-mode . org-modern-mode))
+
 ;; same effect for `tab' as in the language major mode buffer
 (setq
  org-src-preserve-indentation t
@@ -704,7 +704,7 @@ With argument ARG, do this that many times."
   ;;       ("<tab>" . company-indent-or-complete-column))
   :config
   ;; Number the candidates (use M-1, M-2 etc to select completions).
-  (company-show-numbers t)
+  (setq company-show-numbers t)
   (setq company-minimum-prefix-length 1)
   (setq company-idle-delay 0.15)
   (setq company-dabbrev-code-ignore-case t)
@@ -785,9 +785,9 @@ With argument ARG, do this that many times."
    :prefix lsp-keymap-prefix
    "d" '(dap-hydra t :which-key "debugger")))
 
-(use-package astro-ts-mode
-  :mode "\\.astro\\'"
-  :hook (astro-ts-mode . lsp-deferred))
+;; (use-package astro-ts-mode
+;;   :mode "\\.astro\\'"
+;;   :hook (astro-ts-mode . lsp-deferred))
 
 (use-package typescript-mode
   :mode "\\.ts[x]\\'"
@@ -805,15 +805,15 @@ With argument ARG, do this that many times."
 
 (use-package js-mode
   :ensure nil
-  :mode "\\.[c]js[x]\\'"
+  :mode "\\.[c|m]js[x]\\'"
   :hook
   (js-mode . lsp-deferred)
   (js-mode . dtrt-indent-mode)
   ;; (after-save . daut/js-standard-fix-file)
-  :bind
-  ("C-c /" . daut/js-standard-fix-file)
   :config
-  (setq js-indent-level 2))
+  (setq js-indent-level 2)
+  :bind
+  ("C-c /" . daut/js-standard-fix-file))
 
 ;; Adds node_modules/.bin directory to `exec_path'
 ;; This allows Emacs to find project based installs of e.g. eslint.
@@ -926,6 +926,9 @@ With argument ARG, do this that many times."
   :mode "templates/.+\\.php\\'"
   :mode "\\.vue\\'"
   :mode "\\.tmpl\\'"
+  :mode "\\.gotmpl\\'"
+  :mode "\\.gohtml\\'"
+  :mode "\\.astro\\'"
   :config
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
@@ -986,6 +989,8 @@ With argument ARG, do this that many times."
 (use-package dotenv-mode
   :mode "\\.env\\..*\\'")
 
+(use-package dockerfile-mode)
+
 (use-package flycheck
   :diminish
   :commands flycheck-redefine-standard-error-levels
@@ -995,7 +1000,10 @@ With argument ARG, do this that many times."
 
 (use-package apheleia
   :vc (:fetcher github :repo radian-software/apheleia)
-  :hook (after-init . apheleia-global-mode))
+  :hook (after-init . apheleia-global-mode)
+  :config
+  (setf (alist-get 'eslint apheleia-formatters)
+        '("apheleia-npx" "eslint" "--fix" "--fix-type" "problem,suggestion,layout" file)))
 
 (use-package avy
   :bind (("s-." . avy-goto-word-or-subword-1)
@@ -1032,7 +1040,8 @@ With argument ARG, do this that many times."
 
 (use-package gptel
   :config
-  (setq gptel-model "gpt-4-turbo-preview"))
+  (setq gptel-model "gpt-4-turbo-preview")
+  (add-to-list 'gptel-directives '(proofreader . "I want you act as a proofreader. I will provide you texts and I would like you to review them for any spelling, grammar, or punctuation errors. Once you have finished reviewing the text, provide me with any necessary corrections or suggestions to improve the text.")))
 
 (use-package copilot
   :vc (:fetcher github :repo copilot-emacs/copilot.el)
