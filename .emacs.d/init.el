@@ -845,12 +845,27 @@ With argument ARG, do this that many times."
   :config
   (setq lua-indent-level 2))
 
+(defun daut/go-fold-imports ()
+  "Fold import statements in go file"
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^import" nil t)
+      (let ((start (point)))
+        (forward-line)
+        (while (looking-at "^[ \t]+\"")
+          (forward-line))
+        (let ((end (point)))
+          (hs-hide-block))
+        (goto-char start)))))
+
 (use-package go-mode
   :mode "\\.go\\'"
   :hook
   (go-mode . lsp-deferred)
   (before-save . gofmt-before-save)
   (go-mode . (lambda () (setq tab-width 2)))
+  (go-mode . daut/go-fold-imports)
   :config
   (require 'dap-go)
   (dap-go-setup))
@@ -909,6 +924,7 @@ With argument ARG, do this that many times."
   :hook
   (web-mode . lsp-deferred)
   (web-mode . web-mode-add-electric-pairs)
+  (web-mode . dtrt-indent-mode)
   :mode "\\.[px]?html?\\'"
   :mode "\\.\\(?:tpl\\|blade\\)\\(?:\\.php\\)?\\'"
   :mode "\\.erb\\'"
