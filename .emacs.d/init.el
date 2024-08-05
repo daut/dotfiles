@@ -1084,6 +1084,20 @@ With argument ARG, do this that many times."
   :config (global-git-gutter-mode t))
 ;; try hl-mode (dired-mode . diff-hl-dired-mode)
 
+(use-package blamer
+  :ensure t
+  :bind (("s-i" . blamer-show-commit-info)
+         ("C-c i" . blamer-show-posframe-commit-info))
+  :defer 20
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 140
+                    :italic t))))
+
 (use-package term
   :commands term
   :config
