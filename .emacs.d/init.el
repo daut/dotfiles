@@ -1061,7 +1061,7 @@ With argument ARG, do this that many times."
 
 (use-package copilot
   :vc (:fetcher github :repo copilot-emacs/copilot.el)
-  :hook ((prog-mode restclient-mode eshell-mode) . copilot-mode)
+  :hook ((prog-mode restclient-mode eshell-mode yaml-mode) . copilot-mode)
   :config
   (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
