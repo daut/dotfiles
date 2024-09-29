@@ -964,21 +964,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
 #+end_src
-** Dired sidebar
-#+begin_src emacs-lisp
-
-;; dired-sidebar uses these
-;; (use-package vscode-icon)
-
-(use-package dired-sidebar
-  :bind (("s-b" . dired-sidebar-toggle-sidebar))
-  :commands (dired-sidebar-toggle-sidebar)
-  :custom
-  (dired-sidebar-display-alist '((side . right)))
-  :config
-  (setq dired-sidebar-theme 'nerd))
-
-#+end_src
 ** Languages
 *** Language Servers
 #+begin_src emacs-lisp
@@ -1541,7 +1526,32 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
   :hook (dired-mode . nerd-icons-dired-mode))
 
 #+end_src
+** Dired sidebar
+#+begin_src emacs-lisp
+
+;; dired-sidebar uses these
+;; (use-package vscode-icon)
+
+(use-package dired-sidebar
+  :bind (("s-b" . dired-sidebar-toggle-sidebar))
+  :commands (dired-sidebar-toggle-sidebar)
+  :custom
+  (dired-sidebar-display-alist '((side . right)))
+  :config
+  (setq dired-sidebar-theme 'nerd))
+
+#+end_src
 * Window Management
+** Basic
+#+begin_src emacs-lisp
+(setq switch-to-buffer-obey-display-actions t)
+
+(defun daut/toggle-window-dedication ()
+  "Toggles window dedication in the selected window."
+  (interactive)
+  (set-window-dedicated-p (selected-window)
+                          (not (window-dedicated-p (selected-window)))))
+#+end_src
 ** Winner Mode
 #+begin_src emacs-lisp
 (use-package winner-mode

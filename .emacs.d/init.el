@@ -750,17 +750,6 @@ With argument ARG, do this that many times."
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
-;; dired-sidebar uses these
-;; (use-package vscode-icon)
-
-(use-package dired-sidebar
-  :bind (("s-b" . dired-sidebar-toggle-sidebar))
-  :commands (dired-sidebar-toggle-sidebar)
-  :custom
-  (dired-sidebar-display-alist '((side . right)))
-  :config
-  (setq dired-sidebar-theme 'nerd))
-
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :config
@@ -1205,6 +1194,25 @@ With argument ARG, do this that many times."
   ;; :custom-face
   ;; (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
   :hook (dired-mode . nerd-icons-dired-mode))
+
+;; dired-sidebar uses these
+;; (use-package vscode-icon)
+
+(use-package dired-sidebar
+  :bind (("s-b" . dired-sidebar-toggle-sidebar))
+  :commands (dired-sidebar-toggle-sidebar)
+  :custom
+  (dired-sidebar-display-alist '((side . right)))
+  :config
+  (setq dired-sidebar-theme 'nerd))
+
+(setq switch-to-buffer-obey-display-actions t)
+
+(defun daut/toggle-window-dedication ()
+  "Toggles window dedication in the selected window."
+  (interactive)
+  (set-window-dedicated-p (selected-window)
+                          (not (window-dedicated-p (selected-window)))))
 
 (use-package winner-mode
   :ensure nil
