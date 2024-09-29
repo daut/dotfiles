@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: try...catch statement
+# key: trycatch
+# --
+try {
+  $1
+} catch (err) {
+  $2
+}
