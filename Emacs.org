@@ -1174,7 +1174,8 @@ An alternative to Restclient package
 #+begin_src emacs-lisp
 
 (use-package yaml-mode
-  :mode "\\.y[a]ml\\'")
+  :mode "\\.y[a]ml\\'"
+  :mode "\\.y[a]ml\\.j2\\'")
 
 #+end_src
 *** Web

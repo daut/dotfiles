@@ -922,7 +922,8 @@ With argument ARG, do this that many times."
 (use-package verb)
 
 (use-package yaml-mode
-  :mode "\\.y[a]ml\\'")
+  :mode "\\.y[a]ml\\'"
+  :mode "\\.y[a]ml\\.j2\\'")
 
 (defvar web-mode-electric-pairs '((?' . ?')) "Electric pairs for org-mode.")
 
