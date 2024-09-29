@@ -276,6 +276,22 @@ With argument ARG, do this that many times."
 (use-package command-log-mode
   :commands command-log-mode)
 
+(defun daut/print-current-theme ()
+  "Print the currently active theme."
+  (interactive)
+  (if custom-enabled-themes
+      (message "Current theme: %s" (car custom-enabled-themes))
+    (message "No theme is currently active")))
+
+(defun daut/random-color-theme ()
+  "Load a random theme from the available themes."
+  (interactive)
+  (let ((themes (custom-available-themes)))
+    (random t)
+    (let ((selected-theme (nth (random (length themes)) themes)))
+      (load-theme selected-theme t)
+      (message "Selected theme: %s" selected-theme))))
+
 (use-package zenburn-theme)
 
 (use-package doom-themes
@@ -283,9 +299,14 @@ With argument ARG, do this that many times."
   ;; (load-theme 'doom-zenburn t)
   ;; (load-theme 'doom-challenger-deep t)
   ;; (load-theme 'doom-ephemeral t)
-  (load-theme 'doom-tokyo-night)
+  ;; (load-theme 'doom-gruvbox t)
+  ;; (load-theme 'doom-tokyo-night)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config))
+
+(use-package ef-themes
+  :config
+  (load-theme 'ef-autumn))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
