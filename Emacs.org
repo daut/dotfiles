@@ -1453,6 +1453,9 @@ https://github.com/mermaid-js/mermaid-cli
   ;; truncate buffer for performance
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
 
+  ;; better color support
+  (add-hook 'eshell-mode-hook (lambda() (setenv "TERM" "xterm-256color")))
+
   (setq eshell-history-size         10000
         eshell-buffer-maximum-lines 10000
         eshell-history-ignoredups t
