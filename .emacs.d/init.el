@@ -128,7 +128,6 @@
   :bind (("M-x" . counsel-M-x)
          ("C-x b" . persp-counsel-switch-buffer)
          ("C-x C-f" . find-file)
-         ("C-s-f" . counsel-git-grep)
          ("s-F" . counsel-git-grep)
          :map minibuffer-local-map ;; minibuffer only mapping
          ("C-r" . counsel-minibuffer-history))
@@ -205,7 +204,8 @@ With argument ARG, do this that many times."
    "C-s-." (lambda () (interactive) (forward-line 30))
 
    "s-<" #'beginning-of-buffer
-   "s->" #'end-of-buffer))
+   "s->" #'end-of-buffer
+   "C-s-f" 'toggle-frame-fullscreen))
 
 (use-package crux
   :bind
