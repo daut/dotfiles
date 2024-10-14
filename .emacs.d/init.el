@@ -335,27 +335,6 @@ With argument ARG, do this that many times."
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
 
-(use-package hydra
-  :defer t)
-
-(defhydra hydra-text-scale (:timeout 4)
-  "scale text"
-  ("j" text-scale-increase "in")
-  ("k" text-scale-decrease "out")
-  ("f" nil "cancel" :exit t))
-
-(defhydra hydra-window-scale (:timeout 4)
-  "scale window horizontally"
-  ("j" (enlarge-window-horizontally 5) "enlarge horizontally")
-  ("k" (shrink-window-horizontally 5) "shrink horizontally")
-  ("p" (enlarge-window 5) "enlarge vertically")
-  ("n" (shrink-window 5) "shrink vertically")
-  ("f" nil "cancel" :exit t))
-
-(daut/leader-keys
-  "ts" '(hydra-text-scale/body :which-key "scale text")
-  "ws" '(hydra-window-scale/body :which-key "horizontally scale window"))
-
 (use-package highlight-indent-guides
   :hook ((prog-mode astro-ts-mode) . highlight-indent-guides-mode)
   :init (setq highlight-indent-guides-method 'character

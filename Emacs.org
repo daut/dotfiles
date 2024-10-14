@@ -261,6 +261,31 @@ With argument ARG, do this that many times."
    "s-<" #'beginning-of-buffer
    "s->" #'end-of-buffer
    "C-s-f" 'toggle-frame-fullscreen))
+#+end_src
+** Hydra
+
+#+begin_src emacs-lisp
+
+(use-package hydra
+  :defer t)
+
+(defhydra hydra-text-scale (:timeout 4)
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "cancel" :exit t))
+
+(defhydra hydra-window-scale (:timeout 4)
+  "scale window horizontally"
+  ("j" (enlarge-window-horizontally 5) "enlarge horizontally")
+  ("k" (shrink-window-horizontally 5) "shrink horizontally")
+  ("p" (enlarge-window 5) "enlarge vertically")
+  ("n" (shrink-window 5) "shrink vertically")
+  ("f" nil "cancel" :exit t))
+
+(daut/leader-keys
+  "ts" '(hydra-text-scale/body :which-key "scale text")
+  "ws" '(hydra-window-scale/body :which-key "horizontally scale window"))
 
 #+end_src
 ** Crux package
@@ -424,32 +449,6 @@ Helpful is an alternative to emacs builtin help which provides much more context
 
 #+end_src
 
-** Hydra
-
-#+begin_src emacs-lisp
-
-(use-package hydra
-  :defer t)
-
-(defhydra hydra-text-scale (:timeout 4)
-  "scale text"
-  ("j" text-scale-increase "in")
-  ("k" text-scale-decrease "out")
-  ("f" nil "cancel" :exit t))
-
-(defhydra hydra-window-scale (:timeout 4)
-  "scale window horizontally"
-  ("j" (enlarge-window-horizontally 5) "enlarge horizontally")
-  ("k" (shrink-window-horizontally 5) "shrink horizontally")
-  ("p" (enlarge-window 5) "enlarge vertically")
-  ("n" (shrink-window 5) "shrink vertically")
-  ("f" nil "cancel" :exit t))
-
-(daut/leader-keys
-  "ts" '(hydra-text-scale/body :which-key "scale text")
-  "ws" '(hydra-window-scale/body :which-key "horizontally scale window"))
-
-#+end_src
 ** Indent Guides
 #+begin_src emacs-lisp
 (use-package highlight-indent-guides
