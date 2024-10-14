@@ -188,7 +188,8 @@ With argument ARG, do this that many times."
     "og" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/gtd.org"))) :which-key "gtd.org")
     "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
     "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
-    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org"))
+    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")
+    "wl" '((lambda () (interactive) (daut/toggle-window-size-fixed)) :which-key "Toggle window size fixed"))
 
   (general-define-key
    :keymaps 'global-map
@@ -1217,6 +1218,11 @@ With argument ARG, do this that many times."
   (interactive)
   (set-window-dedicated-p (selected-window)
                           (not (window-dedicated-p (selected-window)))))
+
+(defun daut/toggle-window-size-fixed ()
+  (interactive)
+  (setq-default window-size-fixed (not window-size-fixed))
+  (message "Window size fixed: %s" window-size-fixed))
 
 (use-package winner-mode
   :ensure nil

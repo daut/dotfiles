@@ -218,7 +218,6 @@ With argument ARG, do this that many times."
 #+end_src
 ** General package
 #+begin_src emacs-lisp
-
 (use-package general
   :config
   (general-create-definer daut/leader-keys
@@ -243,7 +242,8 @@ With argument ARG, do this that many times."
     "og" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/gtd.org"))) :which-key "gtd.org")
     "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
     "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
-    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org"))
+    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")
+    "wl" '((lambda () (interactive) (daut/toggle-window-size-fixed)) :which-key "Toggle window size fixed"))
 
   (general-define-key
    :keymaps 'global-map
@@ -1555,6 +1555,11 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
   (interactive)
   (set-window-dedicated-p (selected-window)
                           (not (window-dedicated-p (selected-window)))))
+
+(defun daut/toggle-window-size-fixed ()
+  (interactive)
+  (setq-default window-size-fixed (not window-size-fixed))
+  (message "Window size fixed: %s" window-size-fixed))
 #+end_src
 ** Winner Mode
 #+begin_src emacs-lisp
