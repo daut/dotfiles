@@ -103,6 +103,8 @@ Environment variables sometimes aren't right, this fixes it.
 
 #+begin_src emacs-lisp
 (use-package emacs
+  :custom
+  (setq enable-recursive-minibuffers t)
   :config
   (defvar daut/default-font-size 150)
   (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size)
@@ -130,7 +132,7 @@ Environment variables sometimes aren't right, this fixes it.
 * Completion Configuration
 ** Which Key
 
-which-key is a useful UI panel that appears when you start pressing any key binding in Emacs to offer you all possible completions for the prefix.
+~which-key~ is a useful UI panel that appears when you start pressing any key binding in Emacs to offer you all possible completions for the prefix.
 
 #+begin_src emacs-lisp
 
@@ -142,62 +144,55 @@ which-key is a useful UI panel that appears when you start pressing any key bind
   (setq which-key-idle-delay 0.3))
 
 #+end_src
-
-** Ivy and Counsel
-
+** Vertico + Consult + Marginalia + Embark + Orderless
 #+begin_src emacs-lisp
+(defun daut/minibuffer-backward-kill (arg)
+  "When minibuffer is completing a file name delete up to parent
+folder, otherwise delete a character backward"
+  (interactive "p")
+  (if minibuffer-completing-file-name
+      ;; Borrowed from https://github.com/raxod502/selectrum/issues/498#issuecomment-803283608
+      (if (string-match-p "/." (minibuffer-contents))
+          (zap-up-to-char (- arg) ?/)
+        (delete-minibuffer-contents))
+      (delete-backward-char arg)))
 
-;; better mini-buffer completion
-(use-package ivy
-  :diminish
-  :hook (after-init . ivy-mode)
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-partial-or-done)
-         ("C-l" . ivy-immediate-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-immediate-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (setq ivy-height 12))
+(use-package vertico
+  :init (vertico-mode)
+  :bind ("<backspace>" . daut/minibuffer-backward-kill))
 
-;; ivy-rich get extra information about commands
-;; like description and keybinding
-;; works only with counsel
-(use-package ivy-rich
-  :after ivy
+(use-package vertico-posframe
+  :init (vertico-posframe-mode))
+
+;; TODO: https://www.reddit.com/r/emacs/comments/16g08me/killbuffer_from_the_minibuffer_after_mx/
+(use-package consult
+  :bind
+  ("C-s"   . consult-line)
+  ("M-g i" . consult-imenu)
+  ("C-x b" . consult-buffer)
+  ("s-F"   . consult-git-grep))
+
+(use-package marginalia
+  :init (marginalia-mode))
+
+(use-package embark
+  :bind (("C-."   . embark-act)
+         ("C-;"   . embark-dwim)
+         ("C-h B" . embark-bindings)))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
   :init
-  (ivy-rich-mode 1))
+  (savehist-mode))
 
-(use-package ivy-posframe
-  :hook (after-init . ivy-posframe-mode)
-  :init
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  (setq ivy-posframe-width 120))
-
-;; package used to do search inside file
-(use-package swiper
-  :after ivy)
-
-;; better UI for the M-x command, C-x b etc.
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . persp-counsel-switch-buffer)
-         ("C-x C-f" . find-file)
-         ("s-F" . counsel-git-grep)
-         :map minibuffer-local-map ;; minibuffer only mapping
-         ("C-r" . counsel-minibuffer-history))
-  :config
-  (counsel-mode 1))
-
-
+;; improved completion style
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 #+end_src
+
+#+RESULTS:
 
 * Keybinding Configuration
 ** Custom functions
@@ -455,14 +450,11 @@ Helpful is an alternative to emacs builtin help which provides much more context
 #+begin_src emacs-lisp
 
 (use-package helpful
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
+:bind
+   ([remap describe-key]      . helpful-key)
+   ([remap describe-command]  . helpful-command)
+   ([remap describe-variable] . helpful-variable)
+   ([remap describe-function] . helpful-callable))
 
 #+end_src
 
@@ -922,11 +914,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (setq projectile-git-submodule-command nil)
   (setq projectile-use-git-grep t))
 
-;; integrate counsel with projectile
-;; (use-package counsel-projectile
-;;   :after projectile
-;;   :config (counsel-projectile-mode))
-
 #+end_src
 
 ** Rainbow Delimiters
@@ -1012,9 +999,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
    :prefix lsp-keymap-prefix
    "u" '(:ignore t :wk "lsp ui")
    "ui" '(lsp-ui-imenu t :which-key "imenu")))
-
-(use-package lsp-ivy
-  :after lsp)
 
 #+end_src
 *** Debugging With dap-mode

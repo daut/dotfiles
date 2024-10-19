@@ -71,6 +71,8 @@
              (expand-file-name "./books" user-emacs-directory))
 
 (use-package emacs
+  :custom
+  (setq enable-recursive-minibuffers t)
   :config
   (defvar daut/default-font-size 150)
   (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size)
@@ -102,54 +104,50 @@
   (which-key-mode)
   (setq which-key-idle-delay 0.3))
 
-;; better mini-buffer completion
-(use-package ivy
-  :diminish
-  :hook (after-init . ivy-mode)
-  :bind (("C-s" . swiper)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-partial-or-done)
-         ("C-l" . ivy-immediate-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-immediate-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (setq ivy-height 12))
+(defun daut/minibuffer-backward-kill (arg)
+  "When minibuffer is completing a file name delete up to parent
+folder, otherwise delete a character backward"
+  (interactive "p")
+  (if minibuffer-completing-file-name
+      ;; Borrowed from https://github.com/raxod502/selectrum/issues/498#issuecomment-803283608
+      (if (string-match-p "/." (minibuffer-contents))
+          (zap-up-to-char (- arg) ?/)
+        (delete-minibuffer-contents))
+      (delete-backward-char arg)))
 
-;; ivy-rich get extra information about commands
-;; like description and keybinding
-;; works only with counsel
-(use-package ivy-rich
-  :after ivy
+(use-package vertico
+  :init (vertico-mode)
+  :bind ("<backspace>" . daut/minibuffer-backward-kill))
+
+(use-package vertico-posframe
+  :init (vertico-posframe-mode))
+
+;; TODO: https://www.reddit.com/r/emacs/comments/16g08me/killbuffer_from_the_minibuffer_after_mx/
+(use-package consult
+  :bind
+  ("C-s"   . consult-line)
+  ("M-g i" . consult-imenu)
+  ("C-x b" . consult-buffer)
+  ("s-F"   . consult-git-grep))
+
+(use-package marginalia
+  :init (marginalia-mode))
+
+(use-package embark
+  :bind (("C-."   . embark-act)
+         ("C-;"   . embark-dwim)
+         ("C-h B" . embark-bindings)))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
   :init
-  (ivy-rich-mode 1))
+  (savehist-mode))
 
-(use-package ivy-posframe
-  :hook (after-init . ivy-posframe-mode)
-  :init
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  (setq ivy-posframe-width 120))
-
-;; package used to do search inside file
-(use-package swiper
-  :after ivy)
-
-;; better UI for the M-x command, C-x b etc.
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . persp-counsel-switch-buffer)
-         ("C-x C-f" . find-file)
-         ("s-F" . counsel-git-grep)
-         :map minibuffer-local-map ;; minibuffer only mapping
-         ("C-r" . counsel-minibuffer-history))
-  :config
-  (counsel-mode 1))
+;; improved completion style
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
 ;; scroll up/down one line
 (global-set-key (kbd "C-s-n") (kbd "C-u 1 C-v"))
@@ -364,14 +362,11 @@ With argument ARG, do this that many times."
            pdf-annot-list-mode) . hide-mode-line-mode)))
 
 (use-package helpful
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
-  :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
+:bind
+   ([remap describe-key]      . helpful-key)
+   ([remap describe-command]  . helpful-command)
+   ([remap describe-variable] . helpful-variable)
+   ([remap describe-function] . helpful-callable))
 
 (use-package highlight-indent-guides
   :hook ((prog-mode astro-ts-mode) . highlight-indent-guides-mode)
@@ -725,11 +720,6 @@ With argument ARG, do this that many times."
   (setq projectile-git-submodule-command nil)
   (setq projectile-use-git-grep t))
 
-;; integrate counsel with projectile
-;; (use-package counsel-projectile
-;;   :after projectile
-;;   :config (counsel-projectile-mode))
-
 ;; install rainbow delimiters and hook them to any prog-mode (programming language mode)
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -796,9 +786,6 @@ With argument ARG, do this that many times."
    :prefix lsp-keymap-prefix
    "u" '(:ignore t :wk "lsp ui")
    "ui" '(lsp-ui-imenu t :which-key "imenu")))
-
-(use-package lsp-ivy
-  :after lsp)
 
 (use-package dap-mode
   :bind
