@@ -1023,6 +1023,17 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 ;;   :mode "\\.astro\\'"
 ;;   :hook (astro-ts-mode . lsp-deferred))
 #+end_src
+*** Bash
+#+begin_src emacs-lisp
+(use-package bash-ts-mode
+  :ensure nil
+  :mode "\\.sh\\'"
+  :mode "\\.bash\\'"
+  :hook (bash-ts-mode . lsp-deferred)
+  :config
+  (setq sh-basic-offset 2))
+(add-to-list 'interpreter-mode-alist '("bash" . bash-ts-mode))
+#+end_src
 *** TypeScript
 #+begin_src emacs-lisp
 

@@ -779,6 +779,15 @@ With argument ARG, do this that many times."
 ;;   :mode "\\.astro\\'"
 ;;   :hook (astro-ts-mode . lsp-deferred))
 
+(use-package bash-ts-mode
+  :ensure nil
+  :mode "\\.sh\\'"
+  :mode "\\.bash\\'"
+  :hook (bash-ts-mode . lsp-deferred)
+  :config
+  (setq sh-basic-offset 2))
+(add-to-list 'interpreter-mode-alist '("bash" . bash-ts-mode))
+
 (use-package typescript-mode
   :mode "\\.ts[x]\\'"
   :hook (typescript-mode . lsp-deferred)
