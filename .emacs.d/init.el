@@ -72,7 +72,7 @@
 
 (use-package emacs
   :custom
-  (setq enable-recursive-minibuffers t)
+  (enable-recursive-minibuffers t)
   :config
   (defvar daut/default-font-size 150)
   (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size)
@@ -128,7 +128,7 @@ folder, otherwise delete a character backward"
   ("C-s"   . consult-line)
   ("M-g i" . consult-imenu)
   ("C-x b" . consult-buffer)
-  ("s-F"   . consult-git-grep))
+  ("s-F"   . consult-ripgrep))
 
 (use-package marginalia
   :init (marginalia-mode))
@@ -1047,9 +1047,9 @@ With argument ARG, do this that many times."
         '("apheleia-npx" "eslint" "--fix" "--fix-type" "problem,suggestion,layout" file)))
 
 (use-package avy
-  :bind (("s-." . avy-goto-word-or-subword-1)
+  :bind (("s-." . avy-goto-char-timer)
          ("s-," . avy-goto-char)
-         ("C-c ." . avy-goto-word-or-subword-1)
+         ("C-c ." . avy-goto-char-timer)
          ("C-c ," . avy-goto-char)
          ("M-g f" . avy-goto-line))
   :config
