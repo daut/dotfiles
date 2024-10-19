@@ -164,6 +164,24 @@ With argument ARG, do this that many times."
    (t
     (backward-delete-char 1))))
 
+(use-package hydra
+  :defer t)
+
+(defhydra hydra-text-scale (:timeout 4)
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "cancel" :exit t))
+
+(defhydra hydra-window-scale (:timeout 4
+                                       :post (setq-default window-size-fixed daut/original-lock))
+  "scale window horizontally"
+  ("j" (enlarge-window-horizontally 5) "enlarge horizontally")
+  ("k" (shrink-window-horizontally 5) "shrink horizontally")
+  ("p" (enlarge-window 5) "enlarge vertically")
+  ("n" (shrink-window 5) "shrink vertically")
+  ("f" nil "cancel" :exit t))
+
 (use-package general
   :config
   (general-create-definer daut/leader-keys
@@ -178,6 +196,7 @@ With argument ARG, do this that many times."
     "fd" '(:ignore t :which-key "directories")
     "fdp" '((lambda () (interactive) (dired "~/projects")) :which-key "projects")
     "tt" '(counsel-load-theme :which-key "choose theme")
+    "ts" '(hydra-text-scale/body :which-key "scale text")
     "se" '(eshell :which-key "eshell")
     "sE" '((lambda () (interactive) (eshell t)) :which-key "New eshell")
     "sc" '(sql-connect :which-key "sql-connect")
@@ -189,7 +208,8 @@ With argument ARG, do this that many times."
     "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
     "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
     "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")
-    "wl" '((lambda () (interactive) (daut/toggle-window-size-fixed)) :which-key "Toggle window size fixed"))
+    "wl" '((lambda () (interactive) (daut/toggle-window-size-fixed)) :which-key "Toggle window size fixed")
+    "ws" '((lambda () (interactive) (daut/interactive-window-resize)) :which-key "horizontally scale window"))
 
   (general-define-key
    :keymaps 'global-map
@@ -1211,6 +1231,15 @@ With argument ARG, do this that many times."
   (interactive)
   (setq-default window-size-fixed (not window-size-fixed))
   (message "Window size fixed: %s" window-size-fixed))
+
+(defvar-local daut/original-lock nil
+  "Holds the original value of window-size-fixed.")
+
+(defun daut/interactive-window-resize ()
+  (interactive)
+  (setq daut/original-lock window-size-fixed)
+  (setq-default window-size-fixed nil)
+  (hydra-window-scale/body))
 
 (use-package winner-mode
   :ensure nil
