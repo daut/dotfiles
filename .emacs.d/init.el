@@ -214,7 +214,7 @@ With argument ARG, do this that many times."
     "w"  '(:ignore t :which-key "window")
     "fd" '(:ignore t :which-key "directories")
     "fdp" '((lambda () (interactive) (dired "~/projects")) :which-key "projects")
-    "tt" '(counsel-load-theme :which-key "choose theme")
+    "tt" '(consult-theme :which-key "choose theme")
     "ts" '(hydra-text-scale/body :which-key "scale text")
     "se" '(eshell :which-key "eshell")
     "sE" '((lambda () (interactive) (eshell t)) :which-key "New eshell")
