@@ -130,6 +130,8 @@ folder, otherwise delete a character backward"
   ("C-x b" . consult-buffer)
   ("s-F"   . consult-ripgrep))
 
+(use-package consult-flycheck)
+
 (use-package marginalia
   :init (marginalia-mode))
 
@@ -137,6 +139,8 @@ folder, otherwise delete a character backward"
   :bind (("C-."   . embark-act)
          ("C-;"   . embark-dwim)
          ("C-h B" . embark-bindings)))
+
+(use-package embark-consult)
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
@@ -1307,4 +1311,6 @@ With argument ARG, do this that many times."
   :config
   (setq elfeed-feeds
         '(("https://world.hey.com/dhh/feed.atom" dhh)
-          ("https://stacker.news/rss" stacker))))
+          ("https://stacker.news/rss" stacker)
+          ("https://karthinks.com/index.xml" karthinks)
+          ("https://protesilaos.com/codelog.xml" prot))))
