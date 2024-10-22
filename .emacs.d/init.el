@@ -105,15 +105,11 @@
   (setq which-key-idle-delay 0.3))
 
 (defun daut/minibuffer-backward-kill (arg)
-  "When minibuffer is completing a file name delete up to parent
-folder, otherwise delete a character backward"
   (interactive "p")
-  (if minibuffer-completing-file-name
-      ;; Borrowed from https://github.com/raxod502/selectrum/issues/498#issuecomment-803283608
-      (if (string-match-p "/." (minibuffer-contents))
-          (zap-up-to-char (- arg) ?/)
-        (delete-minibuffer-contents))
-      (delete-backward-char arg)))
+  (if (and minibuffer-completing-file-name
+           (eq (char-before) ?/))
+      (zap-up-to-char (- arg) ?/)
+    (delete-backward-char arg)))
 
 (use-package vertico
   :init (vertico-mode)
