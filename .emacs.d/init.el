@@ -1313,4 +1313,5 @@ With argument ARG, do this that many times."
         '(("https://world.hey.com/dhh/feed.atom" dhh)
           ("https://stacker.news/rss" stacker)
           ("https://karthinks.com/index.xml" karthinks)
-          ("https://protesilaos.com/codelog.xml" prot))))
+          ("https://protesilaos.com/codelog.xml" prot)
+          ("https://www.masteringemacs.org/feed" masteringemacs))))

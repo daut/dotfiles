@@ -1663,5 +1663,6 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
         '(("https://world.hey.com/dhh/feed.atom" dhh)
           ("https://stacker.news/rss" stacker)
           ("https://karthinks.com/index.xml" karthinks)
-          ("https://protesilaos.com/codelog.xml" prot))))
+          ("https://protesilaos.com/codelog.xml" prot)
+          ("https://www.masteringemacs.org/feed" masteringemacs))))
 #+end_src
