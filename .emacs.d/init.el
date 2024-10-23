@@ -129,7 +129,10 @@
   ("C-s"   . consult-line)
   ("C-x b" . consult-buffer)
   ("s-F"   . consult-ripgrep)
+  ;; goto
   ("M-g i" . consult-imenu)
+  ;; search
+  ("M-s d" . consult-find)
   :config
   (consult-customize
    consult-ripgrep consult-git-grep consult-grep
