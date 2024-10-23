@@ -1612,6 +1612,10 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
                                       "*Ibuffer*"
                                       "*esh command on file*")))
 #+end_src
+** Transpose frame
+#+begin_src emacs-lisp
+(use-package transpose-frame)
+#+end_src
 * Workspace Management
 ** Other Window
 #+begin_src emacs-lisp

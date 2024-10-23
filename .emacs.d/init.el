@@ -1275,6 +1275,8 @@ With argument ARG, do this that many times."
                                       "*Ibuffer*"
                                       "*esh command on file*")))
 
+(use-package transpose-frame)
+
 (use-package ace-window
   :bind 
   (("s-[" . (lambda () (interactive) (other-window -1)))
