@@ -147,7 +147,10 @@
          ("C-;"   . embark-dwim)
          ("C-h B" . embark-bindings)))
 
+;; If you use the grepping commands from the Consult package, consult-grep, consult-git-grep or consult-ripgrep, then you should install the embark-consult package, which adds support for exporting a list of grep results to an honest grep-mode buffer, on which you can even use wgrep if you wish.
 (use-package embark-consult)
+
+(use-package wgrep)
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
