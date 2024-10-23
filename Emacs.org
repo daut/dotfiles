@@ -418,7 +418,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :ensure nil
   :diminish
   :if (executable-find "aspell")
-  :hook ((markdown-mode text-mode outline-mode) . flyspell-mode))
+  :hook ((org-mode markdown-mode text-mode outline-mode) . flyspell-mode))
 #+end_src
 ** Subword
 #+begin_src emacs-lisp

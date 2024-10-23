@@ -337,7 +337,7 @@
   :ensure nil
   :diminish
   :if (executable-find "aspell")
-  :hook ((markdown-mode text-mode outline-mode) . flyspell-mode))
+  :hook ((org-mode markdown-mode text-mode outline-mode) . flyspell-mode))
 
 ;; Handling capitalized subwords in a nomenclature
 (use-package subword
