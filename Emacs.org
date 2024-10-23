@@ -160,15 +160,26 @@ Environment variables sometimes aren't right, this fixes it.
 (use-package vertico-posframe
   :init (vertico-posframe-mode))
 
+(defun daut/selected-region-or-symbol-at-point ()
+  "Return the selected region, otherwise return the symbol at point."
+  (if (region-active-p)
+      (buffer-substring-no-properties (region-beginning) (region-end))
+    (thing-at-point 'symbol t)))
 ;; TODO: https://www.reddit.com/r/emacs/comments/16g08me/killbuffer_from_the_minibuffer_after_mx/
 (use-package consult
   :bind
   ("C-s"   . consult-line)
-  ("M-g i" . consult-imenu)
   ("C-x b" . consult-buffer)
-  ("s-F"   . consult-ripgrep))
+  ("s-F"   . consult-ripgrep)
+  ("M-g i" . consult-imenu)
+  :config
+  (consult-customize
+   consult-ripgrep consult-git-grep consult-grep
+   :initial (daut/selected-region-or-symbol-at-point)))
 
-(use-package consult-flycheck)
+(use-package consult-flycheck
+  :bind
+  ("M-g f" . consult-flycheck))
 
 (use-package marginalia
   :init (marginalia-mode))
