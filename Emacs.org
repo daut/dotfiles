@@ -208,123 +208,6 @@ Environment variables sometimes aren't right, this fixes it.
 
 #+RESULTS:
 
-* Keybinding Configuration
-** Custom functions
-#+begin_src emacs-lisp
-
-;; scroll up/down one line
-(global-set-key (kbd "C-s-n") (kbd "C-u 1 C-v"))
-(global-set-key (kbd "C-s-p") (kbd "C-u 1 M-v"))
-
-;; Make ESC quit promps
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
-(defun daut/backward-delete-word (arg)
-  "Delete characters backward until encountering the beginning of a word.
-With argument ARG, do this that many times."
-  (interactive)
-  (delete-region (point) (progn (backward-word arg) (point))))
-
-(defun daut/delete-word (arg)
-  "Delete characters forwards until encountering the beginning of a word.
-With argument ARG, do this that many times."
-  (interactive "p")
-  (delete-region (point) (progn (forward-word arg) (point))))
-
-(defun daut/backward-delete-char-or-word ()
-  "backward delete behave more like VS Code"
-  (interactive)
-  (cond
-   ((looking-back (rx (char word)) 1)
-    (daut/backward-delete-word 1))
-   ((looking-back (rx (char blank)) 1)
-    (delete-horizontal-space t))
-   (t
-    (backward-delete-char 1))))
-#+end_src
-** Hydra
-
-#+begin_src emacs-lisp
-
-(use-package hydra
-  :defer t)
-
-(defhydra hydra-text-scale (:timeout 4)
-  "scale text"
-  ("j" text-scale-increase "in")
-  ("k" text-scale-decrease "out")
-  ("f" nil "cancel" :exit t))
-
-(defhydra hydra-window-scale (:timeout 4
-                                       :post (setq-default window-size-fixed daut/original-lock))
-  "scale window horizontally"
-  ("j" (enlarge-window-horizontally 5) "enlarge horizontally")
-  ("k" (shrink-window-horizontally 5) "shrink horizontally")
-  ("p" (enlarge-window 5) "enlarge vertically")
-  ("n" (shrink-window 5) "shrink vertically")
-  ("f" nil "cancel" :exit t))
-
-#+end_src
-** General package
-#+begin_src emacs-lisp
-(use-package general
-  :config
-  (general-create-definer daut/leader-keys
-    :prefix "C-C")
-  (daut/leader-keys
-    "t"  '(:ignore t :which-key "toggles")
-    "o"  '(:ignore t :which-key "org-files")
-    "s"  '(:ignore t :which-key "shell/sql")
-    "f"  '(:ignore t :which-key "files or folders")
-    "h"  '(:ignore t :which-key "hydra")
-    "w"  '(:ignore t :which-key "window")
-    "fd" '(:ignore t :which-key "directories")
-    "fdp" '((lambda () (interactive) (dired "~/projects")) :which-key "projects")
-    "tt" '(consult-theme :which-key "choose theme")
-    "ts" '(hydra-text-scale/body :which-key "scale text")
-    "se" '(eshell :which-key "eshell")
-    "sE" '((lambda () (interactive) (eshell t)) :which-key "New eshell")
-    "sc" '(sql-connect :which-key "sql-connect")
-
-    "oc" '(org-capture t :which-key "org-capture")
-    "oa" '(org-agenda t :which-key "org-agenda")
-    "oi" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/inbox.org"))) :which-key "inbox.org")
-    "og" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/gtd.org"))) :which-key "gtd.org")
-    "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
-    "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
-    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")
-    "wl" '((lambda () (interactive) (daut/toggle-window-size-fixed)) :which-key "Toggle window size fixed")
-    "ws" '((lambda () (interactive) (daut/interactive-window-resize)) :which-key "horizontally scale window"))
-
-  (general-define-key
-   :keymaps 'global-map
-   "C-s-n" (kbd "C-u 1 C-v")
-   "C-s-p" (kbd "C-u 1 M-v")
-
-   "<escape>" 'keyboard-escape-quit
-
-   [remap backward-kill-word] 'daut/backward-delete-char-or-word
-   [remap kill-word] 'daut/delete-word
-
-   "C-s-," (lambda () (interactive) (forward-line -30))
-   "C-s-." (lambda () (interactive) (forward-line 30))
-
-   "s-<" #'beginning-of-buffer
-   "s->" #'end-of-buffer
-   "C-s-f" 'toggle-frame-fullscreen))
-#+end_src
-** Crux package
-#+begin_src emacs-lisp
-
-(use-package crux
-  :bind
-  ([remap move-beginning-of-line] . crux-move-beginning-of-line)
-  ("C-c d" . crux-duplicate-current-line-or-region)
-  ("C-c k" . crux-kill-other-buffers)
-  ("C-c b s" . crux-create-scratch-buffer))
-
-#+end_src
-
 * UI Configuration
 ** Basic
 #+begin_src emacs-lisp
@@ -1680,3 +1563,121 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
           ("https://protesilaos.com/codelog.xml" prot)
           ("https://www.masteringemacs.org/feed" masteringemacs))))
 #+end_src
+* Keybinding Configuration
+** Custom functions
+#+begin_src emacs-lisp
+
+;; scroll up/down one line
+(global-set-key (kbd "C-s-n") (kbd "C-u 1 C-v"))
+(global-set-key (kbd "C-s-p") (kbd "C-u 1 M-v"))
+
+;; Make ESC quit promps
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+(defun daut/backward-delete-word (arg)
+  "Delete characters backward until encountering the beginning of a word.
+With argument ARG, do this that many times."
+  (interactive)
+  (delete-region (point) (progn (backward-word arg) (point))))
+
+(defun daut/delete-word (arg)
+  "Delete characters forwards until encountering the beginning of a word.
+With argument ARG, do this that many times."
+  (interactive "p")
+  (delete-region (point) (progn (forward-word arg) (point))))
+
+(defun daut/backward-delete-char-or-word ()
+  "backward delete behave more like VS Code"
+  (interactive)
+  (cond
+   ((looking-back (rx (char word)) 1)
+    (daut/backward-delete-word 1))
+   ((looking-back (rx (char blank)) 1)
+    (delete-horizontal-space t))
+   (t
+    (backward-delete-char 1))))
+#+end_src
+** Hydra
+
+#+begin_src emacs-lisp
+
+(use-package hydra
+  :defer t)
+
+(defhydra hydra-text-scale (:timeout 4)
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "cancel" :exit t))
+
+(defhydra hydra-window-scale (:timeout 4
+                                       :post (setq-default window-size-fixed daut/original-lock))
+  "scale window horizontally"
+  ("j" (enlarge-window-horizontally 5) "enlarge horizontally")
+  ("k" (shrink-window-horizontally 5) "shrink horizontally")
+  ("p" (enlarge-window 5) "enlarge vertically")
+  ("n" (shrink-window 5) "shrink vertically")
+  ("f" nil "cancel" :exit t))
+
+#+end_src
+** General package
+#+begin_src emacs-lisp
+(use-package general
+  :config
+  (general-create-definer daut/leader-keys
+    :prefix "C-C")
+  (daut/leader-keys
+    "t"  '(:ignore t :which-key "toggles")
+    "o"  '(:ignore t :which-key "org-files")
+    "s"  '(:ignore t :which-key "shell/sql")
+    "f"  '(:ignore t :which-key "files or folders")
+    "h"  '(:ignore t :which-key "hydra")
+    "w"  '(:ignore t :which-key "window")
+    "fd" '(:ignore t :which-key "directories")
+    "fdp" '((lambda () (interactive) (dired "~/projects")) :which-key "projects")
+    "tt" '(consult-theme :which-key "choose theme")
+    "ts" '(hydra-text-scale/body :which-key "scale text")
+    "se" '(eshell :which-key "eshell")
+    "sE" '((lambda () (interactive) (eshell t)) :which-key "New eshell")
+    "sc" '(sql-connect :which-key "sql-connect")
+
+    "oc" '(org-capture t :which-key "org-capture")
+    "oa" '(org-agenda t :which-key "org-agenda")
+    "oi" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/inbox.org"))) :which-key "inbox.org")
+    "og" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/gtd/gtd.org"))) :which-key "gtd.org")
+    "oe" '((lambda () (interactive) (find-file (expand-file-name "~/projects/dotfiles/Emacs.org"))) :which-key "Emacs.org")
+    "ot" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Tasks.org"))) :which-key "Tasks.org")
+    "od" '((lambda () (interactive) (find-file (expand-file-name "~/projects/org/Daily.org"))) :which-key "Daily.org")
+    "wl" '((lambda () (interactive) (daut/toggle-window-size-fixed)) :which-key "Toggle window size fixed")
+    "ws" '((lambda () (interactive) (daut/interactive-window-resize)) :which-key "horizontally scale window")
+    "wt" '((lambda () (interactive) (transpose-frame)) :which-key "change window split direction"))
+
+  (general-define-key
+   :keymaps 'global-map
+   "C-s-n" (kbd "C-u 1 C-v")
+   "C-s-p" (kbd "C-u 1 M-v")
+
+   "<escape>" 'keyboard-escape-quit
+
+   [remap backward-kill-word] 'daut/backward-delete-char-or-word
+   [remap kill-word] 'daut/delete-word
+
+   "C-s-," (lambda () (interactive) (forward-line -30))
+   "C-s-." (lambda () (interactive) (forward-line 30))
+
+   "s-<" #'beginning-of-buffer
+   "s->" #'end-of-buffer
+   "C-s-f" 'toggle-frame-fullscreen))
+#+end_src
+** Crux package
+#+begin_src emacs-lisp
+
+(use-package crux
+  :bind
+  ([remap move-beginning-of-line] . crux-move-beginning-of-line)
+  ("C-c d" . crux-duplicate-current-line-or-region)
+  ("C-c k" . crux-kill-other-buffers)
+  ("C-c b s" . crux-create-scratch-buffer))
+
+#+end_src
+
