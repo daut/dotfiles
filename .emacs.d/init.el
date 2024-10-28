@@ -966,7 +966,8 @@
          ("C-c ," . avy-goto-char)
          ("M-g f" . avy-goto-line))
   :config
-  (setq avy-background t))
+  (setq avy-background t)
+  (setq avy-timeout-seconds 0.4))
 
 (use-package simple-httpd)
 
