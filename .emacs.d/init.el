@@ -266,9 +266,6 @@
 
 (use-package nerd-icons)
 
-(use-package nyan-mode
-  :hook (after-init . nyan-mode))
-
 ;; Hide modelline in some major modes
 (use-package hide-mode-line
   :hook (((eshell-mode shell-mode
