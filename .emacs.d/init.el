@@ -364,7 +364,7 @@
 (use-package elec-pair
   :config
   (electric-pair-mode +1)
-  :init (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit))
+  :init (setq electric-pair-inhibit-predicate 'electric-pair-default-inhibit))
 
 (use-package multiple-cursors
   :bind ("s-d" . mc/mark-next-like-this-symbol))
