@@ -1023,8 +1023,7 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (go-mode . (lambda () (setq tab-width 2)))
   (go-mode . daut/go-fold-imports)
   :config
-  (require 'dap-go)
-  (dap-go-setup))
+  (require 'dap-dlv-go))
 
 (use-package go-playground
   :after go-mode)

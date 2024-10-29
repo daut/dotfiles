@@ -804,8 +804,7 @@
   (go-mode . (lambda () (setq tab-width 2)))
   (go-mode . daut/go-fold-imports)
   :config
-  (require 'dap-go)
-  (dap-go-setup))
+  (require 'dap-dlv-go))
 
 (use-package go-playground
   :after go-mode)
