@@ -649,10 +649,6 @@
   (setq company-show-numbers t)
   (setq company-minimum-prefix-length 1)
   (setq company-idle-delay 0.15)
-  (setq company-dabbrev-code-ignore-case t)
-  (setq company-keywords-ignore-case t)
-  (setq company-dabbrev-downcase t)
-  (setq completion-ignore-case t)
   (setq company-transformers '(delete-consecutive-dups
                              company-sort-by-occurrence
                              company-sort-prefer-same-case-prefix))
