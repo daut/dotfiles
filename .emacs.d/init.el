@@ -537,7 +537,6 @@
   :hook (org-mode . daut/org-mode-setup)
   :commands (org-capture org-agenda)
   :config
-  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (setq org-ellipsis " ▾")
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)
@@ -840,8 +839,6 @@
     (use-package company-restclient
       :defines company-backends
       :init (add-to-list 'company-backends 'company-restclient))))
-
-(use-package verb)
 
 (use-package yaml-mode
   :mode "\\.y[a]ml\\'"

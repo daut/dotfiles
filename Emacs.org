@@ -682,7 +682,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   :hook (org-mode . daut/org-mode-setup)
   :commands (org-capture org-agenda)
   :config
-  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (setq org-ellipsis " ▾")
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)
@@ -1068,10 +1067,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
       :init (add-to-list 'company-backends 'company-restclient))))
 
 #+end_src
-*** Verb
-An alternative to Restclient package
-#+begin_src emacs-lisp
-(use-package verb)
 #+end_src
 *** Yaml
 #+begin_src emacs-lisp
