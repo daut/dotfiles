@@ -1501,9 +1501,10 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
 #+begin_src emacs-lisp
 
 (use-package ace-window
-  :bind 
-  (("s-[" . (lambda () (interactive) (other-window -1)))
-  ("s-]" . (lambda () (interactive) (other-window 1)))))
+  :bind
+  (("M-o" . ace-window)
+   ("s-[" . (lambda () (interactive) (other-window -1)))
+   ("s-]" . (lambda () (interactive) (other-window 1)))))
 
 #+end_src
 ** Perspective

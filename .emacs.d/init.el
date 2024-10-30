@@ -1174,9 +1174,10 @@
 (use-package transpose-frame)
 
 (use-package ace-window
-  :bind 
-  (("s-[" . (lambda () (interactive) (other-window -1)))
-  ("s-]" . (lambda () (interactive) (other-window 1)))))
+  :bind
+  (("M-o" . ace-window)
+   ("s-[" . (lambda () (interactive) (other-window -1)))
+   ("s-]" . (lambda () (interactive) (other-window 1)))))
 
 (defun daut/persp-misc ()
   (interactive)
