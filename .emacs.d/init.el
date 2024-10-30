@@ -945,7 +945,8 @@
   :commands flycheck-redefine-standard-error-levels
   :hook (after-init . global-flycheck-mode)
   :config
-  (flycheck-add-mode 'javascript-eslint 'web-mode))
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (setq flycheck-javascript-eslint-executable "eslint_d"))
 
 (use-package apheleia
   :vc (:fetcher github :repo radian-software/apheleia)

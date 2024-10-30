@@ -1204,7 +1204,8 @@ https://github.com/mermaid-js/mermaid-cli
   :commands flycheck-redefine-standard-error-levels
   :hook (after-init . global-flycheck-mode)
   :config
-  (flycheck-add-mode 'javascript-eslint 'web-mode))
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (setq flycheck-javascript-eslint-executable "eslint_d"))
 
 #+end_src
 
