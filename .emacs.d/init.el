@@ -951,8 +951,9 @@
   :vc (:fetcher github :repo radian-software/apheleia)
   :hook (after-init . apheleia-global-mode)
   :config
-  (setf (alist-get 'eslint apheleia-formatters)
-        '("apheleia-npx" "eslint" "--fix" "--fix-type" "problem,suggestion,layout" file)))
+  (cl-pushnew '(eslint . ("eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file))
+              apheleia-formatters
+              :test #'equal))
 
 (use-package avy
   :bind (("s-." . avy-goto-char-timer)
