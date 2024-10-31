@@ -63,8 +63,7 @@
 #+end_src
 * Restart Emacs Command
 #+begin_src emacs-lisp
-(use-package restart-emacs
-  :bind ("C-c r" . restart-emacs))
+(use-package restart-emacs)
 #+end_src
 * Keep init.el Clean
 #+begin_src emacs-lisp
@@ -791,6 +790,14 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 (setq org-clock-sound t)
 #+end_src
 * Development
+** Compilation
+#+begin_src emacs-lisp
+(use-package compile
+  :ensure nil
+  :bind(("C-c C-r" . recompile))
+  :config
+  (setq compilation-scroll-output t))
+#+end_src
 ** Projectile
 
 #+begin_src emacs-lisp

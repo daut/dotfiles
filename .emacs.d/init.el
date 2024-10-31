@@ -45,8 +45,7 @@
   (auto-package-update-maybe)
   (auto-package-update-at-time "09:00"))
 
-(use-package restart-emacs
-  :bind ("C-c r" . restart-emacs))
+(use-package restart-emacs)
 
 ;; Save all of the custom data in custom.el
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -616,6 +615,12 @@
   (org-roam-setup))
 
 (setq org-clock-sound t)
+
+(use-package compile
+  :ensure nil
+  :bind(("C-c C-r" . recompile))
+  :config
+  (setq compilation-scroll-output t))
 
 (use-package projectile
   :diminish projectile-mode
