@@ -700,18 +700,11 @@
    "u" '(:ignore t :wk "lsp ui")
    "ui" '(lsp-ui-imenu t :which-key "imenu")))
 
-(use-package dap-mode
-  :bind
-  ("C-c h d" . dap-hydra)
-  :custom
-  (lsp-enable-dap-auto-configure nil)
+(use-package dape
   :config
-  (setq dap-print-io t)
-  (dap-ui-mode 1)
-  (general-define-key
-   :keymaps 'lsp-mode-map
-   :prefix lsp-keymap-prefix
-   "d" '(dap-hydra t :which-key "debugger")))
+  (setq dape-buffer-window-arrangement 'right)
+  (setq dape-inlay-hints t)
+  (setq dape-cwd-fn 'projectile-project-root))
 
 ;; (use-package astro-ts-mode
 ;;   :mode "\\.astro\\'"
