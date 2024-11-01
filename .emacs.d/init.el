@@ -171,10 +171,10 @@
 ;; set line-spacing
 (setq default-text-properties '(line-spacing 0.05 line-height 1.1))
 
-(scroll-bar-mode -1) ; Disable visible scrollbar
-(tool-bar-mode -1)   ; Disable the toolbar
-(tooltip-mode -1)    ; Disable tooltips
-(set-fringe-mode 5)  ; Give some breathing room
+(scroll-bar-mode -1)        ; Disable visible scrollbar
+(tool-bar-mode -1)          ; Disable the toolbar
+(tooltip-mode -1)           ; Disable tooltips
+(set-fringe-mode '(8 . 0))  ; Kill right fringe
 
 (menu-bar-mode -1)   ; Disable menu bar
 
