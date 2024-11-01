@@ -1192,7 +1192,7 @@
   :custom
   (persp-mode-prefix-key (kbd "C-c M-p"))
   :config
-  (setq persp-state-default-file (concat user-emacs-directory "persp.el")))
+  (setq persp-state-default-file (concat user-emacs-directory "persp")))
 
 ;; make garbage collection pauses faster by decreasing the memory consumption threshold
 ;; this basically reverts threshold increase at the beginning of the file (which helps with load time)

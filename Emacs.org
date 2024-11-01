@@ -1521,7 +1521,7 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
   :custom
   (persp-mode-prefix-key (kbd "C-c M-p"))
   :config
-  (setq persp-state-default-file (concat user-emacs-directory "persp.el")))
+  (setq persp-state-default-file (concat user-emacs-directory "persp")))
 #+end_src
 * Runtime Performance
 #+begin_src emacs-lisp
