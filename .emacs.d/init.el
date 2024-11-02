@@ -210,6 +210,7 @@
   (dashboard-startup-banner 'logo)
   :config
   (dashboard-setup-startup-hook)
+  (add-to-list 'dashboard-footer-messages "Person who say it cannot be done should not interrupt person doing it.")
   (setq dashboard-center-content t
         dashboard-items '((projects . 4)
                           (recents . 4)
@@ -1175,24 +1176,25 @@
    ("s-[" . (lambda () (interactive) (other-window -1)))
    ("s-]" . (lambda () (interactive) (other-window 1)))))
 
-(defun daut/persp-misc ()
-  (interactive)
-  (persp-switch "misc"))
 (use-package perspective
-  :hook (kill-emacs . persp-state-save)
-  :init
-  (persp-mode)
-  ;; create misc persp
-  (persp-switch "misc")
-  ;; switch back to main persp
-  (persp-switch "main")
+  :hook (kill-emacs . persp-save-default)
+  :init (persp-mode)
   :bind (("C-x k" . persp-kill-buffer*)
          ("s-}" . persp-next)
          ("s-{" . persp-prev))
   :custom
-  (persp-mode-prefix-key (kbd "C-c M-p"))
+  (persp-mode-prefix-key (kbd "C-c C-p"))
   :config
-  (setq persp-state-default-file (concat user-emacs-directory "persp")))
+  (defun persp-save-default ()
+    (let ((current-prefix-arg '(4)))
+      (persp-state-save (concat user-emacs-directory "persp.el"))))
+  (defun persp-create-aux ()
+    "Create a new auxilliary perspective."
+    (interactive)
+    (let ((current-persp (persp-current-name)))
+      (persp-switch "aux")
+      (persp-switch current-persp)))
+  (setq persp-state-default-file (concat user-emacs-directory "persp-")))
 
 ;; make garbage collection pauses faster by decreasing the memory consumption threshold
 ;; this basically reverts threshold increase at the beginning of the file (which helps with load time)

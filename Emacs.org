@@ -262,6 +262,7 @@ Environment variables sometimes aren't right, this fixes it.
   (dashboard-startup-banner 'logo)
   :config
   (dashboard-setup-startup-hook)
+  (add-to-list 'dashboard-footer-messages "Person who say it cannot be done should not interrupt person doing it.")
   (setq dashboard-center-content t
         dashboard-items '((projects . 4)
                           (recents . 4)
@@ -1504,24 +1505,25 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
 #+end_src
 ** Perspective
 #+begin_src emacs-lisp
-(defun daut/persp-misc ()
-  (interactive)
-  (persp-switch "misc"))
 (use-package perspective
-  :hook (kill-emacs . persp-state-save)
-  :init
-  (persp-mode)
-  ;; create misc persp
-  (persp-switch "misc")
-  ;; switch back to main persp
-  (persp-switch "main")
+  :hook (kill-emacs . persp-save-default)
+  :init (persp-mode)
   :bind (("C-x k" . persp-kill-buffer*)
          ("s-}" . persp-next)
          ("s-{" . persp-prev))
   :custom
-  (persp-mode-prefix-key (kbd "C-c M-p"))
+  (persp-mode-prefix-key (kbd "C-c C-p"))
   :config
-  (setq persp-state-default-file (concat user-emacs-directory "persp")))
+  (defun persp-save-default ()
+    (let ((current-prefix-arg '(4)))
+      (persp-state-save (concat user-emacs-directory "persp.el"))))
+  (defun persp-create-aux ()
+    "Create a new auxilliary perspective."
+    (interactive)
+    (let ((current-persp (persp-current-name)))
+      (persp-switch "aux")
+      (persp-switch current-persp)))
+  (setq persp-state-default-file (concat user-emacs-directory "persp-")))
 #+end_src
 * Runtime Performance
 #+begin_src emacs-lisp
