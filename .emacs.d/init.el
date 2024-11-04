@@ -259,6 +259,7 @@
 (use-package ef-themes
   :config
   (load-theme 'ef-autumn))
+(add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes/"))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)

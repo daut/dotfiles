@@ -322,6 +322,7 @@ Environment variables sometimes aren't right, this fixes it.
   :config
   (load-theme 'ef-autumn))
 
+(add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes/"))
 #+end_src
 ** Better Mode Line
 #+begin_src emacs-lisp
