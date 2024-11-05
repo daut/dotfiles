@@ -1496,13 +1496,13 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
 * Workspace Management
 ** Other Window
 #+begin_src emacs-lisp
-
 (use-package ace-window
   :bind
-  (("M-o" . ace-window)
+  (("C-x o" . ace-window)
    ("s-[" . (lambda () (interactive) (other-window -1)))
-   ("s-]" . (lambda () (interactive) (other-window 1)))))
-
+   ("s-]" . (lambda () (interactive) (other-window 1))))
+  :config
+  (setq aw-dispatch-always t))
 #+end_src
 ** Perspective
 #+begin_src emacs-lisp

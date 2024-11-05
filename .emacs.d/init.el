@@ -1173,9 +1173,11 @@
 
 (use-package ace-window
   :bind
-  (("M-o" . ace-window)
+  (("C-x o" . ace-window)
    ("s-[" . (lambda () (interactive) (other-window -1)))
-   ("s-]" . (lambda () (interactive) (other-window 1)))))
+   ("s-]" . (lambda () (interactive) (other-window 1))))
+  :config
+  (setq aw-dispatch-always t))
 
 (use-package perspective
   :hook (kill-emacs . persp-save-default)
