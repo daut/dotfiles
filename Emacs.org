@@ -1257,10 +1257,6 @@ https://github.com/mermaid-js/mermaid-cli
 #+begin_src emacs-lisp
 (use-package devdocs)
 #+end_src
-* Database Client
-#+begin_src emacs-lisp
-(use-package ejc-sql)
-#+end_src
 * AI Assistants
 ** gptel
 #+begin_src emacs-lisp

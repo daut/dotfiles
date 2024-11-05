@@ -985,8 +985,6 @@
 
 (use-package devdocs)
 
-(use-package ejc-sql)
-
 (use-package gptel
   :config
   (setq gptel-model "gpt-4o")
