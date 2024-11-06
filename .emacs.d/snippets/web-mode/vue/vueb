@@ -12,6 +12,6 @@ group: vue
 
 </template>
 
-<script scoped>
+<style scoped>
 
-</script>
+</style>
