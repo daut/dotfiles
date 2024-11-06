@@ -40,6 +40,7 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 (setq use-package-verbose t) ;; write useful information about package loading
+(setq use-package-compute-statistics t) ;; report how much time a package needs to load
 
 (unless (package-installed-p 'vc-use-package)
   (package-vc-install "https://github.com/slotThe/vc-use-package"))
@@ -906,6 +907,7 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 #+begin_src emacs-lisp
 
 (use-package dape
+  :defer t
   :config
   (setq dape-buffer-window-arrangement 'right)
   (setq dape-inlay-hints t)
@@ -1255,7 +1257,8 @@ https://github.com/mermaid-js/mermaid-cli
 #+end_src
 ** Docs
 #+begin_src emacs-lisp
-(use-package devdocs)
+(use-package devdocs
+  :defer t)
 #+end_src
 * AI Assistants
 ** gptel
@@ -1547,6 +1550,7 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
 * RSS
 #+begin_src emacs-lisp
 (use-package elfeed
+  :defer t
   :config
   (setq elfeed-feeds
         '(("https://world.hey.com/dhh/feed.atom" dhh)

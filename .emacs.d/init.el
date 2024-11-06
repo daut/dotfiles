@@ -30,6 +30,7 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 (setq use-package-verbose t) ;; write useful information about package loading
+(setq use-package-compute-statistics t) ;; report how much time a package needs to load
 
 (unless (package-installed-p 'vc-use-package)
   (package-vc-install "https://github.com/slotThe/vc-use-package"))
@@ -703,6 +704,7 @@
    "ui" '(lsp-ui-imenu t :which-key "imenu")))
 
 (use-package dape
+  :defer t
   :config
   (setq dape-buffer-window-arrangement 'right)
   (setq dape-inlay-hints t)
@@ -983,7 +985,8 @@
           (vue "https://github.com/ikatyang/tree-sitter-vue")))
   (setq treesit-font-lock-level 4))
 
-(use-package devdocs)
+(use-package devdocs
+  :defer t)
 
 (use-package gptel
   :config
@@ -1216,6 +1219,7 @@
         gcmh-high-cons-threshold #x1000000)) ; 16MB
 
 (use-package elfeed
+  :defer t
   :config
   (setq elfeed-feeds
         '(("https://world.hey.com/dhh/feed.atom" dhh)
