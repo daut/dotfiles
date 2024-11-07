@@ -994,7 +994,6 @@
   (add-to-list 'gptel-directives '(proofreader . "I want you act as a proofreader. I will provide you texts and I would like you to review them for any spelling, grammar, or punctuation errors. Once you have finished reviewing the text, provide me with any necessary corrections or suggestions to improve the text.")))
 
 (use-package copilot
-  :vc (:fetcher github :repo copilot-emacs/copilot.el)
   :hook ((prog-mode restclient-mode eshell-mode yaml-mode) . copilot-mode)
   :config
   (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion)
