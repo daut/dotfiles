@@ -65,8 +65,6 @@
   (setq exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
 
-;; (server-start)
-
 (add-to-list 'Info-directory-list
              (expand-file-name "./books" user-emacs-directory))
 
@@ -245,22 +243,14 @@
       (load-theme selected-theme t)
       (message "Selected theme: %s" selected-theme))))
 
-(use-package zenburn-theme)
-
-(use-package doom-themes
-  :config
-  ;; (load-theme 'doom-zenburn t)
-  ;; (load-theme 'doom-challenger-deep t)
-  ;; (load-theme 'doom-ephemeral t)
-  ;; (load-theme 'doom-gruvbox t)
-  ;; (load-theme 'doom-tokyo-night)
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config))
-
-(use-package ef-themes
-  :config
-  (load-theme 'ef-autumn))
+(use-package ef-themes)
+  ;; :config
+  ;; (load-theme 'ef-autumn))
 (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes/"))
+;; (load-theme 'miasma t)
+(use-package miasma-theme
+  :vc (:fetcher github :repo daut/miasma-theme.el)
+  :config (load-theme 'miasma t))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
@@ -393,14 +383,6 @@
   :bind
   ("C-s-[" . hs-hide-block)
   ("C-s-]" . hs-show-block))
-  ;; :config
-  ;; (add-to-list 'hs-special-modes-alist
-  ;;              '(web-mode
-  ;;                "<!--\\|<[^/>]*[^/]>"
-  ;;                "-->\\|</[^/>]*[^/]>"
-  ;;                "<!--"
-  ;;                web-mode-forward-sexp
-  ;;                nil)))
 
 (use-package minimap
   :defer t
@@ -563,11 +545,6 @@
 (setq
  org-src-preserve-indentation t
  org-src-tab-acts-natively t)
-
-;; (use-package org-bullets
-;;   :hook (org-mode . org-bullets-mode)
-;;   :custom
-;;   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 (defun daut/org-mode-visual-fill ()
   (setq visual-fill-column-width 100
@@ -754,25 +731,6 @@
 (use-package add-node-modules-path
   :hook ((web-mode js-mode js2-mode) . add-node-modules-path))
 
-;; (when (executable-find "prettier")
-;;   (use-package prettier
-;;     :diminish
-;;     :hook ((js-mode js2-mode css-mode sgml-mode web-mode) . prettier-mode)
-;;     :init (setq prettier-pre-warm 'none)))
-
-;; npm i -g eslint
-;; M-x lsp-install-server RET eslint
-;; (use-package js2-mode
-;;   :mode "\\.js\\'"
-;;   :hook (js2-mode . lsp-deferred)
-;;   :config
-;;   (setq js-indent-level 2)
-;;   (with-eval-after-load 'flycheck
-;;     ;; https://github.com/mantoni/eslint_d.js
-;;     ;; Install: npm -i -g eslint_d
-;;     (when (executable-find "eslint")
-;;       (setq flycheck-javascript-eslint-executable "eslint"))))
-
 (use-package lua-mode
   :mode "\\.lua\\'"
   :hook (lua-mode . lsp-deferred)
@@ -897,19 +855,6 @@
   (lsp-dependency 'typescript
                   '(:npm :package "typescript"
                          :path "tsserver")))
-;; vue-language-server should be installed too. npm i -g vls
-;; (use-package vue-mode
-;;   :mode "\\.vue\\'"
-;;   :hook (vue-mode . lsp-deferred)
-;;   :config
-;;   (setq mmm-submode-decoration-level 2))
-;; :custom
-;; (setq lsp-vetur-emmet "inMarkupAndStylesheetFilesOnly"))
-
-;; (use-package vue-ts-mode
-;;   :vc (:fetcher github :repo 8uff3r/vue-ts-mode)
-;;   :mode "\\.vue\\'"
-;;   :hook (vue-ts-mode . lsp-deferred))
 
 (use-package elixir-mode
   :mode "\\.exs\\'"
@@ -1120,9 +1065,6 @@
   ;; :custom-face
   ;; (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
   :hook (dired-mode . nerd-icons-dired-mode))
-
-;; dired-sidebar uses these
-;; (use-package vscode-icon)
 
 (use-package dired-sidebar
   :bind (("s-b" . dired-sidebar-toggle-sidebar))
