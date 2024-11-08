@@ -1164,7 +1164,7 @@
   :config
   (setq elfeed-feeds
         '(("https://world.hey.com/dhh/feed.atom" dhh)
-          ("https://stacker.news/rss" stacker)
+          ("https://forum.systemcrafters.net/posts.rss" sc)
           ("https://karthinks.com/index.xml" karthinks)
           ("https://protesilaos.com/codelog.xml" prot)
           ("https://www.masteringemacs.org/feed" masteringemacs))))
