@@ -114,7 +114,12 @@
   :bind ("<backspace>" . daut/minibuffer-backward-kill))
 
 (use-package vertico-posframe
-  :init (vertico-posframe-mode))
+  :init (vertico-posframe-mode)
+    :config
+  (setq vertico-multiform-commands
+        '((consult-line (:not posframe))
+          (t posframe)))
+  (vertico-multiform-mode t))
 
 (defun daut/selected-region-or-symbol-at-point ()
   "Return the selected region, otherwise return the symbol at point."
