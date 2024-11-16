@@ -957,7 +957,9 @@
       (copilot-mode))))
 
 (use-package magit
-  :commands magit-status)
+  :commands magit-status
+  :config
+  (setq magit-diff-refine-hunk 'all))
 
 ;; add options to magit like create PR, track issues etc.
 (use-package forge
