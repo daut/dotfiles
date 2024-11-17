@@ -1081,6 +1081,16 @@
   :config
   (setq dired-sidebar-theme 'nerd))
 
+(defun 0x0-upload-file (file-path)
+  "Upload a file at FILE-PATH to 0x0.st and copy the URL to the kill ring."
+  (interactive "fSelect a file to upload: ")
+  (message "Sending %s to 0x0.st..." file-path)
+  (let ((url (string-trim-right
+              (shell-command-to-string
+               (format "curl -s -F'file=@%s' https://0x0.st" (expand-file-name file-path))))))
+    (message "0x0.st URL: %s" url)
+    (kill-new url)))
+
 (setq switch-to-buffer-obey-display-actions t)
 
 (defun daut/toggle-window-dedication ()
