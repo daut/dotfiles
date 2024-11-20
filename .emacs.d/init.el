@@ -115,7 +115,7 @@
 
 (use-package vertico-posframe
   :init (vertico-posframe-mode)
-    :config
+  :config
   (setq vertico-multiform-commands
         '((consult-line (:not posframe))
           (t posframe)))
