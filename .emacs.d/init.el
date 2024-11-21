@@ -118,6 +118,7 @@
   :config
   (setq vertico-multiform-commands
         '((consult-line (:not posframe))
+          (consult-ripgrep (:not posframe))
           (t posframe)))
   (vertico-multiform-mode t))
 
