@@ -713,9 +713,7 @@
   :mode "\\.ts[x]\\'"
   :hook (typescript-mode . lsp-deferred)
   :config
-  (setq typescript-indent-level 2)
-  (require 'dap-node)
-  (dap-node-setup))
+  (setq typescript-indent-level 2))
 
 (defun daut/js-standard-fix-file ()
   (interactive)
@@ -766,9 +764,7 @@
   (go-mode . lsp-deferred)
   (before-save . gofmt-before-save)
   (go-mode . (lambda () (setq tab-width 2)))
-  (go-mode . daut/go-fold-imports)
-  :config
-  (require 'dap-dlv-go))
+  (go-mode . daut/go-fold-imports))
 
 (use-package go-playground
   :after go-mode)
