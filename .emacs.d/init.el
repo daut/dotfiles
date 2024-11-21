@@ -650,6 +650,9 @@
 (use-package company-box
   :hook (company-mode . company-box-mode))
 
+(use-package company-statistics
+  :hook (after-init . company-statistics-mode))
+
 ;; yasnippet
 (use-package yasnippet
   :diminish yas-minor-mode

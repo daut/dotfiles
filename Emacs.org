@@ -830,6 +830,9 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 (use-package company-box
   :hook (company-mode . company-box-mode))
 
+(use-package company-statistics
+  :hook (after-init . company-statistics-mode))
+
 #+end_src
 ** Yasnippet
 #+begin_src emacs-lisp
