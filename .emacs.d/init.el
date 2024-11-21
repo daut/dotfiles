@@ -178,7 +178,7 @@
 (scroll-bar-mode -1)        ; Disable visible scrollbar
 (tool-bar-mode -1)          ; Disable the toolbar
 (tooltip-mode -1)           ; Disable tooltips
-(set-fringe-mode '(8 . 0))  ; Kill right fringe
+(set-fringe-mode '(8 . 8))  ; Set fringes
 
 (menu-bar-mode -1)   ; Disable menu bar
 
