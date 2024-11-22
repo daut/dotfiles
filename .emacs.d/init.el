@@ -961,6 +961,10 @@
   :config
   (setq magit-diff-refine-hunk 'all))
 
+(use-package magit-todos
+  :after magit
+  :config (magit-todos-mode 1))
+
 ;; add options to magit like create PR, track issues etc.
 (use-package forge
   :after magit)
