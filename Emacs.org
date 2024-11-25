@@ -663,7 +663,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 #+end_src
 * Org Mode Configuration
 ** Basic Configuration
-
 #+begin_src emacs-lisp
 
 (defun daut/org-mode-setup ()
@@ -671,7 +670,8 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (visual-line-mode 1))
 
 (use-package org
-  :hook (org-mode . daut/org-mode-setup)
+  :hook ((org-mode . daut/org-mode-setup)
+         (org-mode . olivetti-mode))
   :commands (org-capture org-agenda)
   :config
   (setq org-ellipsis " ▾")
@@ -698,19 +698,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 (setq
  org-src-preserve-indentation t
  org-src-tab-acts-natively t)
-
-#+end_src
-
-** Center Content
-#+begin_src emacs-lisp
-
-(defun daut/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-	visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-(use-package visual-fill-column
-  :hook (org-mode . daut/org-mode-visual-fill))
 
 #+end_src
 ** Org Babel Languages Configuration

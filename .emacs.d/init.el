@@ -530,7 +530,8 @@
   (visual-line-mode 1))
 
 (use-package org
-  :hook (org-mode . daut/org-mode-setup)
+  :hook ((org-mode . daut/org-mode-setup)
+         (org-mode . olivetti-mode))
   :commands (org-capture org-agenda)
   :config
   (setq org-ellipsis " ▾")
@@ -557,14 +558,6 @@
 (setq
  org-src-preserve-indentation t
  org-src-tab-acts-natively t)
-
-(defun daut/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-	visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-(use-package visual-fill-column
-  :hook (org-mode . daut/org-mode-visual-fill))
 
 (with-eval-after-load 'org
   (org-babel-do-load-languages
