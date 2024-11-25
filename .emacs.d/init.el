@@ -218,7 +218,7 @@
 (use-package dashboard
   :ensure t
   :custom
-  (dashboard-startup-banner 'logo)
+  (dashboard-startup-banner (concat user-emacs-directory "themes/emacs.txt"))
   :config
   (dashboard-setup-startup-hook)
   (add-to-list 'dashboard-footer-messages "Person who say it cannot be done should not interrupt person doing it.")
