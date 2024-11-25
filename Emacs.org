@@ -256,6 +256,12 @@ Environment variables sometimes aren't right, this fixes it.
   :diminish
   :hook (after-init . global-page-break-lines-mode))
 
+(use-package beacon
+  :init
+  (beacon-mode)
+  :config
+  (setq beacon-color "#335533"))
+
 #+end_src
 ** Dashboard
 #+begin_src emacs-lisp

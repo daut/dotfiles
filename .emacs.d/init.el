@@ -209,6 +209,12 @@
   :diminish
   :hook (after-init . global-page-break-lines-mode))
 
+(use-package beacon
+  :init
+  (beacon-mode)
+  :config
+  (setq beacon-color "#335533"))
+
 (use-package dashboard
   :ensure t
   :custom
