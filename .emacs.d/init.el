@@ -599,6 +599,8 @@
   :config
   (org-roam-setup))
 
+(use-package org-roam-ui)
+
 (setq org-clock-sound t)
 
 (use-package compile
