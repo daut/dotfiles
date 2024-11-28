@@ -71,6 +71,7 @@
 (use-package emacs
   :custom
   (enable-recursive-minibuffers t)
+  (pixel-scroll-precision-mode t)
   :config
   (defvar daut/default-font-size 150)
   (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size)
@@ -599,7 +600,8 @@
   :config
   (org-roam-setup))
 
-(use-package org-roam-ui)
+(use-package org-roam-ui
+  :after org-roam)
 
 (setq org-clock-sound t)
 
