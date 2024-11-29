@@ -59,13 +59,6 @@ function keyStroke (key)
     event.newKeyEvent({}, string.lower(key), false):post()
 end
 
--- Remap ctrl + [ to send esc key
-hs.hotkey.bind({ "ctrl" }, "[",
-    function () keyStroke("escape") end,
-    nil,
-    function () keyStroke("escape") end
-)
-
 function bindIfNotEmacs (binding)
     local windowFrame = hs.window.filter
     local emacsWindowFrame = windowFrame.new("Emacs")
@@ -75,6 +68,21 @@ function bindIfNotEmacs (binding)
         binding:enable()
     end)
 end
+
+-- Remap ctrl + [ to send esc key
+hs.hotkey.bind({ "ctrl" }, "[",
+    function () keyStroke("escape") end,
+    nil,
+    function () keyStroke("escape") end
+)
+
+-- Remap ctrl + g to send esc key
+local escBinding = hs.hotkey.bind({ "ctrl" }, "g",
+    function () keyStroke("escape") end,
+    nil,
+    function () keyStroke("escape") end
+)
+bindIfNotEmacs(escBinding)
 
 -- Remap ctrl + p to up key
 local upBinding = hs.hotkey.bind({ "ctrl" }, "p",
