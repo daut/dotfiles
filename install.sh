@@ -24,6 +24,7 @@ brew install coreutils # for gnu commands
 brew install ripgrep # faster grep
 brew install inetutils # for ftp
 brew install mpv # media player
+brew install rust
 
 # add taps
 brew tap homebrew/cask-versions
