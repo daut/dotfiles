@@ -1,0 +1,34 @@
+(defcfg process-unmapped-keys yes)
+
+(defvar
+  tap-time 200
+  hold-time 200)
+
+(defalias caps-mod (tap-hold $tap-time $hold-time caps lctl)
+  tick-mod (tap-hold $tap-time $hold-time ' lctl)
+  a-mod (tap-hold $tap-time $hold-time a lmet)
+  s-mod (tap-hold $tap-time $hold-time s lalt)
+  d-mod (tap-hold $tap-time $hold-time d lsft)
+  f-mod (tap-hold $tap-time $hold-time f lctl)
+  j-mod (tap-hold $tap-time $hold-time j rctl)
+  k-mod (tap-hold $tap-time $hold-time k rsft)
+  l-mod (tap-hold $tap-time $hold-time l ralt)
+  ;-mod (tap-hold $tap-time $hold-time ; rmet))
+
+(deflocalkeys-macos
+  § 86
+)
+
+(defsrc
+ §
+ a s d f
+ j k l ;
+ `
+ caps ')
+
+(deflayer base
+  grv
+  @a-mod @s-mod @d-mod @f-mod
+  @j-mod @k-mod @l-mod @;-mod
+  §
+  lctl @tick-mod)
