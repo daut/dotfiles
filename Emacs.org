@@ -765,9 +765,11 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 #+begin_src emacs-lisp
 (use-package compile
   :ensure nil
+  :hook (compilation-filter . ansi-color-compilation-filter)
   :bind(("C-c C-r" . recompile))
   :config
-  (setq compilation-scroll-output t))
+  (setq compilation-scroll-output t)
+  (setopt compilation-ask-about-save nil))
 #+end_src
 ** Projectile
 

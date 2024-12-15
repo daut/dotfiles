@@ -607,9 +607,11 @@
 
 (use-package compile
   :ensure nil
+  :hook (compilation-filter . ansi-color-compilation-filter)
   :bind(("C-c C-r" . recompile))
   :config
-  (setq compilation-scroll-output t))
+  (setq compilation-scroll-output t)
+  (setopt compilation-ask-about-save nil))
 
 (use-package projectile
   :diminish projectile-mode
