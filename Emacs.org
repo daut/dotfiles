@@ -1136,7 +1136,10 @@ https://github.com/mermaid-js/mermaid-cli
 #+begin_src emacs-lisp
 (use-package dockerfile-mode)
 #+end_src
-
+*** Scheme
+#+begin_src emacs-lisp
+(use-package geiser-guile)
+#+end_src
 ** Flycheck
 #+begin_src emacs-lisp
 

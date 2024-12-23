@@ -901,6 +901,8 @@
 
 (use-package dockerfile-mode)
 
+(use-package geiser-guile)
+
 (use-package flycheck
   :diminish
   :commands flycheck-redefine-standard-error-levels
