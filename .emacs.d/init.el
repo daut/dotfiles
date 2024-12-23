@@ -630,7 +630,7 @@
   (setq projectile-sort-order 'recentf)
   ;; (setq projectile-enable-caching t)
   (when (file-directory-p "~/projects")
-    (setq projectile-project-search-path '(("~/projects" . 2))))
+    (setq projectile-project-search-path '(("~/projects" . 3))))
   (setq projectile-switch-project-action #'projectile-dired)
   (setq projectile-git-submodule-command nil)
   (setq projectile-use-git-grep t))
