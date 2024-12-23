@@ -608,7 +608,12 @@
 (use-package compile
   :ensure nil
   :hook (compilation-filter . ansi-color-compilation-filter)
-  :bind(("C-c C-r" . recompile))
+  :bind(("C-c C-r" . recompile)
+        ("C-c c" . switch-to-compilation-buffer))
+  :custom
+  (defun switch-to-compilation-buffer ()
+    (interactive)
+    (switch-to-buffer "*compilation*"))
   :config
   (setq compilation-scroll-output t)
   (setopt compilation-ask-about-save nil))
