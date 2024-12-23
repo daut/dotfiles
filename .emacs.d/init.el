@@ -534,6 +534,8 @@
   :hook ((org-mode . daut/org-mode-setup)
          (org-mode . olivetti-mode))
   :commands (org-capture org-agenda)
+  :bind (:map org-mode-map
+              ("M-RET" . org-insert-item))
   :config
   (setq org-ellipsis " ▾")
   (setq org-agenda-start-with-log-mode t)
@@ -1204,7 +1206,7 @@
 (global-set-key (kbd "C-s-n") (kbd "C-u 1 C-v"))
 (global-set-key (kbd "C-s-p") (kbd "C-u 1 M-v"))
 
-;; Make ESC quit promps
+;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (defun daut/backward-delete-word (arg)
