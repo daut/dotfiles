@@ -882,7 +882,8 @@
 ;; sqlint: gem install sqlint
 (use-package sql
   :hook
-  (sql-mode . lsp)
+  ((sql-mode . lsp)
+   (sql-interactive-mode . (lambda () (toggle-truncate-lines t))))
   :config
   (setq lsp-sqls-timeout 10)
   (setq lsp-sqls-workspace-config-path "root"))
