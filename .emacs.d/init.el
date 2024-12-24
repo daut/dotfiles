@@ -1136,6 +1136,8 @@
   :ensure nil
   :commands (winner-undo winner-redo)
   :hook (after-init . winner-mode)
+  :bind (("C-c w u" . winner-undo)
+         ("C-c w r" . winner-redo))
   :init (setq winner-boring-buffers '("*Completions*"
                                       "*Compile-Log*"
                                       "*inferior-lisp*"
