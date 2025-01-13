@@ -544,7 +544,7 @@
         '("~/projects/org/gtd/inbox.org"
           "~/projects/org/gtd/gtd.org"
           "~/projects/org/gtd/tickler.org"))
-  (setq org-refile-targets '(("~/projects/org/gtd/gtd.org" :maxlevel . 1)
+  (setq org-refile-targets '(("~/projects/org/gtd/gtd.org" :maxlevel . 2)
                              ("~/projects/org/gtd/someday.org" :level . 1)
                              ("~/projects/org/gtd/tickler.org" :maxlevel . 1)))
   (setq org-capture-templates '(("t" "TODO [inbox]" entry
@@ -612,11 +612,10 @@
   :hook (compilation-filter . ansi-color-compilation-filter)
   :bind(("C-c C-r" . recompile)
         ("C-c c" . switch-to-compilation-buffer))
-  :custom
+  :config
   (defun switch-to-compilation-buffer ()
     (interactive)
     (switch-to-buffer "*compilation*"))
-  :config
   (setq compilation-scroll-output t)
   (setopt compilation-ask-about-save nil))
 
