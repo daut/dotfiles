@@ -627,7 +627,7 @@
   ("s-p" . projectile-find-file)
   :init
   (setq projectile-sort-order 'recentf)
-  ;; (setq projectile-enable-caching t)
+  (setq projectile-auto-discover nil)
   (when (file-directory-p "~/projects")
     (setq projectile-project-search-path '(("~/projects" . 3))))
   (setq projectile-switch-project-action #'projectile-dired)
