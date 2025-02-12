@@ -5,13 +5,13 @@ group: vue
 # --
 
 <script setup>
-
+$1
 </script>
 
 <template>
-
+$0
 </template>
 
 <style scoped>
-
+$2
 </style>

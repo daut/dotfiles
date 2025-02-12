@@ -863,6 +863,7 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (add-to-list 'lsp-disabled-clients '(astro-ts-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(css-mode . vue-semantic-server))
   ;; https://github.com/emacs-lsp/lsp-mode/issues/2915#issuecomment-855156802
+  (add-to-list 'lsp-language-id-configuration '(".*\\.liquid" . "html"))
   (setf (alist-get 'web-mode lsp--formatting-indent-alist) 'web-mode-code-indent-offset))
   ;; turn off lsp diagnostics to let flycheck do the job
   ;; (setq lsp-diagnostics-provider :none))
@@ -990,10 +991,11 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 *** JSON
 #+begin_src emacs-lisp
 
-(use-package json-mode
+(use-package js-json-mode
+  :ensure nil
   :mode "\\.json\\'"
   :hook
-  (json-mode . lsp-deferred)
+  (js-json-mode . lsp-deferred)
   :config
   (setq js-indent-level 2))
 
@@ -1066,14 +1068,17 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   :mode "\\.gotmpl\\'"
   :mode "\\.gohtml\\'"
   :mode "\\.astro\\'"
+  :mode "\\.liquid\\'"
   :config
+  (setq web-mode-enable-auto-indent nil)
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-script-padding 0)
   (setq web-mode-style-padding 0)
   (setq web-mode-engines-alist
-        '(("go" . "\\.tmpl\\'"))))
+        '(("go" . "\\.tmpl\\'")
+          ("liquid" . "\\.liquid\\'"))))
 
 ;; CSS mode
 (use-package css-mode
@@ -1159,6 +1164,9 @@ https://github.com/mermaid-js/mermaid-cli
   :hook (after-init . apheleia-global-mode)
   :config
   (cl-pushnew '(eslint . ("eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file))
+              apheleia-formatters
+              :test #'equal)
+  (cl-pushnew '(prettier-liquid . ("apheleia-npx" "prettier" "--stdin-filepath" filepath "--parser=html"))
               apheleia-formatters
               :test #'equal))
 #+end_src
