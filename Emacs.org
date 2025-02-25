@@ -796,7 +796,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (setq projectile-use-git-grep t))
 
 #+end_src
-
 ** Rainbow Delimiters
 
 #+begin_src emacs-lisp
@@ -1048,6 +1047,8 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (web-mode . lsp-deferred)
   (web-mode . web-mode-add-electric-pairs)
   (web-mode . dtrt-indent-mode)
+  (web-mode . (lambda ()
+                (setq yas-after-exit-snippet-hook nil)))
   :mode "\\.[px]?html?\\'"
   :mode "\\.\\(?:tpl\\|blade\\)\\(?:\\.php\\)?\\'"
   :mode "\\.erb\\'"

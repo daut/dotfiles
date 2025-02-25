@@ -833,6 +833,8 @@
   (web-mode . lsp-deferred)
   (web-mode . web-mode-add-electric-pairs)
   (web-mode . dtrt-indent-mode)
+  (web-mode . (lambda ()
+                (setq yas-after-exit-snippet-hook nil)))
   :mode "\\.[px]?html?\\'"
   :mode "\\.\\(?:tpl\\|blade\\)\\(?:\\.php\\)?\\'"
   :mode "\\.erb\\'"
