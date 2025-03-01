@@ -1,6 +1,3 @@
-;; TODO: Bug in Emacs 28.2 remove once updated https://emacs.stackexchange.com/questions/74289/emacs-28-2-error-in-macos-ventura-image-type-invalid-image-type-svg
-(add-to-list 'image-types 'svg)
-
 ;; The default is 800 kilobytes. Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
 
@@ -169,7 +166,10 @@
 (use-package orderless
   :custom
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  (completion-category-defaults nil)
+  (completion-category-overrides nil)
+  :config
+  (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-flex)))
 
 ;; Hide startup message
 (setq inhibit-startup-message t)
