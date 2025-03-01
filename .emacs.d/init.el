@@ -169,7 +169,7 @@
   (completion-category-defaults nil)
   (completion-category-overrides nil)
   :config
-  (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-flex)))
+  (setq orderless-matching-styles '(orderless-literal orderless-regexp)))
 
 ;; Hide startup message
 (setq inhibit-startup-message t)
@@ -537,6 +537,8 @@
   :bind (:map org-mode-map
               ("M-RET" . org-insert-item))
   :config
+  ;; https://github.com/minad/consult/issues/1153
+  (setq org-fold-core-style 'overlays)
   (setq org-ellipsis " ▾")
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)
