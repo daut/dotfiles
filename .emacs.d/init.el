@@ -967,6 +967,14 @@
   (setq gptel-model 'gpt-4o)
   (add-to-list 'gptel-directives '(proofreader . "I want you act as a proofreader. I will provide you texts and I would like you to review them for any spelling, grammar, or punctuation errors. Once you have finished reviewing the text, provide me with any necessary corrections or suggestions to improve the text.")))
 
+(use-package aidermacs
+  :vc (aidermacs :url "https://github.com/MatthewZMD/aidermacs")
+  :config
+  (setq aidermacs-args '("--model" "anthropic/claude-3-5-sonnet-20241022"))
+  ;; (setq aidermacs-backend 'vterm)
+  (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
+  (global-set-key (kbd "C-c a") 'aidermacs-transient-menu))
+
 (use-package copilot
   :hook ((prog-mode restclient-mode eshell-mode yaml-mode) . copilot-mode)
   :config
