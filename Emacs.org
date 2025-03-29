@@ -904,23 +904,14 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 #+end_src
 *** JavaScript
 #+begin_src emacs-lisp
-(defun daut/js-standard-fix-file ()
-  (interactive)
-  (when (eq major-mode 'js-mode)
-    (shell-command (concat "standard --fix " (buffer-file-name)))
-    (revert-buffer t t)))
-
 (use-package js-mode
   :ensure nil
   :mode "\\.[c|m]js[x]\\'"
   :hook
   (js-mode . lsp-deferred)
   (js-mode . dtrt-indent-mode)
-  ;; (after-save . daut/js-standard-fix-file)
   :config
-  (setq js-indent-level 2)
-  :bind
-  ("C-c /" . daut/js-standard-fix-file))
+  (setq js-indent-level 2))
 
 ;; Adds node_modules/.bin directory to `exec_path'
 ;; This allows Emacs to find project based installs of e.g. eslint.
