@@ -2,11 +2,8 @@
 #+PROPERTY: header-args:emacs-lisp :mkdirp yes :tangle .emacs.d/init.el
 #+STARTUP: overview
 
-* Startup Performance
+* Runtime Performance
 #+begin_src emacs-lisp
-;; The default is 800 kilobytes. Measured in bytes.
-(setq gc-cons-threshold (* 50 1000 1000))
-
 ;; Improve lsp perf https://emacs-lsp.github.io/lsp-mode/page/performance/#increase-the-amount-of-data-which-emacs-reads-from-the-process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
@@ -17,6 +14,20 @@
                     (time-subtract after-init-time before-init-time)))
            gcs-done))
 (add-hook 'emacs-startup-hook #'daut/display-startup-time)
+
+;; Should make working with long lines faster https://emacs.stackexchange.com/questions/598/how-do-i-prevent-extremely-long-lines-making-emacs-slow
+(setq bidi-inhibit-bpa t)
+(setq bidi-paragraph-direction 'left-to-right)
+(global-so-long-mode 1)
+
+;; Garbage Collector Magic Hack
+(use-package gcmh
+  :diminish
+  :hook (emacs-startup . gcmh-mode)
+  :init
+  (setq gcmh-idle-delay 'auto
+        gcmh-auto-idle-delay-factor 10
+        gcmh-high-cons-threshold #x1000000)) ; 16MB
 
 #+end_src
 * Package System Setup
@@ -217,40 +228,11 @@ Environment variables sometimes aren't right, this fixes it.
 * UI Configuration
 ** Basic
 #+begin_src emacs-lisp
-
-;; Hide startup message
-(setq inhibit-startup-message t)
-
-;; set line-spacing
-(setq default-text-properties '(line-spacing 0.05 line-height 1.1))
-
-(scroll-bar-mode -1)        ; Disable visible scrollbar
-(tool-bar-mode -1)          ; Disable the toolbar
-(tooltip-mode -1)           ; Disable tooltips
-(set-fringe-mode '(8 . 8))  ; Set fringes
-
-(menu-bar-mode -1)   ; Disable menu bar
-
 ;; Show line numbers
 (use-package display-line-numbers
   :ensure nil
   :hook ((prog-mode yaml-mode conf-mode astro-ts-mode) . display-line-numbers-mode)
   :init (setq display-line-numbers-width-start t))
-
-;; highlight current cursor line
-(global-hl-line-mode +1)
-
-;; change cursor type
-(setq-default cursor-type 'bar)
-
-;; open in fullscreen
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-
-;; disable the annoying bell ring
-(setq ring-bell-function 'ignore)
-
-;; remove cursor from non-focused windows
-(setq-default cursor-in-non-selected-windows nil)
 
 ;; Display ugly ^L page breaks as tidy horizontal lines
 (use-package page-break-lines
@@ -1504,28 +1486,6 @@ Note: coreutils had to be installed on MacOS systems for group-directories-first
       (persp-switch "aux")
       (persp-switch current-persp)))
   (setq persp-state-default-file (concat user-emacs-directory "persp-")))
-#+end_src
-* Runtime Performance
-#+begin_src emacs-lisp
-
-;; make garbage collection pauses faster by decreasing the memory consumption threshold
-;; this basically reverts threshold increase at the beginning of the file (which helps with load time)
-(setq gc-cons-threshold (* 2 1000 1000))
-
-;; Should make working with long lines faster https://emacs.stackexchange.com/questions/598/how-do-i-prevent-extremely-long-lines-making-emacs-slow
-(setq bidi-inhibit-bpa t)
-(setq bidi-paragraph-direction 'left-to-right)
-(global-so-long-mode 1)
-
-;; Garbage Collector Magic Hack
-(use-package gcmh
-  :diminish
-  :hook (emacs-startup . gcmh-mode)
-  :init
-  (setq gcmh-idle-delay 'auto
-        gcmh-auto-idle-delay-factor 10
-        gcmh-high-cons-threshold #x1000000)) ; 16MB
-
 #+end_src
 * RSS
 #+begin_src emacs-lisp
