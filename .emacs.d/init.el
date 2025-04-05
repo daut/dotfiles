@@ -940,24 +940,25 @@
 
 (use-package gptel
   :config
-  (setq gptel-model 'gpt-4o)
+  (setq gptel-backend (gptel-make-anthropic "Claude" :stream t :key gptel-api-key))
+  (setq gptel-model 'claude-3-5-sonnet-20241022)
   (add-to-list 'gptel-directives '(proofreader . "I want you act as a proofreader. I will provide you texts and I would like you to review them for any spelling, grammar, or punctuation errors. Once you have finished reviewing the text, provide me with any necessary corrections or suggestions to improve the text.")))
 
-(use-package aidermacs
-  :vc (aidermacs :url "https://github.com/MatthewZMD/aidermacs")
-  :config
-  (setq aidermacs-args '("--model" "anthropic/claude-3-5-sonnet-20241022"))
-  ;; (setq aidermacs-backend 'vterm)
-  (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
-  (global-set-key (kbd "C-c a") 'aidermacs-transient-menu))
+(use-package elysium
+  :custom
+  (elysium-window-size 0.33)
+  (elysium-window-style 'vertical))
 
 (use-package copilot
   :hook ((prog-mode restclient-mode eshell-mode yaml-mode) . copilot-mode)
+  :bind
+  ("C-<tab>" . copilot-complete)
   :config
   (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
   (setq copilot-indent-offset-warning-disable t)
   (setq copilot-max-char 1000000)
+  (setq copilot-idle-delay nil)
   (defun daut/activate-copilot ()
     (if (> (buffer-size) copilot-max-char)
         ;; Or don't even warn to get rid of it.
