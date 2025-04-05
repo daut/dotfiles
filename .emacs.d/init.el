@@ -1010,6 +1010,22 @@
   (setq vterm-shell "zsh")
   (setq vterm-max-scrollback 10000))
 
+(defvar vterm-toggle-window-state nil)
+
+(defun toggle-vterm-window ()
+  (interactive)
+  (if vterm-toggle-window-state
+      (progn
+        (delete-window (get-buffer-window "*vterm*"))
+        (setq vterm-toggle-window-state nil))
+    (let* ((height (floor (* 0.25 (frame-height))))
+           (new-window (split-root-window-below (- (frame-height) height))))
+      (select-window new-window)
+      (vterm)
+      (setq vterm-toggle-window-state t))))
+
+(global-set-key (kbd "C-`") 'toggle-vterm-window)
+
 (use-package eshell-git-prompt
   :after eshell)
 
