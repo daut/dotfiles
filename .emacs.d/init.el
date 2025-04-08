@@ -939,6 +939,8 @@
   :defer t)
 
 (use-package gptel
+  :bind (("C-c g g" . gptel)
+         ("C-c g m" . gptel-menu))
   :config
   (setq gptel-backend (gptel-make-anthropic "Claude" :stream t :key gptel-api-key))
   (setq gptel-model 'claude-3-5-sonnet-20241022)
@@ -947,7 +949,13 @@
 (use-package elysium
   :custom
   (elysium-window-size 0.33)
-  (elysium-window-style 'vertical))
+  (elysium-window-style 'vertical)
+  :bind (("C-c e q" . elysium-query)
+         ("C-c e k" . elysium-keep-all-suggested-changes)
+         ("C-c e d" . elysium-discard-all-suggested-changes) 
+         ("C-c e a" . elysium-add-context)
+         ("C-c e c" . elysium-clear-buffer)
+         ("C-c e t" . elysium-toggle-window)))
 
 (use-package copilot
   :hook ((prog-mode restclient-mode eshell-mode yaml-mode) . copilot-mode)
