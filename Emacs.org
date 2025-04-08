@@ -345,6 +345,14 @@ Helpful is an alternative to emacs builtin help which provides much more context
               highlight-indent-guides-responsive 'top
               highlight-indent-guides-suppress-auto-error t))
 #+end_src
+
+** Colorful
+#+begin_src emacs-lisp
+(use-package colorful-mode
+  :config
+  (global-colorful-mode)
+  (add-to-list 'global-colorful-modes 'helpful-mode))
+#+end_src
 * Editing Configuration
 ** Basic
 #+begin_src emacs-lisp

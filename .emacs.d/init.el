@@ -275,6 +275,11 @@
               highlight-indent-guides-responsive 'top
               highlight-indent-guides-suppress-auto-error t))
 
+(use-package colorful-mode
+  :config
+  (global-colorful-mode)
+  (add-to-list 'global-colorful-modes 'helpful-mode))
+
 ;; When you visit a file, point goes to the last place
 ;; where it was when you previously visited the same file.
 (use-package save-place
