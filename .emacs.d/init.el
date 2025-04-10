@@ -1020,7 +1020,7 @@
 (use-package vterm
   :commands vterm
   :config
-  (setq vterm-shell "zsh")
+  (setq vterm-shell "fish")
   (setq vterm-max-scrollback 10000))
 
 (defvar vterm-toggle-window-state nil)

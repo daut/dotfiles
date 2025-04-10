@@ -25,6 +25,7 @@ brew install ripgrep # faster grep
 brew install inetutils # for ftp
 brew install mpv # media player
 brew install rust
+brew install fish # fish shell
 
 # add taps
 brew tap homebrew/cask-versions
@@ -53,3 +54,7 @@ npm i -g eslint
 ln -s ~/projects/dotfiles/.emacs.d/init.el ~/.emacs.d/init.el
 ln -s ~/projects/dotfiles/.emacs.d/early-init.el ~/.emacs.d/early-init.el
 ln -s ~/projects/dotfiles/.emacs.d/snippets/ ~/.emacs.d/
+
+# setup fish
+which fish | sudo tee -a /etc/shells
+chsh -s $(which fish)
