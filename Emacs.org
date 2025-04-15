@@ -1310,9 +1310,13 @@ https://github.com/mermaid-js/mermaid-cli
         (delete-window (get-buffer-window "*vterm*"))
         (setq vterm-toggle-window-state nil))
     (let* ((height (floor (* 0.25 (frame-height))))
-           (new-window (split-root-window-below (- (frame-height) height))))
+           (new-window (split-root-window-below (- (frame-height) height)))
+           (project-dir (projectile-project-root)))
       (select-window new-window)
       (vterm)
+      (when project-dir
+        (vterm-send-string (concat "cd " project-dir))
+        (vterm-send-return))
       (setq vterm-toggle-window-state t))))
 
 (global-set-key (kbd "C-`") 'toggle-vterm-window)
