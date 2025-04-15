@@ -971,12 +971,13 @@
   (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
   (setq copilot-indent-offset-warning-disable t)
   (setq copilot-max-char 1000000)
-  (setq copilot-idle-delay nil)
-  (defun daut/activate-copilot ()
-    (if (> (buffer-size) copilot-max-char)
-        ;; Or don't even warn to get rid of it.
-        (warn "Buffer size exceeds copilot max char limit. Copilot will not be activated.")
-      (copilot-mode))))
+  (setq copilot-idle-delay nil))
+
+(use-package aider
+  :config
+  (setq aider-args '("--model" "sonnet" "--no-auto-commits"))
+  (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
+  (global-set-key (kbd "C-c a") 'aider-transient-menu))
 
 (use-package magit
   :commands magit-status
