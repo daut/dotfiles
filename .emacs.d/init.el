@@ -193,11 +193,11 @@
   :diminish
   :hook (after-init . global-page-break-lines-mode))
 
-(use-package beacon
+(use-package pulsar
   :init
-  (beacon-mode)
-  :config
-  (setq beacon-color "#335533"))
+  (pulsar-global-mode)
+  :hook
+  (consult-after-jump . pulsar-recenter-center))
 
 (use-package dashboard
   :ensure t
@@ -1174,11 +1174,27 @@
 
 (use-package transpose-frame)
 
+(defun daut/other-window-backward ()
+  (interactive)
+  (other-window -1)
+  (pulsar-recenter-center))
+
+(defun daut/other-window-forward ()
+  (interactive)
+  (other-window 1)
+  (pulsar-recenter-center))
+
+(defun daut/ace-window-pulsar (&rest _)
+  "Advice function to trigger pulsar after ace-window."
+  (pulsar-recenter-center))
+
 (use-package ace-window
+  :init
+  (advice-add 'ace-window :after #'daut/ace-window-pulsar)
   :bind
   (("C-x o" . ace-window)
-   ("s-[" . (lambda () (interactive) (other-window -1)))
-   ("s-]" . (lambda () (interactive) (other-window 1))))
+   ("s-[" . daut/other-window-backward)
+   ("s-]" . daut/other-window-forward))
   :config
   (setq aw-dispatch-always t))
 
@@ -1300,8 +1316,8 @@ With argument ARG, do this that many times."
    [remap backward-kill-word] 'daut/backward-delete-char-or-word
    [remap kill-word] 'daut/delete-word
 
-   "C-s-," (lambda () (interactive) (forward-line -30))
-   "C-s-." (lambda () (interactive) (forward-line 30))
+   "C-s-," (lambda () (interactive) (forward-line -30) (pulsar-pulse-line))
+   "C-s-." (lambda () (interactive) (forward-line 30) (pulsar-pulse-line))
 
    "s-<" #'beginning-of-buffer
    "s->" #'end-of-buffer
