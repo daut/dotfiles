@@ -120,7 +120,8 @@
 
 (use-package vertico
   :init (vertico-mode)
-  :bind ("<backspace>" . daut/minibuffer-backward-kill))
+  :bind (:map vertico-map
+         ("<backspace>" . daut/minibuffer-backward-kill)))
 
 (use-package vertico-posframe
   :init (vertico-posframe-mode)
