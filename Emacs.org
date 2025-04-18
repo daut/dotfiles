@@ -1241,6 +1241,7 @@ https://github.com/mermaid-js/mermaid-cli
 ** aider.el
 #+begin_src emacs-lisp
 (use-package aider
+  :commands aider-transient-menu
   :config
   (setq aider-args '("--model" "sonnet" "--no-auto-commits"))
   (setenv "ANTHROPIC_API_KEY" anthropic-api-key)

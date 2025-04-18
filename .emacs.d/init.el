@@ -980,6 +980,7 @@
   (setq copilot-idle-delay nil))
 
 (use-package aider
+  :commands aider-transient-menu
   :config
   (setq aider-args '("--model" "sonnet" "--no-auto-commits"))
   (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
