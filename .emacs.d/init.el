@@ -753,22 +753,24 @@
           (hs-hide-block))
         (goto-char start)))))
 
-(use-package go-mode
+(use-package go-ts-mode
   :mode "\\.go\\'"
   :hook
-  (go-mode . lsp-deferred)
+  (go-ts-mode . lsp-deferred)
   (before-save . gofmt-before-save)
+  (go-ts-mode . (lambda () (setq tab-width 2)))
+  (go-ts-mode . daut/go-fold-imports)
   (go-mode . (lambda () (setq tab-width 2)))
   (go-mode . daut/go-fold-imports))
 
 (use-package go-playground
-  :after go-mode)
+  :after go-ts-mode)
 
 (use-package gotest
-  :after go-mode)
+  :after go-ts-mode)
 
 (use-package flycheck-golangci-lint
-  :hook (go-mode . flycheck-golangci-lint-setup))
+  :hook (go-ts-mode . flycheck-golangci-lint-setup))
 
 (use-package json-ts-mode
   :ensure nil
