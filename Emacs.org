@@ -1245,15 +1245,24 @@ https://github.com/mermaid-js/mermaid-cli
 ** copilot.el
 #+begin_src emacs-lisp
 (use-package copilot
-  :hook ((prog-mode restclient-mode eshell-mode yaml-mode) . copilot-mode)
+  :hook ((prog-mode restclient-mode eshell-mode yaml-mode org-mode) . copilot-mode)
   :bind
   ("C-<tab>" . copilot-complete)
+  ("s-c" . copilot-toggle-auto-complete)
   :config
   (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
-  (setq copilot-indent-offset-warning-disable t)
-  (setq copilot-max-char 1000000)
-  (setq copilot-idle-delay nil))
+  (setopt copilot-indent-offset-warning-disable t)
+  (setopt copilot-max-char 1000000)
+  (setopt copilot-idle-delay nil)  
+  (defun copilot-toggle-auto-complete ()
+    "Toggle automatic completion overlay behavior.
+When enabled, Copilot will automatically show completion suggestions
+after a short idle delay. When disabled, completions only appear
+through manual triggers."
+    (interactive)
+    (setq copilot-idle-delay (if (eq copilot-idle-delay nil) 0 nil))
+    (message "Copilot idle delay set to: %s" copilot-idle-delay)))
 #+end_src
 ** aider.el
 #+begin_src emacs-lisp
