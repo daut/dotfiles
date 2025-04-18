@@ -1066,6 +1066,9 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
         '(("go" . "\\.tmpl\\'")
           ("liquid" . "\\.liquid\\'"))))
 
+(use-package emmet-mode
+  :hook (web-mode . emmet-mode))
+
 ;; CSS mode
 (use-package css-mode
   :ensure nil

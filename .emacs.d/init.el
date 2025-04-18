@@ -850,6 +850,9 @@
         '(("go" . "\\.tmpl\\'")
           ("liquid" . "\\.liquid\\'"))))
 
+(use-package emmet-mode
+  :hook (web-mode . emmet-mode))
+
 ;; CSS mode
 (use-package css-mode
   :ensure nil
