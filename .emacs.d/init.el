@@ -773,11 +773,11 @@
 (use-package flycheck-golangci-lint
   :hook (go-mode . flycheck-golangci-lint-setup))
 
-(use-package js-json-mode
+(use-package json-ts-mode
   :ensure nil
   :mode "\\.json\\'"
   :hook
-  (js-json-mode . lsp-deferred)
+  (json-ts-mode . lsp-deferred)
   :config
   (setq js-indent-level 2))
 
@@ -940,6 +940,7 @@
           (go "https://github.com/tree-sitter/tree-sitter-go")
           (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
           (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+          (json "https://github.com/tree-sitter/tree-sitter-json")
           (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
           (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
           (vue "https://github.com/ikatyang/tree-sitter-vue")))
