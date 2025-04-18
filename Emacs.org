@@ -802,19 +802,20 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   :hook (after-init . global-company-mode)
   :bind
   (:map company-active-map
-        ("<tab>" . company-complete-selection))
+        ("<tab>" . nil)
+        ("TAB" . nil))
   ;; (:map lsp-mode-map
   ;;       ("<tab>" . company-indent-or-complete-column))
   :config
   ;; Number the candidates (use M-1, M-2 etc to select completions).
-  (setq company-show-numbers t)
-  (setq company-minimum-prefix-length 1)
-  (setq company-idle-delay 0.15)
-  (setq company-transformers '(delete-consecutive-dups
+  (setopt company-show-quick-access t)
+  (setopt company-minimum-prefix-length 1)
+  (setopt company-idle-delay 0)
+  (setopt company-transformers '(delete-consecutive-dups
                              company-sort-by-occurrence
                              company-sort-prefer-same-case-prefix))
   :init
-  (setq company-backends '((company-capf :with company-yasnippet company-dabbrev-code)
+  (setopt company-backends '((company-capf :with company-yasnippet company-dabbrev-code)
                            (company-dabbrev-code company-keywords company-files)
                            company-dabbrev)))
 
