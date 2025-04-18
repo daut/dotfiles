@@ -593,9 +593,6 @@
   :config
   (org-roam-setup))
 
-(use-package org-roam-ui
-  :after org-roam)
-
 (setq org-clock-sound t)
 
 (use-package compile
@@ -924,8 +921,6 @@
   :config
   (setq avy-background t)
   (setq avy-timeout-seconds 0.4))
-
-(use-package simple-httpd)
 
 (use-package rg)
 
