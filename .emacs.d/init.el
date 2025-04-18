@@ -671,6 +671,7 @@
   (add-to-list 'lsp-disabled-clients '(typescript-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(typescript-ts-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server))
+  (add-to-list 'lsp-disabled-clients '(js-ts-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(astro-ts-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(css-mode . vue-semantic-server))
   ;; https://github.com/emacs-lsp/lsp-mode/issues/2915#issuecomment-855156802
@@ -718,19 +719,22 @@
   :config
   (setq typescript-indent-level 2))
 
-(use-package js-mode
+(use-package js-ts-mode
   :ensure nil
-  :mode "\\.[c|m]js[x]\\'"
+  :mode (("\\.js\\'" . js-ts-mode)
+         ("\\.jsx\\'" . js-ts-mode)
+         ("\\.cjs\\'" . js-ts-mode)
+         ("\\.mjs\\'" . js-ts-mode))
   :hook
-  (js-mode . lsp-deferred)
-  (js-mode . dtrt-indent-mode)
+  (js-ts-mode . lsp-deferred)
+  (js-ts-mode . dtrt-indent-mode)
   :config
   (setq js-indent-level 2))
 
 ;; Adds node_modules/.bin directory to `exec_path'
 ;; This allows Emacs to find project based installs of e.g. eslint.
 (use-package add-node-modules-path
-  :hook ((web-mode js-mode js2-mode) . add-node-modules-path))
+  :hook ((web-mode js-ts-mode js-mode js2-mode) . add-node-modules-path))
 
 (use-package lua-mode
   :mode "\\.lua\\'"
