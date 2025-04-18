@@ -1,9 +1,8 @@
 # -*- mode: snippet -*-
-name: vue-base
-key: vueb
-group: vue
+# name: vue-base
+# key: vueb
+# group: vue
 # --
-
 <script setup>
 $1
 </script>

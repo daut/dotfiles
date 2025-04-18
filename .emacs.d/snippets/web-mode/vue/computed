@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Vue computed
+# key: comp
+# group: vue
+# --
+const ${1:computedValue} = computed(() => {
+  $0
+})

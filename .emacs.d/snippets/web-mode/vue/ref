@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Vue ref
+# key: rf
+# group: vue
+# --
+const ${1:value} = ref($0)

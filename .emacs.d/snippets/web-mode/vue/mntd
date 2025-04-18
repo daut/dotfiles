@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Vue onMounted
+# key: mntd
+# group: vue
+# --
+onMounted(() => {
+  $0
+})

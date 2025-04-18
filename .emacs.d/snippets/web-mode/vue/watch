@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Vue watch
+# key: wtch
+# group: vue
+# --
+watch(${1:source}, (newValue, oldValue) => {
+  $0
+})

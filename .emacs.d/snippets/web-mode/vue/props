@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: Vue defineProps
+# key: prp
+# group: vue
+# --
+const props = defineProps({
+  ${1:propName}: {
+    type: ${2:String},
+    required: true
+  }$0
+})
