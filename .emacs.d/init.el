@@ -917,6 +917,22 @@
               apheleia-formatters
               :test #'equal))
 
+(defun create-js-formatter-dirlocals ()
+  "Create .dir-locals.el file in project root with JavaScript/TypeScript formatting settings."
+  (interactive)
+  (let* ((root (project-root (project-current t)))
+         (dir-locals-file (expand-file-name ".dir-locals.el" root))
+         (content '((js-mode . ((apheleia-formatter . eslint)))
+                   (js-ts-mode . ((apheleia-formatter . eslint)))
+                   (typescript-mode . ((apheleia-formatter . eslint)))
+                   (json-ts-mode . ((apheleia-formatter . prettier-json)))
+                   (js-json-mode . ((apheleia-formatter . prettier-json)))
+                   (json-mode . ((apheleia-formatter . prettier-json)))
+                   (web-mode . ((apheleia-formatter . eslint))))))
+    (with-temp-file dir-locals-file
+      (insert (pp-to-string content)))
+    (message "Created .dir-locals.el at %s" dir-locals-file)))
+
 (use-package avy
   :bind (("s-." . avy-goto-char-timer)
          ("s-," . avy-goto-char)
