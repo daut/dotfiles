@@ -1073,9 +1073,9 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   :hook (web-mode . emmet-mode))
 
 ;; CSS mode
-(use-package css-mode
+(use-package css-ts-mode
   :ensure nil
-  :hook (css-mode . lsp-deferred)
+  :hook (css-ts-mode . lsp-deferred)
   :init (setq css-indent-offset 2))
 #+end_src
 *** Vue

@@ -857,9 +857,9 @@
   :hook (web-mode . emmet-mode))
 
 ;; CSS mode
-(use-package css-mode
+(use-package css-ts-mode
   :ensure nil
-  :hook (css-mode . lsp-deferred)
+  :hook (css-ts-mode . lsp-deferred)
   :init (setq css-indent-offset 2))
 
 ;; https://github.com/emacs-lsp/lsp-mode/issues/4313#issuecomment-2051461893
