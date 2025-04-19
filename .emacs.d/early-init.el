@@ -8,6 +8,22 @@
 
 ;;; Code:
 
+;; Prevent package.el from activating packages early
+;; This allows use-package to control when packages are loaded
+;; which significantly improves startup time
+(setq package-enable-at-startup nil)
+
+;; Disable site-run-file (site-start.el)
+;; Skip loading the site-start.el file which is rarely used
+;; but can slow down startup if present
+(setq site-run-file nil)
+
+;; Temporarily disable file handlers for faster startup
+;; File handlers process special file names (like .gz or remote files)
+;; Disabling them during startup significantly speeds up loading Emacs Lisp files
+(defvar daut/file-name-handler-alist-original file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
@@ -50,11 +66,14 @@
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 
-;; restore to normal value
-;; make garbage collection pauses faster by decreasing the memory consumption threshold
+;; Restore normal values after startup is complete
+;; Set garbage collection threshold to a reasonable value for normal use
+;; Too high causes memory bloat, too low causes frequent pauses
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (setq gc-cons-threshold (* 2 1000 1000)
-                  gc-cons-percentage 0.1)))
+            (setq gc-cons-threshold (* 2 1000 1000) ;; 2MB is Emacs default
+                  gc-cons-percentage 0.1)
+            ;; Restore file name handlers that were disabled during startup
+            (setq file-name-handler-alist daut/file-name-handler-alist-original)))
 
 ;;; early-init.el ends here

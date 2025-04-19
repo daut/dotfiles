@@ -1,5 +1,5 @@
 ;; Improve lsp perf https://emacs-lsp.github.io/lsp-mode/page/performance/#increase-the-amount-of-data-which-emacs-reads-from-the-process
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq read-process-output-max (* 4 1024 1024)) ;; Increase to 4mb for better performance with large responses
 
 (defun daut/display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
@@ -21,7 +21,7 @@
   :init
   (setq gcmh-idle-delay 'auto
         gcmh-auto-idle-delay-factor 10
-        gcmh-high-cons-threshold #x1000000)) ; 16MB
+        gcmh-high-cons-threshold #x2000000)) ; Increase to 32MB for better performance
 
 ;; Initialize package sources
 (require 'package)
