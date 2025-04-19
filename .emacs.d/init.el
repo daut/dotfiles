@@ -778,9 +778,9 @@
       :defines company-backends
       :init (add-to-list 'company-backends 'company-restclient))))
 
-(use-package yaml-mode
-  :mode "\\.y[a]ml\\'"
-  :mode "\\.y[a]ml\\.j2\\'")
+(use-package yaml-ts-mode
+  :mode "\\.ya?ml\\'"
+  :mode "\\.ya?ml\\.j2\\'")
 
 (defvar web-mode-electric-pairs '((?' . ?')) "Electric pairs for org-mode.")
 
@@ -934,7 +934,8 @@
           (json "https://github.com/tree-sitter/tree-sitter-json")
           (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
           (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-          (vue "https://github.com/ikatyang/tree-sitter-vue")))
+          (vue "https://github.com/ikatyang/tree-sitter-vue")
+          (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
   (setq treesit-font-lock-level 4))
 
 (use-package devdocs
