@@ -400,7 +400,8 @@
 ;; (use-package editorconfig
 ;;   :hook (after-init . editorconfig-mode))
 
-(use-package olivetti)
+(use-package olivetti
+  :hook (org-mode . olivetti-mode))
 
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
@@ -500,8 +501,7 @@
   (visual-line-mode 1))
 
 (use-package org
-  :hook ((org-mode . daut/org-mode-setup)
-         (org-mode . olivetti-mode))
+  :hook ((org-mode . daut/org-mode-setup))
   :commands (org-capture org-agenda)
   :bind (:map org-mode-map
               ("M-RET" . org-insert-item))

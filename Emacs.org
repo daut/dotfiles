@@ -520,7 +520,8 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 #+end_src
 ** Olivetti for nicer text editing
 #+begin_src emacs-lisp
-(use-package olivetti)
+(use-package olivetti
+  :hook (org-mode . olivetti-mode))
 #+end_src
 ** Meow
 #+begin_src emacs-lisp
@@ -628,8 +629,7 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (visual-line-mode 1))
 
 (use-package org
-  :hook ((org-mode . daut/org-mode-setup)
-         (org-mode . olivetti-mode))
+  :hook ((org-mode . daut/org-mode-setup))
   :commands (org-capture org-agenda)
   :bind (:map org-mode-map
               ("M-RET" . org-insert-item))
