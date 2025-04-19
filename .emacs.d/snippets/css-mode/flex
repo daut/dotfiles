@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: flexbox
+# key: flex
+# --
+display: flex;
+flex-direction: ${1:row};
+justify-content: ${2:center};
+align-items: ${3:center};
+$0

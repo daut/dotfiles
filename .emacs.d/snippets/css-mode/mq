@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: media query
+# key: mq
+# --
+@media ($1) {
+  $0
+}

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: grid
+# key: grid
+# --
+display: grid;
+grid-template-columns: ${1:repeat(auto-fit, minmax(250px, 1fr))};
+grid-gap: ${2:1rem};
+$0
