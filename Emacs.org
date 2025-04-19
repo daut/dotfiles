@@ -137,7 +137,7 @@ Environment variables sometimes aren't right, this fixes it.
 * Completion Configuration
 ** Which Key
 
-~which-key~ is a useful UI panel that appears when you start pressing any key binding in Emacs to offer you all possible completions for the prefix.
+~which-key~ is a useful UI panel that appears when you start pressing any key binding in Emacs to offer you all possible completions for the key sequence you are typing. It is a great way to learn Emacs key bindings and to discover new ones.
 
 #+begin_src emacs-lisp
 
@@ -271,16 +271,6 @@ Environment variables sometimes aren't right, this fixes it.
 (use-package solaire-mode
   :hook (after-init . solaire-global-mode))
 #+end_src
-** Command Log Mode
-
-#+begin_src emacs-lisp
-
-;; defer loading of the package until command-log-mode is invoked
-(use-package command-log-mode
-  :commands command-log-mode)
-
-#+end_src
-
 ** Color Themes
 #+begin_src emacs-lisp
 (defun daut/print-current-theme ()

@@ -220,10 +220,6 @@
 (use-package solaire-mode
   :hook (after-init . solaire-global-mode))
 
-;; defer loading of the package until command-log-mode is invoked
-(use-package command-log-mode
-  :commands command-log-mode)
-
 (defun daut/print-current-theme ()
   "Print the currently active theme."
   (interactive)
