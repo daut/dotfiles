@@ -321,8 +321,6 @@
     (setq use-short-answers t)
   (fset 'yes-or-no-p 'y-or-n-p))
 
-(setq-default indent-tabs-mode nil) ; Permanently indent with spaces, never with TABs
-
 (use-package flyspell
   :ensure nil
   :diminish
@@ -364,12 +362,6 @@
   ("C-s-j" . 'move-text-down)
   ("C-s-k" . 'move-text-up))
 
-(defun daut/html-forward (arg)
-  (interactive "P")
-  (pcase (get-text-property (point) `mhtml-submode)
-    (`nil (sgml-skip-tag-forward 1))
-    (submode (forward-sexp))))
-
 (use-package hideshow
   :diminish hs-minor-mode
   :hook
@@ -381,14 +373,6 @@
   :bind
   ("C-s-[" . hs-hide-block)
   ("C-s-]" . hs-show-block))
-
-(use-package minimap
-  :defer t
-  :config
-  (setq minimap-window-location 'right
-        minimap-update-delay 0
-        minimap-width-fraction 0.09
-        minimap-minimum-width 15))
 
 (use-package aggressive-indent
   :diminish
@@ -628,8 +612,6 @@
   (:map company-active-map
         ("<tab>" . nil)
         ("TAB" . nil))
-  ;; (:map lsp-mode-map
-  ;;       ("<tab>" . company-indent-or-complete-column))
   :config
   ;; Number the candidates (use M-1, M-2 etc to select completions).
   (setopt company-show-quick-access t)
@@ -693,10 +675,6 @@
   (setq dape-buffer-window-arrangement 'right)
   (setq dape-inlay-hints t)
   (setq dape-cwd-fn 'projectile-project-root))
-
-;; (use-package astro-ts-mode
-;;   :mode "\\.astro\\'"
-;;   :hook (astro-ts-mode . lsp-deferred))
 
 (use-package bash-ts-mode
   :ensure nil

@@ -390,8 +390,6 @@ Helpful is an alternative to emacs builtin help which provides much more context
 (if (boundp 'use-short-answers)
     (setq use-short-answers t)
   (fset 'yes-or-no-p 'y-or-n-p))
-
-(setq-default indent-tabs-mode nil) ; Permanently indent with spaces, never with TABs
 #+end_src
 ** Flyspell
 #+begin_src emacs-lisp
@@ -416,7 +414,7 @@ Helpful is an alternative to emacs builtin help which provides much more context
 (delete-selection-mode t)
 
 #+end_src
-** Tab Widths
+** Tab Width
 #+begin_src emacs-lisp
 (setq-default tab-width 2)
 #+end_src
@@ -471,13 +469,6 @@ Helpful is an alternative to emacs builtin help which provides much more context
 #+end_src
 ** Text folding
 #+begin_src emacs-lisp
-
-(defun daut/html-forward (arg)
-  (interactive "P")
-  (pcase (get-text-property (point) `mhtml-submode)
-    (`nil (sgml-skip-tag-forward 1))
-    (submode (forward-sexp))))
-
 (use-package hideshow
   :diminish hs-minor-mode
   :hook
@@ -489,18 +480,6 @@ Helpful is an alternative to emacs builtin help which provides much more context
   :bind
   ("C-s-[" . hs-hide-block)
   ("C-s-]" . hs-show-block))
-#+end_src
-** Minimap with Minimap
-#+begin_src emacs-lisp
-
-(use-package minimap
-  :defer t
-  :config
-  (setq minimap-window-location 'right
-        minimap-update-delay 0
-        minimap-width-fraction 0.09
-        minimap-minimum-width 15))
-
 #+end_src
 ** Indentation
 #+begin_src emacs-lisp
@@ -794,8 +773,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (:map company-active-map
         ("<tab>" . nil)
         ("TAB" . nil))
-  ;; (:map lsp-mode-map
-  ;;       ("<tab>" . company-indent-or-complete-column))
   :config
   ;; Number the candidates (use M-1, M-2 etc to select completions).
   (setopt company-show-quick-access t)
@@ -865,19 +842,12 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 #+end_src
 *** Debugging With dape
 #+begin_src emacs-lisp
-
 (use-package dape
   :defer t
   :config
   (setq dape-buffer-window-arrangement 'right)
   (setq dape-inlay-hints t)
   (setq dape-cwd-fn 'projectile-project-root))
-#+end_src
-*** Astro
-#+begin_src emacs-lisp
-;; (use-package astro-ts-mode
-;;   :mode "\\.astro\\'"
-;;   :hook (astro-ts-mode . lsp-deferred))
 #+end_src
 *** Bash
 #+begin_src emacs-lisp
