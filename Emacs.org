@@ -1220,7 +1220,7 @@ through manual triggers."
 (use-package aider
   :commands aider-transient-menu
   :config
-  (setq aider-args '("--model" "sonnet" "--no-auto-commits"))
+  (setq aider-args '("--model" "sonnet" "--no-auto-commits" "--cache-prompts"))
   (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
   (global-set-key (kbd "C-c a") 'aider-transient-menu))
 #+end_src
