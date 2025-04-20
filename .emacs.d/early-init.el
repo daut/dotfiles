@@ -76,4 +76,7 @@
             ;; Restore file name handlers that were disabled during startup
             (setq file-name-handler-alist daut/file-name-handler-alist-original)))
 
+(add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes/"))
+(load-theme 'miasma t)
+
 ;;; early-init.el ends here

@@ -236,15 +236,6 @@
       (load-theme selected-theme t)
       (message "Selected theme: %s" selected-theme))))
 
-(use-package ef-themes)
-  ;; :config
-  ;; (load-theme 'ef-autumn))
-(add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes/"))
-;; (load-theme 'miasma t)
-(use-package miasma-theme
-  :vc (:fetcher github :repo daut/miasma-theme.el)
-  :config (load-theme 'miasma t))
-
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
