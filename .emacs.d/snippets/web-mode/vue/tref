@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Vue useTemplateRef
+# key: tref
+# group: vue
+# --
+const ${1:value} = useTemplateRef('$0')
