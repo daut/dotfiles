@@ -633,8 +633,9 @@
   :commands (lsp lsp-deferred)
   :config
   (lsp-enable-which-key-integration t)
-  (setq lsp-completion-provider :none)
-  (setq lsp-headerline-breadcrumb-enable nil)
+  (setopt lsp-completion-provider :none)
+  (setopt lsp-headerline-breadcrumb-enable nil)
+  (setopt lsp-javascript-suggest-complete-function-calls t)
   (add-to-list 'lsp-disabled-clients '(typescript-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(typescript-ts-mode . vue-semantic-server))
   (add-to-list 'lsp-disabled-clients '(js-mode . vue-semantic-server))
@@ -726,7 +727,7 @@
   (before-save . gofmt-before-save)
   (go-ts-mode . (lambda () (setq tab-width 2)))
   (go-ts-mode . daut/go-fold-imports)
-  (go-mode . (lambda () (setq tab-width 2)))
+  (go-ts-mode . (lambda () (setq tab-width 2)))
   (go-mode . daut/go-fold-imports))
 
 (use-package go-playground
