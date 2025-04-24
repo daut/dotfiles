@@ -863,7 +863,8 @@
 
 (use-package dockerfile-mode)
 
-(use-package geiser-guile)
+(use-package geiser-guile
+  :defer t)
 
 (use-package flycheck
   :diminish
