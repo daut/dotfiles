@@ -83,6 +83,7 @@
   :config
   (defvar daut/default-font-size 150)
   (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size)
+  (setopt line-spacing 0.2)
   ;; necessary as a fallback for org-modern mode
   (set-fontset-font "fontset-default" '(#x2BC6 . #x2BC6)
                     (font-spec :family "Iosevka Aile") nil 'append))
