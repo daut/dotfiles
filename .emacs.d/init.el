@@ -958,7 +958,7 @@
   :hook ((prog-mode restclient-mode eshell-mode yaml-mode org-mode) . copilot-mode)
   :bind
   ("C-<tab>" . copilot-complete)
-  ("s-c" . copilot-toggle-auto-complete)
+  ;; ("s-c" . copilot-toggle-auto-complete)
   :config
   (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
