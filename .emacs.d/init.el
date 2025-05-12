@@ -1265,6 +1265,12 @@ With argument ARG, do this that many times."
    (t
     (backward-delete-char 1))))
 
+(defun insert-iso8601-date ()
+  "Insert current date in ISO 8601 format with timezone."
+  (interactive)
+  (insert 
+   (format-time-string "%Y-%m-%dT%H:%M:%S%:z")))
+
 (use-package hydra
   :defer t)
 
