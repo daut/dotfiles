@@ -1115,12 +1115,14 @@ https://github.com/mermaid-js/mermaid-cli
               apheleia-formatters
               :test #'equal))
 
-(defun create-js-formatter-dirlocals ()
+(defun create-js-dirlocals ()
   "Create .dir-locals.el file in project root with JavaScript/TypeScript formatting settings."
   (interactive)
   (let* ((root (project-root (project-current t)))
          (dir-locals-file (expand-file-name ".dir-locals.el" root))
-         (content '((js-mode . ((apheleia-formatter . eslint)))
+         (content '((nil . ((projectile-project-run-cmd . "npm run dev")
+                            (projectile-project-install-cmd . "npm i")))
+                    (js-mode . ((apheleia-formatter . eslint)))
                    (js-ts-mode . ((apheleia-formatter . eslint)))
                    (typescript-mode . ((apheleia-formatter . eslint)))
                    (json-ts-mode . ((apheleia-formatter . prettier-json)))
