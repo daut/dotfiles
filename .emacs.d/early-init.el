@@ -28,7 +28,8 @@
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 (when (featurep 'ns)
-  (push '(ns-transparent-titlebar . t) default-frame-alist))
+  (push '(ns-transparent-titlebar . t) default-frame-alist)
+  (setq ns-use-proxy-icon nil))
 (setq-default mode-line-format nil)
 
 ;; open current frame in fullscreen
