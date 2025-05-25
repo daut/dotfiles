@@ -866,7 +866,7 @@
          ("C-c e t" . elysium-toggle-window)))
 
 (use-package copilot
-  :hook ((prog-mode restclient-mode eshell-mode yaml-mode org-mode) . copilot-mode)
+  :hook ((prog-mode restclient-mode eshell-mode yaml-mode org-mode markdown-mode) . copilot-mode)
   :bind
   ("C-<tab>" . copilot-complete)
   ;; ("s-c" . copilot-toggle-auto-complete)
