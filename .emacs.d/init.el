@@ -865,7 +865,7 @@
   (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
   (setopt copilot-indent-offset-warning-disable t)
   (setopt copilot-max-char 1000000)
-  (setopt copilot-idle-delay nil)  
+  (setopt copilot-idle-delay 0)
   (defun copilot-toggle-auto-complete ()
     "Toggle automatic completion overlay behavior.
 When enabled, Copilot will automatically show completion suggestions
