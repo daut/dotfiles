@@ -637,7 +637,7 @@
   (before-save . gofmt-before-save)
   (go-ts-mode . (lambda () (setq tab-width 2)))
   (go-ts-mode . daut/go-fold-imports)
-  (go-ts-mode . (lambda () (setq tab-width 2)))
+  (go-ts-mode . (lambda () (setq go-ts-mode-indent-offset 2)))
   (go-mode . daut/go-fold-imports))
 
 (use-package go-playground
