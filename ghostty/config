@@ -1,1 +1,9 @@
 theme = Miasma
+
+font-size = 15
+
+shell-integration-features = no-cursor
+cursor-style = "block"
+cursor-color = "#78834b"
+
+maximize = true
