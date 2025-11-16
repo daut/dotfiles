@@ -42,6 +42,7 @@ brew install --cask hammerspoon
 brew install --cask karabiner-elements
 brew install --cask docker
 brew install --cask plex
+brew install --cask ghostty
 
 # install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
