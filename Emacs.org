@@ -859,6 +859,12 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   :after restclient)
 
 #+end_src
+*** Hurl
+#+begin_src emacs-lisp
+(package-vc-install "https://github.com/JasZhe/hurl-mode")
+(use-package hurl-mode
+  :mode "\\.hurl\\'")
+#+end_src
 *** Yaml
 #+begin_src emacs-lisp
 

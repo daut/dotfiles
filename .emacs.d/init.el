@@ -667,6 +667,10 @@
 (use-package restclient-jq
   :after restclient)
 
+(package-vc-install "https://github.com/JasZhe/hurl-mode")
+(use-package hurl-mode
+  :mode "\\.hurl\\'")
+
 (use-package yaml-ts-mode
   :mode "\\.ya?ml\\'"
   :mode "\\.ya?ml\\.j2\\'")
