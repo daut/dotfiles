@@ -40,10 +40,6 @@
 (setq use-package-verbose t) ;; write useful information about package loading
 (setq use-package-compute-statistics t) ;; report how much time a package needs to load
 
-(unless (package-installed-p 'vc-use-package)
-  (package-vc-install "https://github.com/slotThe/vc-use-package"))
-(require 'vc-use-package)
-
 (use-package auto-package-update
   :custom
   ;; interval in days
@@ -776,7 +772,7 @@
   (setq flycheck-javascript-eslint-executable "eslint_d"))
 
 (use-package apheleia
-  :vc (:fetcher github :repo radian-software/apheleia)
+  :vc (:url "https://github.com/radian-software/apheleia")
   :hook (after-init . apheleia-global-mode)
   :config
   (cl-pushnew '(eslint . ("eslint_d" "--fix-to-stdout" "--stdin" "--stdin-filename" file))
