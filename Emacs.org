@@ -1128,6 +1128,10 @@ through manual triggers."
   (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
   (global-set-key (kbd "C-c a") 'aider-transient-menu))
 #+end_src
+** agent-shell
+#+begin_src emacs-lisp
+(use-package agent-shell)
+#+end_src
 * VCS
 ** Magit
 #+begin_src emacs-lisp

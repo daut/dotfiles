@@ -883,6 +883,8 @@ through manual triggers."
   (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
   (global-set-key (kbd "C-c a") 'aider-transient-menu))
 
+(use-package agent-shell)
+
 (use-package magit
   :commands magit-status
   :config
