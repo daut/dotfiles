@@ -7,3 +7,5 @@ cursor-style = "block"
 cursor-color = "#78834b"
 
 maximize = true
+
+window-save-state = always
