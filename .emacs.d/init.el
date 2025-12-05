@@ -659,6 +659,7 @@
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode)
   :config
+  (setq restclient-enable-eval t)
   (with-eval-after-load 'company
     (use-package company-restclient
       :defines company-backends
