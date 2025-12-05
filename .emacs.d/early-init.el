@@ -80,4 +80,6 @@
 (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes/"))
 (load-theme 'miasma t)
 
+(setq initial-scratch-message "")
+
 ;;; early-init.el ends here
