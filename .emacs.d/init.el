@@ -50,8 +50,6 @@
   (auto-package-update-maybe)
   (auto-package-update-at-time "09:00"))
 
-(use-package restart-emacs)
-
 ;; Save all of the custom data in custom.el
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
@@ -847,17 +845,6 @@
   (setq gptel-backend (gptel-make-anthropic "Claude" :stream t :key gptel-api-key))
   (setq gptel-model 'claude-sonnet-4-20250514)
   (add-to-list 'gptel-directives '(proofreader . "I want you act as a proofreader. I will provide you texts and I would like you to review them for any spelling, grammar, or punctuation errors. Once you have finished reviewing the text, provide me with any necessary corrections or suggestions to improve the text.")))
-
-(use-package elysium
-  :custom
-  (elysium-window-size 0.33)
-  (elysium-window-style 'vertical)
-  :bind (("C-c e q" . elysium-query)
-         ("C-c e k" . elysium-keep-all-suggested-changes)
-         ("C-c e d" . elysium-discard-all-suggested-changes) 
-         ("C-c e a" . elysium-add-context)
-         ("C-c e c" . elysium-clear-buffer)
-         ("C-c e t" . elysium-toggle-window)))
 
 (use-package copilot
   :hook ((prog-mode restclient-mode eshell-mode yaml-mode org-mode markdown-mode) . copilot-mode)
