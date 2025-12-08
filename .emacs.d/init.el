@@ -571,7 +571,20 @@
   :config
   (setq dape-buffer-window-arrangement 'right)
   (setq dape-inlay-hints t)
-  (setq dape-cwd-fn 'projectile-project-root))
+  (setq dape-cwd-fn 'projectile-project-root)
+  (add-to-list 'dape-configs
+               `(go-debug-main
+                 modes (go-mode go-ts-mode)
+                 command "dlv"
+                 command-args ("dap" "--listen" "127.0.0.1::autoport" "--log-dest" "/tmp/dlv.log")
+                 command-cwd dape-command-cwd
+                 port :autoport
+                 :type "debug"
+                 :request "launch"
+                 :name "Debug Go Program"
+                 :program "."
+                 :mode "debug"
+                 :args [])))
 
 (use-package bash-ts-mode
   :ensure nil
