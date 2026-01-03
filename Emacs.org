@@ -702,7 +702,16 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :config
+  ;; trying to prevent tsserver from adding backup files saved in temp dir to tsconfig.json
+  (defun daut/disable-lsp-file-ops-for-ts-js ()
+    (when (derived-mode-p 'typescript-mode 'js-ts-mode 'js-mode 'typescript-ts-mode)
+      (setq-local lsp-apply-edits-after-file-operations nil)))
+  (add-hook 'lsp-mode-hook #'daut/disable-lsp-file-ops-for-ts-js)
+
   (lsp-enable-which-key-integration t)
+  ;; js/ts related options
+  (setopt lsp-javascript-preferences-import-module-specifier "relative")
+  (setopt lsp-typescript-preferences-import-module-specifier "relative")
   (setopt lsp-completion-provider :none)
   (setopt lsp-headerline-breadcrumb-enable nil)
   (setopt lsp-javascript-suggest-complete-function-calls t)
