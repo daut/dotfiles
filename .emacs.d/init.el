@@ -537,12 +537,6 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :config
-  ;; trying to prevent tsserver from adding backup files saved in temp dir to tsconfig.json
-  (defun daut/disable-lsp-file-ops-for-ts-js ()
-    (when (derived-mode-p 'typescript-mode 'js-ts-mode 'js-mode 'typescript-ts-mode)
-      (setq-local lsp-apply-edits-after-file-operations nil)))
-  (add-hook 'lsp-mode-hook #'daut/disable-lsp-file-ops-for-ts-js)
-
   (lsp-enable-which-key-integration t)
   ;; js/ts related options
   (setopt lsp-javascript-preferences-import-module-specifier "relative")
@@ -1013,9 +1007,14 @@ through manual triggers."
                         (lambda (&rest args)))))
 
 ;; Backup files directory path
+
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-(setq backup-by-copying-when-linked t)
+
+(setopt backup-by-copying-when-linked t)
+;; trying to prevent tsserver from adding backup files saved in temp dir to tsconfig.json
+;; https://github.com/emacs-lsp/lsp-mode/issues/3516
+(setopt backup-by-copying t)
 (setq delete-old-versions t
       kept-new-versions 6
       kept-old-versions 2
