@@ -604,9 +604,11 @@
   (setq sh-basic-offset 2))
 (add-to-list 'interpreter-mode-alist '("bash" . bash-ts-mode))
 
-(use-package typescript-mode
-  :mode "\\.ts[x]\\'"
-  :hook (typescript-mode . lsp-deferred)
+(use-package typescript-ts-mode
+  :ensure nil
+  :mode "\\.ts\\'"
+  :mode "\\.tsx\\'"
+  :hook (typescript-ts-mode . lsp-deferred)
   :config
   (setq typescript-indent-level 2))
 
@@ -809,7 +811,7 @@
               apheleia-formatters
               :test #'equal))
 
-(defun create-js-dirlocals ()
+(defun daut/create-js-dirlocals ()
   "Create .dir-locals.el file in project root with JavaScript/TypeScript formatting settings."
   (interactive)
   (let* ((root (project-root (project-current t)))
@@ -819,6 +821,7 @@
                     (js-mode . ((apheleia-formatter . eslint)))
                    (js-ts-mode . ((apheleia-formatter . eslint)))
                    (typescript-mode . ((apheleia-formatter . eslint)))
+                   (typescript-ts-mode . ((apheleia-formatter . eslint)))
                    (json-ts-mode . ((apheleia-formatter . prettier-json)))
                    (js-json-mode . ((apheleia-formatter . prettier-json)))
                    (json-mode . ((apheleia-formatter . prettier-json)))
