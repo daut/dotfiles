@@ -52,6 +52,13 @@ ln -s "$(pwd)/.emacs.d/themes/emacs.txt" ~/.emacs.d/themes/
 # setup ghostty
 ln -s "$(pwd)/ghostty" ~/.config/ghostty
 
+# setup opencode
+ln -s "$(pwd)/.opencode/opencode.json" ~/.config/opencode/
+ln -s "$(pwd)/.opencode/package.json" ~/.config/opencode/
+ln -s "$(pwd)/.opencode/.gitignore" ~/.config/opencode/
+ln -s "$(pwd)/.opencode/agent" ~/.config/opencode/
+ln -s "$(pwd)/.opencode/skill/content-research-writer" ~/.config/opencode/skill/
+
 # setup fish
 which fish | sudo tee -a /etc/shells
 chsh -s $(which fish)
