@@ -857,14 +857,6 @@
 (use-package devdocs
   :defer t)
 
-(use-package gptel
-  :bind (("C-c g g" . gptel)
-         ("C-c g m" . gptel-menu))
-  :config
-  (setq gptel-backend (gptel-make-anthropic "Claude" :stream t :key gptel-api-key))
-  (setq gptel-model 'claude-sonnet-4-20250514)
-  (add-to-list 'gptel-directives '(proofreader . "I want you act as a proofreader. I will provide you texts and I would like you to review them for any spelling, grammar, or punctuation errors. Once you have finished reviewing the text, provide me with any necessary corrections or suggestions to improve the text.")))
-
 (use-package copilot
   :hook ((prog-mode restclient-mode eshell-mode yaml-mode org-mode markdown-mode) . copilot-mode)
   :bind

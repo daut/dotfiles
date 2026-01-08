@@ -1092,16 +1092,6 @@ https://github.com/mermaid-js/mermaid-cli
   :defer t)
 #+end_src
 * AI Assistants
-** gptel
-#+begin_src emacs-lisp
-(use-package gptel
-  :bind (("C-c g g" . gptel)
-         ("C-c g m" . gptel-menu))
-  :config
-  (setq gptel-backend (gptel-make-anthropic "Claude" :stream t :key gptel-api-key))
-  (setq gptel-model 'claude-sonnet-4-20250514)
-  (add-to-list 'gptel-directives '(proofreader . "I want you act as a proofreader. I will provide you texts and I would like you to review them for any spelling, grammar, or punctuation errors. Once you have finished reviewing the text, provide me with any necessary corrections or suggestions to improve the text.")))
-#+end_src
 ** copilot.el
 #+begin_src emacs-lisp
 (use-package copilot
