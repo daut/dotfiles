@@ -4,7 +4,8 @@
   "default_agent": "plan",
   "keybinds": {
     "session_child_cycle": "ctrl+shift+f",
-    "session_child_cycle_reverse": "ctrl+shift+b"
+    "session_child_cycle_reverse": "ctrl+shift+b",
+    "command_list": "ctrl+k"
   },
   "permission": {
     "skill": "ask"
