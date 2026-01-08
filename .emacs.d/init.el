@@ -50,6 +50,12 @@
   (auto-package-update-maybe)
   (auto-package-update-at-time "09:00"))
 
+(use-package server
+  :ensure nil
+  :config
+  (unless (server-running-p)
+    (server-start)))
+
 ;; Save all of the custom data in custom.el
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)

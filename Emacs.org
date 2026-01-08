@@ -66,6 +66,14 @@
   (auto-package-update-at-time "09:00"))
 
 #+end_src
+* Emacs Server
+#+begin_src emacs-lisp
+(use-package server
+  :ensure nil
+  :config
+  (unless (server-running-p)
+    (server-start)))
+#+end_src
 * Keep init.el Clean
 #+begin_src emacs-lisp
 
