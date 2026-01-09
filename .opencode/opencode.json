@@ -17,5 +17,5 @@
       }
     }
   },
-  "plugin": ["opencode-beads"]
+  "plugin": ["opencode-beads", "opencode-anthropic-auth"]
 }
