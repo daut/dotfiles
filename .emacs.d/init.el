@@ -898,7 +898,8 @@ through manual triggers."
   (setq magit-diff-refine-hunk nil)
   :bind (("C-c m f" . magit-pull)
          ("C-c m i" . magit-init)
-         ("C-c m c" . magit-clone)))
+         ("C-c m c" . magit-clone)
+         ("C-c m l" . magit-log-current)))
 
 (use-package magit-todos
   :after magit
