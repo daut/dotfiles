@@ -638,11 +638,32 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
 
 #+begin_src emacs-lisp
 
+(defun daut/open-project-in-ghostty-opencode ()
+  "Open current Projectile project in a new Ghostty tab and start opencode."
+  (interactive)
+  (let ((project-root (projectile-project-root)))
+    (if project-root
+        (let* ((command (format "cd %s && opencode" (shell-quote-argument project-root)))
+               (applescript
+                (format "
+tell application \"Ghostty\" to activate
+tell application \"System Events\"
+    tell process \"Ghostty\"
+        keystroke \"t\" using command down
+        delay 0.5
+        keystroke \"%s\"
+        keystroke return
+    end tell
+end tell" command)))
+          (do-applescript applescript))
+      (message "Not in a Projectile project"))))
+
 (use-package projectile
   :diminish projectile-mode
   :hook (after-init . projectile-mode)
   :bind
   ("C-c p" . projectile-command-map)
+  ("C-c p C-g" . daut/open-project-in-ghostty-opencode)
   ("s-p" . projectile-find-file)
   :init
   (setq projectile-sort-order 'recentf)
@@ -652,7 +673,6 @@ Doesn't play nicely with web-mode. Sets `web-mode-script-padding` to 2, even tho
   (setq projectile-switch-project-action #'projectile-dired)
   (setq projectile-git-submodule-command nil)
   (setq projectile-use-git-grep t))
-
 #+end_src
 ** Rainbow Delimiters
 

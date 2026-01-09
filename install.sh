@@ -58,6 +58,7 @@ ln -s "$(pwd)/.opencode/package.json" ~/.config/opencode/
 ln -s "$(pwd)/.opencode/.gitignore" ~/.config/opencode/
 ln -s "$(pwd)/.opencode/agent" ~/.config/opencode/
 ln -s "$(pwd)/.opencode/skill/content-research-writer" ~/.config/opencode/skill/
+ln -s "$(pwd)/.opencode/AGENTS.md" ~/.config/opencode/
 
 # setup fish
 which fish | sudo tee -a /etc/shells
