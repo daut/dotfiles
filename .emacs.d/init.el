@@ -514,8 +514,9 @@ end tell" command)))
   :hook (after-init . projectile-mode)
   :bind
   ("C-c p" . projectile-command-map)
-  ("C-c p C-g" . daut/open-project-in-ghostty-opencode)
   ("s-p" . projectile-find-file)
+  (:map projectile-command-map
+        ("G" . daut/open-project-in-ghostty-opencode))
   :init
   (setq projectile-sort-order 'recentf)
   (setq projectile-auto-discover nil)
