@@ -10,8 +10,10 @@
 - Comment only for complex logic, workarounds, or public APIs
 
 ### Testing
-- Prefer TDD, but don't force. For example avoid writing tests for trivial stuff that doesn't add value.
+- Prefer TDD, unless ther is a strong reason not to.
+- Force TDD, if starting a new project.
 - Avoid brittle tests that are tightly coupled to internal implementation details.
+- Avoid writing tests for trivial stuff that doesn't add value.
 - Prefer co-located unit tests and separate integration tests.
 - Create meaningful tests that focus on behavior
 
