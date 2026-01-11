@@ -8,7 +8,6 @@
     "command_list": "ctrl+k"
   },
   "permission": {
-    "skill": "ask",
     "bd *": "allow"
   },
   "plugin": ["opencode-beads", "opencode-anthropic-auth"]

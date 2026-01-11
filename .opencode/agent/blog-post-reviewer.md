@@ -1,7 +1,6 @@
 ---
 description: Reviews blog posts for quality, clarity, and engagement
 mode: subagent
-model: opencode/claude-sonnet-4-5
 temperature: 0.3
 tools:
   write: false
