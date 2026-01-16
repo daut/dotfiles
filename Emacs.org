@@ -828,6 +828,14 @@ end tell" command)))
 (use-package add-node-modules-path
   :hook ((web-mode js-ts-mode js-mode js2-mode) . add-node-modules-path))
 #+end_src
+*** Java
+#+begin_src emacs-lisp
+(use-package java-ts-mode
+  :ensure nil
+  :mode "\\.java\\'"
+  :hook ((java-ts-mode . lsp-deferred)
+         (java-ts-mode . treesit-fold-mode)))
+#+end_src
 *** Lua
 #+begin_src emacs-lisp
 
@@ -840,29 +848,14 @@ end tell" command)))
 #+end_src
 *** Go
 #+begin_src emacs-lisp
-(defun daut/go-fold-imports ()
-  "Fold import statements in go file"
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward "^import" nil t)
-      (let ((start (point)))
-        (forward-line)
-        (while (looking-at "^[ \t]+\"")
-          (forward-line))
-        (let ((end (point)))
-          (hs-hide-block))
-        (goto-char start)))))
-
 (use-package go-ts-mode
   :mode "\\.go\\'"
   :hook
   (go-ts-mode . lsp-deferred)
+  (go-ts-mode . treesit-fold-mode)
   (before-save . gofmt-before-save)
   (go-ts-mode . (lambda () (setq tab-width 2)))
-  (go-ts-mode . daut/go-fold-imports)
-  (go-ts-mode . (lambda () (setq go-ts-mode-indent-offset 2)))
-  (go-mode . daut/go-fold-imports))
+  (go-ts-mode . (lambda () (setq go-ts-mode-indent-offset 2))))
 
 (use-package go-playground
   :after go-ts-mode)
@@ -1107,6 +1100,7 @@ https://github.com/mermaid-js/mermaid-cli
           (elisp "https://github.com/Wilfred/tree-sitter-elisp")
           (go "https://github.com/tree-sitter/tree-sitter-go")
           (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+          (java "https://github.com/tree-sitter/tree-sitter-java")
           (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
           (json "https://github.com/tree-sitter/tree-sitter-json")
           (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
@@ -1114,6 +1108,94 @@ https://github.com/mermaid-js/mermaid-cli
           (vue "https://github.com/ikatyang/tree-sitter-vue")
           (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
   (setq treesit-font-lock-level 4))
+
+(use-package treesit-fold
+  :vc (:url "https://github.com/emacs-tree-sitter/treesit-fold"
+            :rev :newest)
+  :hook ((typescript-ts-mode . treesit-fold-mode)
+         (js-ts-mode . treesit-fold-mode)
+         (go-ts-mode . treesit-fold-mode)
+         (json-ts-mode . treesit-fold-mode)
+         (java-ts-mode . treesit-fold-mode)
+         (bash-ts-mode . treesit-fold-mode))
+  :bind
+  (:map treesit-fold-mode-map
+        ("C-s-[" . treesit-fold-close)
+        ("C-s-]" . treesit-fold-open)
+        ("C-c f i" . daut/treesit-fold-toggle-imports))
+  :config
+  ;; Custom fold range function for imports - returns range covering ALL imports
+  (defun daut/treesit-fold-range-imports (node offset)
+    "Return fold range for all consecutive imports, starting from NODE."
+    (let* ((language (treesit-language-at (point)))
+           (import-query
+            (pcase language
+              ('typescript "(import_statement) @import")
+              ('tsx "(import_statement) @import")
+              ('javascript "(import_statement) @import")
+              ('java "(import_declaration) @import")
+              (_ nil)))
+           (nodes (when import-query
+                    (treesit-query-capture (treesit-buffer-root-node) import-query)))
+           (first-node (cdar nodes))
+           (last-node (cdar (last nodes))))
+      (when (and first-node last-node)
+        (let ((beg (save-excursion
+                     (goto-char (treesit-node-start first-node))
+                     (end-of-line)
+                     (point)))
+              (end (treesit-node-end last-node)))
+          (when (< beg end)
+            (treesit-fold--cons-add (cons beg end) offset))))))
+
+  ;; Add import folding to treesit-fold-range-alist (not Go - it already works)
+  (push '(import_statement . daut/treesit-fold-range-imports)
+        (alist-get 'typescript-ts-mode treesit-fold-range-alist))
+  (push '(import_statement . daut/treesit-fold-range-imports)
+        (alist-get 'js-ts-mode treesit-fold-range-alist))
+  (push '(import_declaration . daut/treesit-fold-range-imports)
+        (alist-get 'java-ts-mode treesit-fold-range-alist))
+
+  ;; Toggle function for manual use (works from anywhere in file)
+  (defun daut/treesit-fold-toggle-imports ()
+    "Toggle folding of all import statements at the top of the file."
+    (interactive)
+    (save-excursion
+      (goto-char (point-min))
+      (let* ((language (treesit-language-at (point)))
+             (import-query
+              (pcase language
+                ('typescript "(import_statement) @import")
+                ('tsx "(import_statement) @import")
+                ('javascript "(import_statement) @import")
+                ('java "(import_declaration) @import")
+                ('go "(import_spec_list) @import")
+                (_ nil))))
+        (when import-query
+          (when-let ((nodes (treesit-query-capture (treesit-buffer-root-node) import-query)))
+            (goto-char (treesit-node-start (cdar nodes)))
+            (treesit-fold-toggle))))))
+
+  ;; Auto-fold imports on file open - runs directly, no timer needed
+  (defun daut/treesit-auto-fold-imports ()
+    "Auto-fold imports when treesit-fold-mode is enabled."
+    (save-excursion
+      (goto-char (point-min))
+      (let* ((language (treesit-language-at (point)))
+             (import-query
+              (pcase language
+                ('typescript "(import_statement) @import")
+                ('tsx "(import_statement) @import")
+                ('javascript "(import_statement) @import")
+                ('java "(import_declaration) @import")
+                ('go "(import_spec_list) @import")
+                (_ nil))))
+        (when import-query
+          (when-let ((nodes (treesit-query-capture (treesit-buffer-root-node) import-query)))
+            (goto-char (treesit-node-start (cdar nodes)))
+            (ignore-errors (treesit-fold-close)))))))
+
+  (add-hook 'treesit-fold-mode-hook #'daut/treesit-auto-fold-imports))
 #+end_src
 ** Docs
 #+begin_src emacs-lisp
