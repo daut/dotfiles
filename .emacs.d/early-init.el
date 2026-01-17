@@ -27,6 +27,8 @@
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
+;; Set font in default-frame-alist so child frames (e.g. company-box) inherit it
+(push '(font . "JetBrains Mono-15") default-frame-alist)
 (when (featurep 'ns)
   (push '(ns-transparent-titlebar . t) default-frame-alist)
   (setq ns-use-proxy-icon nil))

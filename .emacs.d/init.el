@@ -684,6 +684,7 @@ end tell" command)))
 (use-package json-ts-mode
   :ensure nil
   :mode "\\.json\\'"
+  :mode "\\.prettierrc\\'"
   :hook
   (json-ts-mode . lsp-deferred)
   :config
