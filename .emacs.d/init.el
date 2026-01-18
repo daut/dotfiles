@@ -978,15 +978,6 @@ through manual triggers."
     (setq copilot-idle-delay (if (eq copilot-idle-delay nil) 0 nil))
     (message "Copilot idle delay set to: %s" copilot-idle-delay)))
 
-(use-package aider
-  :commands aider-transient-menu
-  :config
-  (setq aider-args '("--model" "sonnet" "--no-auto-commits" "--cache-prompts"))
-  (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
-  (global-set-key (kbd "C-c a") 'aider-transient-menu))
-
-(use-package agent-shell)
-
 (use-package opencode 
   :vc (:url "https://codeberg.org/sczi/opencode.el.git" :rev :newest))
 

@@ -1218,19 +1218,6 @@ through manual triggers."
     (setq copilot-idle-delay (if (eq copilot-idle-delay nil) 0 nil))
     (message "Copilot idle delay set to: %s" copilot-idle-delay)))
 #+end_src
-** aider.el
-#+begin_src emacs-lisp
-(use-package aider
-  :commands aider-transient-menu
-  :config
-  (setq aider-args '("--model" "sonnet" "--no-auto-commits" "--cache-prompts"))
-  (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
-  (global-set-key (kbd "C-c a") 'aider-transient-menu))
-#+end_src
-** agent-shell
-#+begin_src emacs-lisp
-(use-package agent-shell)
-#+end_src
 ** opencode.el
 #+begin_src emacs-lisp
 (use-package opencode 
