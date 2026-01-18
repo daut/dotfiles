@@ -48,7 +48,11 @@
   (auto-package-update-hide-results nil)
   :config
   (auto-package-update-maybe)
-  (auto-package-update-at-time "09:00"))
+  (auto-package-update-at-time "09:00")
+  (advice-add 'auto-package-update-now :after
+              (lambda (&rest _)
+                (when (fboundp 'package-vc-upgrade-all)
+                  (package-vc-upgrade-all)))))
 
 (use-package server
   :ensure nil
@@ -890,17 +894,23 @@ end tell" command)))
         ("C-s-]" . treesit-fold-open)
         ("C-c f i" . daut/treesit-fold-toggle-imports))
   :config
+  ;; Centralized configuration for import queries
+  (defvar daut/treesit-import-queries
+    '((typescript . "(import_statement) @import")
+      (tsx        . "(import_statement) @import")
+      (javascript . "(import_statement) @import")
+      (java       . "(import_declaration) @import")
+      (go         . "(import_spec_list) @import"))
+    "Alist mapping tree-sitter languages to their import statement queries.")
+
+  (defun daut/treesit-get-import-query ()
+    "Get the import query for the current buffer's tree-sitter language."
+    (alist-get (treesit-language-at (point)) daut/treesit-import-queries))
+
   ;; Custom fold range function for imports - returns range covering ALL imports
   (defun daut/treesit-fold-range-imports (node offset)
     "Return fold range for all consecutive imports, starting from NODE."
-    (let* ((language (treesit-language-at (point)))
-           (import-query
-            (pcase language
-              ('typescript "(import_statement) @import")
-              ('tsx "(import_statement) @import")
-              ('javascript "(import_statement) @import")
-              ('java "(import_declaration) @import")
-              (_ nil)))
+    (let* ((import-query (daut/treesit-get-import-query))
            (nodes (when import-query
                     (treesit-query-capture (treesit-buffer-root-node) import-query)))
            (first-node (cdar nodes))
@@ -928,38 +938,20 @@ end tell" command)))
     (interactive)
     (save-excursion
       (goto-char (point-min))
-      (let* ((language (treesit-language-at (point)))
-             (import-query
-              (pcase language
-                ('typescript "(import_statement) @import")
-                ('tsx "(import_statement) @import")
-                ('javascript "(import_statement) @import")
-                ('java "(import_declaration) @import")
-                ('go "(import_spec_list) @import")
-                (_ nil))))
-        (when import-query
-          (when-let ((nodes (treesit-query-capture (treesit-buffer-root-node) import-query)))
-            (goto-char (treesit-node-start (cdar nodes)))
-            (treesit-fold-toggle))))))
+      (when-let ((import-query (daut/treesit-get-import-query)))
+        (when-let ((nodes (treesit-query-capture (treesit-buffer-root-node) import-query)))
+          (goto-char (treesit-node-start (cdar nodes)))
+          (treesit-fold-toggle)))))
 
   ;; Auto-fold imports on file open - runs directly, no timer needed
   (defun daut/treesit-auto-fold-imports ()
     "Auto-fold imports when treesit-fold-mode is enabled."
     (save-excursion
       (goto-char (point-min))
-      (let* ((language (treesit-language-at (point)))
-             (import-query
-              (pcase language
-                ('typescript "(import_statement) @import")
-                ('tsx "(import_statement) @import")
-                ('javascript "(import_statement) @import")
-                ('java "(import_declaration) @import")
-                ('go "(import_spec_list) @import")
-                (_ nil))))
-        (when import-query
-          (when-let ((nodes (treesit-query-capture (treesit-buffer-root-node) import-query)))
-            (goto-char (treesit-node-start (cdar nodes)))
-            (ignore-errors (treesit-fold-close)))))))
+      (when-let ((import-query (daut/treesit-get-import-query)))
+        (when-let ((nodes (treesit-query-capture (treesit-buffer-root-node) import-query)))
+          (goto-char (treesit-node-start (cdar nodes)))
+          (ignore-errors (treesit-fold-close))))))
 
   (add-hook 'treesit-fold-mode-hook #'daut/treesit-auto-fold-imports))
 
@@ -994,6 +986,9 @@ through manual triggers."
   (global-set-key (kbd "C-c a") 'aider-transient-menu))
 
 (use-package agent-shell)
+
+(use-package opencode 
+  :vc (:url "https://codeberg.org/sczi/opencode.el.git" :rev :newest))
 
 (use-package magit
   :commands magit-status
