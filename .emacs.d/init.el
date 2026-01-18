@@ -979,7 +979,8 @@ through manual triggers."
     (message "Copilot idle delay set to: %s" copilot-idle-delay)))
 
 (use-package opencode 
-  :vc (:url "https://codeberg.org/sczi/opencode.el.git" :rev :newest))
+  :vc (:url "https://codeberg.org/sczi/opencode.el.git" :rev :newest)
+  :commands (opencode opencode-new-session))
 
 (use-package magit
   :commands magit-status
