@@ -982,6 +982,11 @@ through manual triggers."
   :vc (:url "https://codeberg.org/sczi/opencode.el.git" :rev :newest)
   :commands (opencode opencode-new-session))
 
+(use-package beads
+  :vc (:url "https://codeberg.org/ctietze/beads.el"
+       :lisp-dir "lisp"
+       :rev :newest))
+
 (use-package magit
   :commands magit-status
   :config

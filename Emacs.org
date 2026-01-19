@@ -1224,6 +1224,13 @@ through manual triggers."
   :vc (:url "https://codeberg.org/sczi/opencode.el.git" :rev :newest)
   :commands (opencode opencode-new-session))
 #+end_src
+** beads
+#+begin_src emacs-lisp
+(use-package beads
+  :vc (:url "https://codeberg.org/ctietze/beads.el"
+       :lisp-dir "lisp"
+       :rev :newest))
+#+end_src
 * VCS
 ** Magit
 #+begin_src emacs-lisp
