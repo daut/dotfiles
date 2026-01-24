@@ -209,6 +209,8 @@
   :ensure t
   :custom
   (dashboard-startup-banner (concat user-emacs-directory "themes/emacs.txt"))
+  (dashboard-icon-type 'nerd-icons)
+  (dashboard-display-icons-p t)
   :config
   (dashboard-setup-startup-hook)
   (add-to-list 'dashboard-footer-messages "Person who say it cannot be done should not interrupt person doing it.")
@@ -978,7 +980,7 @@ through manual triggers."
     (setq copilot-idle-delay (if (eq copilot-idle-delay nil) 0 nil))
     (message "Copilot idle delay set to: %s" copilot-idle-delay)))
 
-(use-package opencode 
+(use-package opencode
   :vc (:url "https://codeberg.org/sczi/opencode.el.git" :rev :newest)
   :commands (opencode opencode-new-session))
 

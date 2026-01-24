@@ -258,6 +258,8 @@ Environment variables sometimes aren't right, this fixes it.
   :ensure t
   :custom
   (dashboard-startup-banner (concat user-emacs-directory "themes/emacs.txt"))
+  (dashboard-icon-type 'nerd-icons)
+  (dashboard-display-icons-p t)
   :config
   (dashboard-setup-startup-hook)
   (add-to-list 'dashboard-footer-messages "Person who say it cannot be done should not interrupt person doing it.")
@@ -1220,7 +1222,7 @@ through manual triggers."
 #+end_src
 ** opencode.el
 #+begin_src emacs-lisp
-(use-package opencode 
+(use-package opencode
   :vc (:url "https://codeberg.org/sczi/opencode.el.git" :rev :newest)
   :commands (opencode opencode-new-session))
 #+end_src
