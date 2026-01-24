@@ -1017,12 +1017,7 @@ through manual triggers."
   :defer 20
   :custom
   (blamer-idle-time 0.3)
-  (blamer-min-offset 70)
-  :custom-face
-  (blamer-face ((t :foreground "#7a88cf"
-                    :background nil
-                    :height 140
-                    :italic t))))
+  (blamer-min-offset 70))
 
 (use-package term
   :commands term
