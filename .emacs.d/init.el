@@ -603,6 +603,10 @@ end tell" command)))
    "u" '(:ignore t :wk "lsp ui")
    "ui" '(lsp-ui-imenu t :which-key "imenu")))
 
+;; lsp-treemacs provides tree-like views for various LSP features
+(use-package lsp-treemacs
+  :after lsp-mode)
+
 (use-package dape
   :defer t
   :config
@@ -660,8 +664,15 @@ end tell" command)))
 (use-package java-ts-mode
   :ensure nil
   :mode "\\.java\\'"
-  :hook ((java-ts-mode . lsp-deferred)
-         (java-ts-mode . treesit-fold-mode)))
+  :hook (java-ts-mode . treesit-fold-mode))
+
+(use-package lsp-java
+  :hook (java-ts-mode . (lambda ()
+                          (require 'lsp-java)
+                          (lsp-deferred)))
+  :config
+  (add-to-list 'lsp-java-vmargs
+               "-javaagent:/Users/boza/.m2/repository/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar"))
 
 (use-package lua-mode
   :mode "\\.lua\\'"
@@ -889,7 +900,8 @@ end tell" command)))
          (go-ts-mode . treesit-fold-mode)
          (json-ts-mode . treesit-fold-mode)
          (java-ts-mode . treesit-fold-mode)
-         (bash-ts-mode . treesit-fold-mode))
+         (bash-ts-mode . treesit-fold-mode)
+         (yaml-ts-mode . treesit-fold-mode))
   :bind
   (:map treesit-fold-mode-map
         ("C-s-[" . treesit-fold-close)
