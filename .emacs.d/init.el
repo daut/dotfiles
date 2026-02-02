@@ -191,7 +191,7 @@
 ;; Show line numbers
 (use-package display-line-numbers
   :ensure nil
-  :hook ((prog-mode nxml-mode yaml-mode conf-mode astro-ts-mode) . display-line-numbers-mode)
+  :hook ((prog-mode nxml-mode yaml-ts-mode conf-mode astro-ts-mode) . display-line-numbers-mode)
   :init (setq display-line-numbers-width-start t))
 
 ;; Display ugly ^L page breaks as tidy horizontal lines
