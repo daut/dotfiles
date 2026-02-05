@@ -213,7 +213,7 @@
   (dashboard-display-icons-p t)
   :config
   (dashboard-setup-startup-hook)
-  (add-to-list 'dashboard-footer-messages "Person who say it cannot be done should not interrupt person doing it.")
+  (add-to-list 'dashboard-footer-messages "Person who say it cannot be done should not interrupt person doing it. -- Chinese proverb")
   (setq dashboard-center-content t
         dashboard-items '((projects . 4)
                           (recents . 4)
