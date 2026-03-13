@@ -60,6 +60,9 @@ ln -s "$(pwd)/.opencode/agent" ~/.config/opencode/
 ln -s "$(pwd)/.opencode/skill/content-research-writer" ~/.config/opencode/skill/
 ln -s "$(pwd)/.opencode/AGENTS.md" ~/.config/opencode/
 
+# setup lem
+ln -s "$(pwd)/.lem/init.lisp" ~/.config/lem/init.lisp
+
 # setup fish
 which fish | sudo tee -a /etc/shells
 chsh -s $(which fish)

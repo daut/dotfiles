@@ -59,14 +59,18 @@ function keyStroke (key)
     event.newKeyEvent({}, string.lower(key), false):post()
 end
 
-function bindIfNotEmacs (binding)
-    local windowFrame = hs.window.filter
-    local emacsWindowFrame = windowFrame.new("Emacs")
-    emacsWindowFrame:subscribe(windowFrame.windowFocused, function ()
-        binding:disable()
-    end):subscribe(windowFrame.windowUnfocused, function()
-        binding:enable()
-    end)
+local emacsLikeApps = {"Emacs", "lem"}
+
+function disableBindingForApps (binding, appNames)
+    local wf = hs.window.filter
+    for _, appName in ipairs(appNames) do
+        local filter = wf.new(appName)
+        filter:subscribe(wf.windowFocused, function ()
+            binding:disable()
+        end):subscribe(wf.windowUnfocused, function()
+            binding:enable()
+        end)
+    end
 end
 
 -- Remap ctrl + [ to send esc key
@@ -82,7 +86,7 @@ local escBinding = hs.hotkey.bind({ "ctrl" }, "g",
     nil,
     function () keyStroke("escape") end
 )
-bindIfNotEmacs(escBinding)
+disableBindingForApps(escBinding, emacsLikeApps)
 
 -- Remap ctrl + p to up key
 local upBinding = hs.hotkey.bind({ "ctrl" }, "p",
@@ -90,7 +94,7 @@ local upBinding = hs.hotkey.bind({ "ctrl" }, "p",
     nil,
     function () keyStroke("up") end
 )
-bindIfNotEmacs(upBinding)
+disableBindingForApps(upBinding, emacsLikeApps)
 
 -- Remap ctrl + n to down key
 local downBinding = hs.hotkey.bind({ "ctrl" }, "n",
@@ -98,7 +102,7 @@ local downBinding = hs.hotkey.bind({ "ctrl" }, "n",
     nil,
     function () keyStroke("down") end
 )
-bindIfNotEmacs(downBinding)
+disableBindingForApps(downBinding, emacsLikeApps)
 
 -- Remap ctrl + f to right key
 local forwardBinding = hs.hotkey.bind({ "ctrl" }, "f",
@@ -106,7 +110,7 @@ local forwardBinding = hs.hotkey.bind({ "ctrl" }, "f",
     nil,
     function () keyStroke("right") end
 )
-bindIfNotEmacs(forwardBinding)
+disableBindingForApps(forwardBinding, emacsLikeApps)
 
 -- Remap ctrl + b to down key
 local backBinding = hs.hotkey.bind({ "ctrl" }, "b",
@@ -114,7 +118,7 @@ local backBinding = hs.hotkey.bind({ "ctrl" }, "b",
     nil,
     function () keyStroke("left") end
 )
-bindIfNotEmacs(backBinding)
+disableBindingForApps(backBinding, emacsLikeApps)
 
 -- Remap ctrl + v to pageup key
 local pageupBinding = hs.hotkey.bind({ "ctrl", "cmd" }, ",",
@@ -122,7 +126,7 @@ local pageupBinding = hs.hotkey.bind({ "ctrl", "cmd" }, ",",
     nil,
     function () keyStroke("pageup") end
 )
-bindIfNotEmacs(pageupBinding)
+disableBindingForApps(pageupBinding, emacsLikeApps)
 
 -- Remap ctrl + v to pagedown key
 local pagedownBinding = hs.hotkey.bind({ "ctrl", "cmd" }, ".",
@@ -130,4 +134,4 @@ local pagedownBinding = hs.hotkey.bind({ "ctrl", "cmd" }, ".",
     nil,
     function () keyStroke("pagedown") end
 )
-bindIfNotEmacs(pagedownBinding)
+disableBindingForApps(pagedownBinding, emacsLikeApps)
