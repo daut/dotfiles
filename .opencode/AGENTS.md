@@ -13,6 +13,7 @@
 - Prefer TDD, unless ther is a strong reason not to.
 - Force TDD, if starting a new project.
 - Avoid brittle tests that are tightly coupled to internal implementation details.
+- Avoid flaky tests that fail intermittently without code changes.
 - Avoid writing tests for trivial stuff that doesn't add value.
 - Prefer co-located unit tests and separate integration tests.
 - Create meaningful tests that focus on behavior
