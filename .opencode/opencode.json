@@ -9,7 +9,8 @@
     "command_list": "ctrl+k"
   },
   "permission": {
-    "bd *": "allow"
+    "bd *": "allow",
+    "websearch": "allow"
   },
-  "plugin": ["opencode-beads", "opencode-anthropic-auth"]
+  "plugin": ["opencode-beads", "@ex-machina/opencode-anthropic-auth"]
 }
