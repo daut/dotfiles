@@ -1,5 +1,5 @@
 ---
-description: Develop a feature/fix using orchestrated subagents with GitLab MR
+description: Develop a feature/fix using orchestrated subagents with GitHub PR or GitLab MR
 ---
 
 Based on everything discussed in this conversation, use the Task tool to delegate to the `orchestrator` subagent.
@@ -15,5 +15,5 @@ The orchestrator should follow its full workflow:
 4. Delegate code review to @code-reviewer
 5. Iterate on feedback if needed (max 2 rounds)
 6. Commit and push
-7. Create a GitLab MR with me as assignee and reviewer
-8. Report the MR URL
+7. Create a GitHub PR or GitLab MR based on the repo remote
+8. Report the PR or MR URL
