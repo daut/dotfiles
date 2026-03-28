@@ -12,20 +12,6 @@
     }
   },
   "plugin": ["opencode-beads", "@ex-machina/opencode-anthropic-auth"],
-  "provider": {
-    "anthropic": {
-      "models": {
-        "claude-opus-4-6-1m": {
-          "id": "claude-opus-4-6",
-          "name": "Claude Opus 4.6 (1M)",
-          "limit": {
-            "context": 1000000,
-            "output": 65536
-          }
-        }
-      }
-    }
-  },
   "agent": {
     "plan": {
       "permission": {
