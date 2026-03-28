@@ -319,6 +319,28 @@
     (setq use-short-answers t)
   (fset 'yes-or-no-p 'y-or-n-p))
 
+(use-package super-save
+  :diminish
+  :config
+  (setopt super-save-silent t
+          super-save-all-buffers t
+          super-save-remote-files nil)
+  ;; Don't save during active completion/snippet/minibuffer
+  (add-to-list 'super-save-predicates
+               (lambda () (not (bound-and-true-p yas--active-snippets))))
+  (add-to-list 'super-save-predicates
+               (lambda () (not (bound-and-true-p company-candidates))))
+  (add-to-list 'super-save-predicates
+               (lambda () (not (window-minibuffer-p))))
+  ;; Force redisplay after save so the macOS NS port
+  ;; close-button dot (setDocumentEdited:) updates correctly.
+  (advice-add 'super-save-command :after
+              (lambda (&rest _)
+                (when (frame-live-p (selected-frame))
+                  (force-mode-line-update t)
+                  (redisplay t))))
+  (super-save-mode +1))
+
 (use-package flyspell
   :ensure nil
   :diminish
@@ -992,14 +1014,26 @@ through manual triggers."
     (setq copilot-idle-delay (if (eq copilot-idle-delay nil) 0 nil))
     (message "Copilot idle delay set to: %s" copilot-idle-delay)))
 
+;; (use-package opencode
+;;   :vc (:url "https://codeberg.org/sczi/opencode.el.git" :rev :newest)
+;;   :commands (opencode opencode-new-session))
+
 (use-package opencode
-  :vc (:url "https://codeberg.org/sczi/opencode.el.git" :rev :newest)
-  :commands (opencode opencode-new-session))
+  :demand t
+  :vc (:url "https://codeberg.org/daut/opencode.el.git"
+            :branch "feat/add-directory-support"
+            :rev :newest))
 
 (use-package beads
   :vc (:url "https://codeberg.org/ctietze/beads.el"
        :lisp-dir "lisp"
        :rev :newest))
+
+;; (use-package beads
+;;   :vc (:url "https://github.com/r0man/beads.el"
+;;        :rev :newest)
+;;   :commands (beads beads-list beads-ready beads-show beads-create)
+;;   :hook (after-init . beads-eldoc-mode))
 
 (use-package magit
   :commands magit-status
