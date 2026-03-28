@@ -1,16 +1,38 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "system",
   "default_agent": "plan",
-  "instructions": ["~/AGENTS.md"],
-  "keybinds": {
-    "session_child_cycle": "ctrl+shift+f",
-    "session_child_cycle_reverse": "ctrl+shift+b",
-    "command_list": "ctrl+k"
-  },
+  "instructions": [
+    "~/AGENTS.md"
+  ],
   "permission": {
     "bd *": "allow",
-    "websearch": "allow"
+    "websearch": "allow",
+    "external_directory": {
+      "/tmp/**": "allow"
+    }
   },
-  "plugin": ["opencode-beads", "@ex-machina/opencode-anthropic-auth"]
+  "plugin": ["opencode-beads", "@ex-machina/opencode-anthropic-auth"],
+  "provider": {
+    "anthropic": {
+      "models": {
+        "claude-opus-4-6-1m": {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6 (1M)",
+          "limit": {
+            "context": 1000000,
+            "output": 65536
+          }
+        }
+      }
+    }
+  },
+  "agent": {
+    "plan": {
+      "permission": {
+        "external_directory": {
+          "~/projects/**": "allow"
+        }
+      }
+    }
+  }
 }

@@ -53,12 +53,14 @@ ln -s "$(pwd)/.emacs.d/themes/emacs.txt" ~/.emacs.d/themes/
 ln -s "$(pwd)/ghostty" ~/.config/ghostty
 
 # setup opencode
-ln -s "$(pwd)/.opencode/opencode.json" ~/.config/opencode/
-ln -s "$(pwd)/.opencode/package.json" ~/.config/opencode/
-ln -s "$(pwd)/.opencode/.gitignore" ~/.config/opencode/
-ln -s "$(pwd)/.opencode/agent" ~/.config/opencode/
-ln -s "$(pwd)/.opencode/skill/content-research-writer" ~/.config/opencode/skill/
-ln -s "$(pwd)/.opencode/AGENTS.md" ~/.config/opencode/
+mkdir -p ~/.config/opencode
+ln -sf "$(pwd)/.opencode/opencode.json" ~/.config/opencode/
+ln -sf "$(pwd)/.opencode/AGENTS.md" ~/.config/opencode/
+ln -sf "$(pwd)/.opencode/agents" ~/.config/opencode/
+ln -sf "$(pwd)/.opencode/commands" ~/.config/opencode/
+mkdir -p ~/.config/opencode/skills
+ln -sf "$(pwd)/.opencode/skills/agent-browser" ~/.config/opencode/skills/
+ln -sf "$(pwd)/.opencode/skills/content-research-writer" ~/.config/opencode/skills/
 
 # setup lem
 ln -s "$(pwd)/.lem/init.lisp" ~/.config/lem/init.lisp
