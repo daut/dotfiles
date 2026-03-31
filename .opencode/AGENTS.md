@@ -17,6 +17,7 @@
 - Avoid writing tests for trivial stuff that doesn't add value.
 - Prefer co-located unit tests and separate integration tests.
 - Create meaningful tests that focus on behavior
+- Don't test library behavior (e.g., Jackson deserialization, Lombok getters). Trust your dependencies.
 
 ## Git Conventions
 - Use conventional commits for commit messages
