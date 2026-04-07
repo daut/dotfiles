@@ -3,6 +3,7 @@
 ## Coding Style
 
 - Organize code so it reads from top to bottom. Main/public logic should be at the top, helpers below.
+- Prefer readable code over clever code. Extract complex conditionals into well-named private methods. Keep public methods short and high-level — they should read like a summary, with details in helpers below.
 
 ### Comments
 - Don't comment what code clearly explains
