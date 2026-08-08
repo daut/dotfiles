@@ -14,14 +14,10 @@
 (setq bidi-paragraph-direction 'left-to-right)
 (global-so-long-mode 1)
 
-;; Garbage Collector Magic Hack
-(use-package gcmh
-  :diminish
-  :hook (emacs-startup . gcmh-mode)
-  :init
-  (setq gcmh-idle-delay 'auto
-        gcmh-auto-idle-delay-factor 10
-        gcmh-high-cons-threshold #x2000000)) ; Increase to 32MB for better performance
+;; Reclaim memory periodically while idle. Emacs never returns memory to the
+;; OS, so over long sessions the heap (and RSS) only climbs. An idle GC keeps
+;; it bounded without causing pauses during active editing.
+(run-with-idle-timer 5 t #'garbage-collect)
 
 ;; Initialize package sources
 (require 'package)

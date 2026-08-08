@@ -69,15 +69,21 @@
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 
-;; Restore normal values after startup is complete
-;; Set garbage collection threshold to a reasonable value for normal use
-;; Too high causes memory bloat, too low causes frequent pauses
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold (* 2 1000 1000) ;; 2MB is Emacs default
-                  gc-cons-percentage 0.1)
-            ;; Restore file name handlers that were disabled during startup
-            (setq file-name-handler-alist daut/file-name-handler-alist-original)))
+;; Restore normal GC values after startup. Uses a named function (not a
+;; lambda) so it shows up by name in emacs-startup-hook and any error is
+;; debuggable. A bad hook element aborts the whole hook run (which is exactly
+;; how an unloaded `gcmh-mode' silently left GC at the startup max value).
+(defun daut/reset-gc-after-startup ()
+  "Restore sane GC values after the startup boost and reclaim startup garbage.
+8MB is a good balance: smooth during normal editing, but keeps RSS from
+ballooning. Emacs never returns memory to the OS, so reclaiming here matters."
+  (setq gc-cons-threshold 8000000
+        gc-cons-percentage 0.1)
+  (garbage-collect)
+  ;; Restore file name handlers that were disabled during startup
+  (setq file-name-handler-alist daut/file-name-handler-alist-original))
+
+(add-hook 'emacs-startup-hook #'daut/reset-gc-after-startup)
 
 (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes/"))
 (load-theme 'miasma t)
