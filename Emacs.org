@@ -60,6 +60,20 @@
   :config
   (auto-package-update-maybe)
   (auto-package-update-at-time "09:00")
+
+  ;; `package-install-from-archive' extracts .tar files into *tar-data *temp*
+  ;; buffers that are not always killed, leaking memory over long sessions.
+  ;; Reclaim them after every update run.
+  (defun daut/cleanup-package-temp-buffers (&rest _)
+    "Kill leftover *tar-data *temp* buffers leaked by package operations."
+    (dolist (b (buffer-list))
+      (let ((name (buffer-name b)))
+        (when (and (string-prefix-p " *tar-data" name)
+                   (string-match-p "temp" name))
+          (when (buffer-live-p b)
+            (kill-buffer b))))))
+  (advice-add 'auto-package-update-now :after #'daut/cleanup-package-temp-buffers)
+
   (advice-add 'auto-package-update-now :after
               (lambda (&rest _)
                 (when (fboundp 'package-vc-upgrade-all)
