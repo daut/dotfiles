@@ -1,5 +1,14 @@
 # General Instructions for AI Agents
 
+## Writing Style
+
+- When outling a plan be concise and use simple language to make it easier to understand and skim.
+- Prefer using examples to illustrate concepts and outline plans and explanations.
+- If it is possible to cut a word out, always cut it out.
+- Never use a long word where a short one will do.
+- Never use fillers, get straight to the point.
+- Apply ASD-STE100 principles as much as possible
+
 ## Coding Style
 
 - Organize code so it reads from top to bottom. Main/public logic should be at the top, helpers below.
