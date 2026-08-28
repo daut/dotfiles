@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Super+A: select all. Terminals need Ctrl+Shift+A (ghostty, foot);
+# everything else takes plain Ctrl+A.
+
+class=$(hyprctl activewindow -j 2>/dev/null | jq -r '.class // empty')
+
+case $class in
+  com.mitchellh.ghostty|foot|footclient|Alacritty|kitty)
+    wtype -M ctrl -M shift -k a
+    ;;
+  *)
+    wtype -M ctrl -k a
+    ;;
+esac
