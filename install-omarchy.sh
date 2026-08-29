@@ -62,5 +62,13 @@ fi
 sudo ln -sfn "$REPO_DIR/kanata/kanata-omarchy.kbd" /etc/kanata.kbd
 sudo systemctl enable --now kanata
 
+# --- agent skills -------------------------------------------------------
+# Hunk ships its generated review skill beside the CLI; the path moves with
+# the toolchain (mise node version), so resolve it at install time.
+# Re-run this script after Node/hunk upgrades to re-point the link.
+if command -v hunk >/dev/null; then
+  link "$(dirname "$(hunk skill path)")" ~/.agents/skills/hunk-review
+fi
+
 echo
 echo "Setup complete. Log out/in if kanata keys misbehave."
