@@ -10,6 +10,13 @@
     }
   },
   "plugin": ["opencode-beads", "@ex-machina/opencode-anthropic-auth"],
+  "mcp": {
+    "linear": {
+      "type": "remote",
+      "url": "https://mcp.linear.app/mcp",
+      "oauth": {}
+    }
+  },
   "agent": {
     "plan": {
       "permission": {
