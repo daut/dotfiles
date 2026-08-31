@@ -36,6 +36,7 @@ link "$REPO_DIR/.emacs.d/init.el" ~/.emacs.d/init.el
 link "$REPO_DIR/.emacs.d/early-init.el" ~/.emacs.d/early-init.el
 link "$REPO_DIR/.emacs.d/snippets" ~/.emacs.d/snippets
 link "$REPO_DIR/.emacs.d/themes/emacs.txt" ~/.emacs.d/themes/emacs.txt
+link "$REPO_DIR/.emacs.d/themes/miasma-theme.el" ~/.emacs.d/themes/miasma-theme.el
 
 # --- opencode ---------------------------------------------------------
 link "$REPO_DIR/.opencode/AGENTS.md" ~/.config/opencode/AGENTS.md
@@ -51,6 +52,7 @@ link "$REPO_DIR/ghostty/config-omarchy" ~/.config/ghostty/config
 link "$REPO_DIR/hypr/bindings.lua" ~/.config/hypr/bindings.lua
 link "$REPO_DIR/hypr/input.lua" ~/.config/hypr/input.lua
 link "$REPO_DIR/bin/select-all" ~/.local/bin/select-all
+link "$REPO_DIR/bin/restart-focused-app" ~/.local/bin/restart-focused-app
 hyprctl reload
 hyprctl configerrors
 

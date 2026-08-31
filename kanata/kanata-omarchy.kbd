@@ -2,10 +2,11 @@
 ;; Global Emacs-style navigation (all apps):
 ;;   ctrl + p/n  -> up/down        ctrl + f/b -> right/left
 ;;   ctrl + a/e  -> home/end       ctrl + g/[ -> escape
-;;   ctrl + ,/.  -> page up/down
+;;   ctrl + super + ,/.  -> page up/down
 ;;   alt  + f/b  -> ctrl+right / ctrl+left (forward/backward word)
-;; An override fires only while no other modifier (shift/super/alt) is held,
-;; so Super combos (Agent, Audio, ChatGPT) pass through untouched.
+;;   alt  + s    -> ctrl+f (find/search in apps; ctrl+f is right-arrow here)
+;; An override fires only while no other modifier (shift/alt) is held beyond
+;; those listed, so other Super combos (Agent, Audio, ChatGPT) pass through.
 ;; Release the letter before the modifier, or an aborted combo types the letter.
 
 (defcfg
@@ -20,8 +21,9 @@
 )
 
 (defvar
-  excl-ctrl (lsft rsft lmet rmet lalt ralt)
-  excl-alt  (lsft rsft lmet rmet lctl rctl))
+  excl-ctrl       (lsft rsft lmet rmet lalt ralt)
+  excl-alt        (lsft rsft lmet rmet lctl rctl)
+  excl-ctrl-super (lsft rsft lalt ralt))
 
 (defoverridesv2
   (lctl a) (home) $excl-ctrl ()
@@ -31,8 +33,10 @@
   (lctl n) (down) $excl-ctrl ()
   (lctl p) (up)   $excl-ctrl ()
   (lctl g) (esc)  $excl-ctrl ()
-  (lctl ,) (pgup) $excl-ctrl ()
-  (lctl .) (pgdn) $excl-ctrl ()
+  (lctl lmet ,) (pgup) $excl-ctrl-super ()
+  (lctl lmet .) (pgdn) $excl-ctrl-super ()
+  (lctl rmet ,) (pgup) $excl-ctrl-super ()
+  (lctl rmet .) (pgdn) $excl-ctrl-super ()
   (lctl [) (esc)  $excl-ctrl ()
   (rctl a) (home) $excl-ctrl ()
   (rctl b) (left) $excl-ctrl ()
@@ -41,10 +45,14 @@
   (rctl n) (down) $excl-ctrl ()
   (rctl p) (up)   $excl-ctrl ()
   (rctl g) (esc)  $excl-ctrl ()
-  (rctl ,) (pgup) $excl-ctrl ()
-  (rctl .) (pgdn) $excl-ctrl ()
+  (rctl lmet ,) (pgup) $excl-ctrl-super ()
+  (rctl lmet .) (pgdn) $excl-ctrl-super ()
+  (rctl rmet ,) (pgup) $excl-ctrl-super ()
+  (rctl rmet .) (pgdn) $excl-ctrl-super ()
   (rctl [) (esc)  $excl-ctrl ()
   (lalt f) (lctl right) $excl-alt ()
   (lalt b) (lctl left)  $excl-alt ()
   (ralt f) (lctl right) $excl-alt ()
-  (ralt b) (lctl left)  $excl-alt ())
+  (ralt b) (lctl left)  $excl-alt ()
+  (lalt s) (lctl f)     $excl-alt ()
+  (ralt s) (lctl f)     $excl-alt ())

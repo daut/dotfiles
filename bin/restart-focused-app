@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Restart the currently focused application.
+# Kills the focused window's process and relaunches it via uwsm.
+# The kill target is the window's process name (comm); the launch target
+# falls back to the window class as a desktop entry when the process name
+# is not a command (e.g. comm "chrome" vs desktop entry "google-chrome").
+
+set -euo pipefail
+
+main() {
+  local win_json pid comm class launch_target
+
+  win_json=$(hyprctl activewindow -j 2>/dev/null || true)
+  [[ -n "$win_json" && "$win_json" != "Invalid" ]] || exit 0
+
+  pid=$(jq -r '.pid // empty' <<<"$win_json")
+  class=$(jq -r '.initialClass // .class // empty' <<<"$win_json")
+  [[ -n "$pid" ]] || exit 0
+
+  comm=$(ps -o comm= -p "$pid" | xargs)
+  [[ -n "$comm" ]] || exit 0
+
+  # Refuse to kill generic wrappers a window may be launched through
+  case "$comm" in
+    sh | bash | zsh | fish | dash | python | python3 | node | uwsm | uwsm-app | systemd)
+      notify-send -u critical "restart-focused-app" "Cannot restart: window is owned by '$comm'"
+      exit 1
+      ;;
+  esac
+
+  launch_target=$(resolve_launch_target "$comm" "$class")
+  if [[ -z "$launch_target" ]]; then
+    notify-send -u critical "restart-focused-app" "No launch target for '$comm' (class '$class')"
+    exit 1
+  fi
+
+  pkill -x "$comm" || true
+  setsid uwsm-app -- "$launch_target" >/dev/null 2>&1 &
+}
+
+resolve_launch_target() {
+  local comm=$1 class=$2 candidate
+  if command -v "$comm" >/dev/null 2>&1; then
+    printf '%s' "$comm"
+    return 0
+  fi
+  for candidate in "${class,,}" "$class"; do
+    [[ -n "$candidate" ]] || continue
+    if desktop_entry_exists "$candidate.desktop"; then
+      printf '%s' "$candidate.desktop"
+      return 0
+    fi
+  done
+  printf ''
+}
+
+desktop_entry_exists() {
+  local id=$1 dir
+  for dir in "${XDG_DATA_HOME:-$HOME/.local/share}/applications" /usr/share/applications; do
+    [[ -f "$dir/$id" ]] && return 0
+  done
+  return 1
+}
+
+main "$@"

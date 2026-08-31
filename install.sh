@@ -48,6 +48,7 @@ ln -s "$(pwd)/.emacs.d/init.el" ~/.emacs.d/init.el
 ln -s "$(pwd)/.emacs.d/early-init.el" ~/.emacs.d/early-init.el
 ln -s "$(pwd)/.emacs.d/snippets/" ~/.emacs.d/
 ln -s "$(pwd)/.emacs.d/themes/emacs.txt" ~/.emacs.d/themes/
+ln -s "$(pwd)/.emacs.d/themes/miasma-theme.el" ~/.emacs.d/themes/
 
 # setup ghostty
 ln -s "$(pwd)/ghostty" ~/.config/ghostty

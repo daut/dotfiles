@@ -9,3 +9,6 @@ o.bind("SUPER + CTRL + M", "Gmail", "xdg-open https://mail.google.com")
 
 -- Select all (mac Cmd+A muscle memory; terminals get Ctrl+Shift+A instead)
 o.bind("SUPER + A", "Select all", "select-all")
+
+-- Kill and relaunch the focused application (SUPER+W closes it)
+o.bind("SUPER + SHIFT + R", "Restart focused app", "restart-focused-app")

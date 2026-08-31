@@ -1,6 +1,11 @@
 #+TITLE: Daut's Configuration
-#+PROPERTY: header-args:emacs-lisp :mkdirp yes :tangle .emacs.d/init.el
+#+PROPERTY: header-args:emacs-lisp :mkdirp yes :tangle .emacs.d/init.el :lexical yes
 #+STARTUP: overview
+
+* Lexical Binding
+#+begin_src emacs-lisp
+;;; -*- lexical-binding: t; -*-
+#+end_src
 
 * Runtime Performance
 #+begin_src emacs-lisp
@@ -114,8 +119,11 @@ Environment variables sometimes aren't right, this fixes it.
 #+end_src
 * Info Docs
 #+begin_src emacs-lisp
-(add-to-list 'Info-directory-list
-             (expand-file-name "./books" user-emacs-directory))
+;; `Info-directory-list' only exists once info.el is loaded; adding to it
+;; unconditionally aborts init when info hasn't loaded yet.
+(with-eval-after-load 'info
+  (add-to-list 'Info-directory-list
+               (expand-file-name "./books" user-emacs-directory)))
 #+end_src
 * Font Configuration
 
@@ -708,9 +716,10 @@ end tell" command)))
         ("G" . daut/open-project-in-ghostty-opencode))
   :init
   (setq projectile-sort-order 'recentf)
-  (setq projectile-auto-discover nil)
-  (when (file-directory-p "~/projects")
-    (setq projectile-project-search-path '(("~/projects" . 3))))
+  (setq projectile-project-search-path
+        (append (when (file-directory-p "~/projects") '(("~/projects" . 3)))
+                (when (file-directory-p "~/Work")
+                  '(("~/Work" . 1) ("~/Work" . 2) ("~/Work" . 3)))))
   (setq projectile-switch-project-action #'projectile-dired)
   (setq projectile-git-submodule-command nil)
   (setq projectile-use-git-grep t))
@@ -750,7 +759,18 @@ end tell" command)))
   :hook (company-mode . company-box-mode))
 
 (use-package company-statistics
-  :hook (after-init . company-statistics-mode))
+  :hook (after-init . company-statistics-mode)
+  :config
+  ;; `company-statistics--save' rewrites the cache file without the
+  ;; lexical-binding cookie, which makes `load' warn on every startup.
+  (defun daut/company-statistics-save-with-cookie (orig-fn)
+    "Add the lexical-binding cookie `company-statistics--save' omits."
+    (funcall orig-fn)
+    (when (and company-statistics-file (file-exists-p company-statistics-file))
+      (with-temp-file company-statistics-file
+        (insert ";;; -*- lexical-binding: t; -*-\n")
+        (insert-file-contents company-statistics-file))))
+  (advice-add 'company-statistics--save :around #'daut/company-statistics-save-with-cookie))
 
 #+end_src
 ** Yasnippet
@@ -1246,12 +1266,79 @@ https://github.com/mermaid-js/mermaid-cli
 * AI Assistants
 ** copilot.el
 #+begin_src emacs-lisp
+(defun daut/copilot--native-platform ()
+  "Return the release platform string like \"linux-x64\" for this system."
+  (let ((os (pcase system-type
+              ('darwin "darwin")
+              ('gnu/linux "linux")
+              ('windows-nt "win32")
+              (_ (error "Unsupported OS: %s" system-type))))
+        (arch (pcase system-configuration
+                ((pred (string-match-p "aarch64")) "arm64")
+                ((pred (string-match-p "x86_64")) "x64")
+                (_ (error "Unsupported architecture: %s" system-configuration)))))
+    (format "%s-%s" os arch)))
+
+(defun daut/copilot--latest-server-url ()
+  "Return the download URL of the latest native Copilot server release."
+  (require 'json)
+  (let ((buf (url-retrieve-synchronously
+              "https://api.github.com/repos/github/copilot-language-server-release/releases/latest")))
+    (unwind-protect
+        (with-current-buffer buf
+          (goto-char (or url-http-end-of-headers (point-min)))
+          (let ((assets (alist-get 'assets (json-read))))
+            (thread-last assets
+              (seq-find (lambda (asset)
+                          (string-match-p
+                           (format "copilot-language-server-%s-[0-9.]+\\.zip"
+                                   (daut/copilot--native-platform))
+                           (alist-get 'name asset))))
+              (alist-get 'browser_download_url))))
+      (kill-buffer buf))))
+
+(defun daut/copilot-install-server ()
+  "Install the native Copilot language server from GitHub releases."
+  (unless (executable-find "unzip")
+    (error "Cannot install Copilot server: `unzip' is required"))
+  (let* ((url (or (daut/copilot--latest-server-url)
+                  (error "No Copilot server release found for %s"
+                         (daut/copilot--native-platform))))
+         (zip (make-temp-file "copilot-server" nil ".zip"))
+         (tmpdir (make-temp-file "copilot-server" t))
+         (bin (file-name-concat copilot-install-dir "bin" copilot-server-executable)))
+    (message "Copilot: downloading %s..." url)
+    (url-copy-file url zip t)
+    (unwind-protect
+        (progn
+          (let ((exit (call-process "unzip" nil nil nil
+                                    "-q" "-o" zip "-d" tmpdir "copilot-language-server")))
+            (unless (eq exit 0)
+              (error "Failed to extract Copilot server zip (exit code %s)" exit)))
+          (make-directory (file-name-directory bin) 'parents)
+          (copy-file (expand-file-name "copilot-language-server" tmpdir) bin t)
+          (set-file-modes bin #o755)
+          (message "Copilot: installed native server at %s" bin))
+      (delete-file zip)
+      (delete-directory tmpdir 'recursive))))
+
+(defun daut/copilot-ensure-server ()
+  "Install the Copilot language server if it is missing."
+  (unless (or (executable-find copilot-server-executable)
+              (file-exists-p
+               (file-name-concat copilot-install-dir "bin" copilot-server-executable)))
+    (condition-case err
+        (daut/copilot-install-server)
+      (error (message "Copilot: server install failed: %s"
+                      (error-message-string err))))))
+
 (use-package copilot
   :hook ((prog-mode restclient-mode eshell-mode yaml-mode org-mode markdown-mode) . copilot-mode)
   :bind
   ("C-<tab>" . copilot-complete)
   ;; ("s-c" . copilot-toggle-auto-complete)
   :config
+  (daut/copilot-ensure-server)
   (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion)
   (setopt copilot-indent-offset-warning-disable t)
@@ -1277,19 +1364,6 @@ through manual triggers."
   :vc (:url "https://codeberg.org/daut/opencode.el.git"
             :branch "feat/add-directory-support"
             :rev :newest))
-#+end_src
-** beads
-#+begin_src emacs-lisp
-(use-package beads
-  :vc (:url "https://codeberg.org/ctietze/beads.el"
-       :lisp-dir "lisp"
-       :rev :newest))
-
-;; (use-package beads
-;;   :vc (:url "https://github.com/r0man/beads.el"
-;;        :rev :newest)
-;;   :commands (beads beads-list beads-ready beads-show beads-create)
-;;   :hook (after-init . beads-eldoc-mode))
 #+end_src
 * VCS
 ** Magit
