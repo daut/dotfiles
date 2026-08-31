@@ -459,6 +459,13 @@
         '("~/projects/org/gtd/inbox.org"
           "~/projects/org/gtd/gtd.org"
           "~/projects/org/gtd/tickler.org"))
+  ;; A missing agenda file aborts the dashboard agenda widget mid-render,
+  ;; which leaves the dashboard buffer editable and uncentered
+  ;; (dashboard-mode and centering only apply after all widgets insert).
+  (dolist (f org-agenda-files)
+    (unless (file-exists-p f)
+      (make-directory (file-name-directory f) t)
+      (write-region "" nil f)))
   (setq org-refile-targets '(("~/projects/org/gtd/gtd.org" :maxlevel . 2)
                              ("~/projects/org/gtd/someday.org" :level . 1)
                              ("~/projects/org/gtd/tickler.org" :maxlevel . 1)))
@@ -499,8 +506,9 @@
 
 ;; Automatically tangle Emacs.org config file on save
 (defun daut/org-babel-tangle-configuration ()
-  (when (string-equal (buffer-file-name)
-		          (expand-file-name "~/projects/dotfiles/Emacs.org"))
+  (when (and buffer-file-name
+             (file-equal-p buffer-file-name
+                           (expand-file-name "Emacs.org" "~/.dotfiles")))
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
 
