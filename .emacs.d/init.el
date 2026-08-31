@@ -1357,7 +1357,7 @@ through manual triggers."
 (use-package perspective
   :hook (kill-emacs . persp-save-default)
   :init (persp-mode)
-  :bind (("C-x k" . persp-kill-buffer*)
+  :bind (("C-x k" . kill-current-buffer)
          ("s-}" . persp-next)
          ("s-{" . persp-prev))
   :custom
