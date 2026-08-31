@@ -1,0 +1,23 @@
+# Global Emacs-style navigation for all apps, ported from kanata.kbd.
+# Excluded apps get the raw keys so their native chords work (Emacs, terminals).
+# exact_match: only fire when exactly these modifiers are held; e.g. C-S-p
+# passes through unchanged (browser private window etc.), like kanata's $excl.
+keymap:
+  - name: global emacs navigation
+    application:
+      not: [Emacs, com.mitchellh.ghostty, kitty, foot, Alacritty]
+    exact_match: true
+    remap:
+      C-a: Home
+      C-b: Left
+      C-e: End
+      C-f: Right
+      C-n: Down
+      C-p: Up
+      C-g: Esc
+      C-LeftBrace: Esc         # C-[
+      C-Super-Comma: PageUp
+      C-Super-Dot: PageDown
+      Alt-f: C-Right
+      Alt-b: C-Left
+      Alt-s: C-f

@@ -56,13 +56,18 @@ link "$REPO_DIR/bin/restart-focused-app" ~/.local/bin/restart-focused-app
 hyprctl reload
 hyprctl configerrors
 
-# --- kanata -----------------------------------------------------------
-if ! command -v kanata >/dev/null; then
-  echo "installing kanata from AUR (needs sudo)..."
-  omarchy pkg aur add kanata
+# --- xremap ------------------------------------------------------------
+# App-aware key remapper (global emacs-style navigation, except Emacs and
+# terminals). Needs the uinput udev rule to run without sudo.
+if ! command -v xremap >/dev/null; then
+  echo "installing xremap-hypr-bin from AUR (needs sudo)..."
+  omarchy pkg aur add xremap-hypr-bin
 fi
-sudo ln -sfn "$REPO_DIR/kanata/kanata-omarchy.kbd" /etc/kanata.kbd
-sudo systemctl enable --now kanata
+echo 'KERNEL=="uinput", MODE="0660", GROUP="input", OPTIONS+="static_node=uinput"' | sudo tee /etc/udev/rules.d/99-xremap.rules
+sudo udevadm control --reload-rules && sudo udevadm trigger --sysname-match=uinput
+link "$REPO_DIR/xremap/xremap.service" ~/.config/systemd/user/xremap.service
+systemctl --user daemon-reload
+systemctl --user enable --now xremap
 
 # --- agent skills -------------------------------------------------------
 # Hunk ships its generated review skill beside the CLI; the path moves with
@@ -73,4 +78,4 @@ if command -v hunk >/dev/null; then
 fi
 
 echo
-echo "Setup complete. Log out/in if kanata keys misbehave."
+echo "Setup complete. Log out/in if xremap keys misbehave."

@@ -1,0 +1,12 @@
+[Unit]
+Description=xremap key remapper
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/xremap --watch=config %h/.dotfiles/xremap/xremap.yml
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target
