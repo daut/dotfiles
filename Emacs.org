@@ -109,7 +109,7 @@
 Environment variables sometimes aren't right, this fixes it.
 #+begin_src emacs-lisp
 (use-package exec-path-from-shell
-  :if (memq window-system '(mac ns x))
+  :if (memq window-system '(mac ns x pgtk))
   :demand
   :config
   (setq exec-path-from-shell-check-startup-files nil)
@@ -133,8 +133,12 @@ Environment variables sometimes aren't right, this fixes it.
   (enable-recursive-minibuffers t)
   (pixel-scroll-precision-mode t)
   :config
+  (defvar daut/default-font-family "JetBrainsMono Nerd Font")
   (defvar daut/default-font-size 150)
-  (set-face-attribute 'default nil :font "JetBrains Mono" :height daut/default-font-size)
+  ;; pgtk renders larger under fractional Wayland scaling; macOS keeps 15pt
+  (when (eq window-system 'pgtk)
+    (setq daut/default-font-size 135))
+  (set-face-attribute 'default nil :font daut/default-font-family :height daut/default-font-size)
   (setopt line-spacing 0.2)
   ;; necessary as a fallback for org-modern mode
   (set-fontset-font "fontset-default" '(#x2BC6 . #x2BC6)
@@ -275,6 +279,10 @@ Environment variables sometimes aren't right, this fixes it.
 (use-package dashboard
   :ensure t
   :custom
+  ;; Read the projects list from projectile (with search-path discovery and
+  ;; ignore rules), not the default project-el backend whose list accumulates
+  ;; ~/.emacs.d/elpa entries via package-vc upgrades.
+  (dashboard-projects-backend 'projectile)
   (dashboard-startup-banner (concat user-emacs-directory "themes/emacs.txt"))
   (dashboard-icon-type 'nerd-icons)
   (dashboard-display-icons-p t)
@@ -320,7 +328,11 @@ Environment variables sometimes aren't right, this fixes it.
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
 
-(use-package nerd-icons)
+(use-package nerd-icons
+  :custom
+  ;; "Symbols Nerd Font Mono" isn't installed on Omarchy; the JetBrains Mono
+  ;; NF variant (the default font) carries the same PUA glyphs.
+  (nerd-icons-font-family "JetBrainsMono Nerd Font"))
 
 ;; Hide modelline in some major modes
 (use-package hide-mode-line
@@ -724,6 +736,19 @@ end tell" command)))
         ("G" . daut/open-project-in-ghostty-opencode))
   :init
   (setq projectile-sort-order 'recentf)
+  ;; Never treat anything under ~/.emacs.d as a project (elpa VC packages
+  ;; would otherwise pollute the projects list, e.g. via package-vc upgrades).
+  (setq projectile-ignored-project-function
+        (lambda (project-root)
+          (string-prefix-p (file-truename user-emacs-directory)
+                           (file-truename project-root))))
+  ;; Purge the entries the default project.el backend already remembered;
+  ;; consult and other project.el consumers read the same list.
+  ;; project-known-project-list was removed in Emacs 31; forget-under is the
+  ;; purpose-built API (absent on older Emacs, hence the fboundp guard).
+  (with-eval-after-load 'project
+    (when (fboundp 'project-forget-projects-under)
+      (project-forget-projects-under user-emacs-directory 'recursive)))
   (setq projectile-project-search-path
         (append (when (file-directory-p "~/projects") '(("~/projects" . 3)))
                 (when (file-directory-p "~/Work")
