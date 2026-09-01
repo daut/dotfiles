@@ -45,6 +45,14 @@ link "$REPO_DIR/.opencode/commands" ~/.config/opencode/commands
 link "$REPO_DIR/.opencode/skills" ~/.config/opencode/skills
 link "$REPO_DIR/.opencode/opencode.omarchy.json" ~/.config/opencode/opencode.json
 
+# --- herdr ------------------------------------------------------------
+# tmux replacement; restores opencode sessions after herdr server restarts
+if ! command -v herdr >/dev/null; then
+  omarchy pkg add herdr
+fi
+herdr integration install opencode
+link "$REPO_DIR/herdr/config.toml" ~/.config/herdr/config.toml
+
 # --- ghostty ----------------------------------------------------------
 link "$REPO_DIR/ghostty/config-omarchy" ~/.config/ghostty/config
 
