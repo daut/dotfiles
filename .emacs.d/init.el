@@ -104,7 +104,7 @@
   (defvar daut/default-font-size 150)
   ;; pgtk renders larger under fractional Wayland scaling; macOS keeps 15pt
   (when (eq window-system 'pgtk)
-    (setq daut/default-font-size 135))
+    (setq daut/default-font-size 120))
   (set-face-attribute 'default nil :font daut/default-font-family :height daut/default-font-size)
   (setopt line-spacing 0.2)
   ;; necessary as a fallback for org-modern mode
