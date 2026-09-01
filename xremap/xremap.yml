@@ -5,7 +5,7 @@
 keymap:
   - name: global emacs navigation
     application:
-      not: [Emacs, com.mitchellh.ghostty, kitty, foot, Alacritty]
+      not: [emacs, Emacs, com.mitchellh.ghostty, kitty, foot, Alacritty]
     exact_match: true
     remap:
       C-a: Home
