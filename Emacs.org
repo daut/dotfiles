@@ -133,7 +133,12 @@ Environment variables sometimes aren't right, this fixes it.
   (enable-recursive-minibuffers t)
   (pixel-scroll-precision-mode t)
   :config
-  (defvar daut/default-font-family "JetBrainsMono Nerd Font")
+  ;; Prefer the Nerd Font variant (carries PUA glyphs on Omarchy); fall back
+  ;; to plain JetBrains Mono where only that is installed (macOS).
+  (defvar daut/default-font-family
+    (or (seq-find (lambda (f) (member f (font-family-list)))
+                  '("JetBrainsMono Nerd Font" "JetBrains Mono"))
+        "monospace"))
   (defvar daut/default-font-size 150)
   ;; pgtk renders larger under fractional Wayland scaling; macOS keeps 15pt
   (when (eq window-system 'pgtk)
@@ -330,9 +335,11 @@ Environment variables sometimes aren't right, this fixes it.
 
 (use-package nerd-icons
   :custom
-  ;; "Symbols Nerd Font Mono" isn't installed on Omarchy; the JetBrains Mono
-  ;; NF variant (the default font) carries the same PUA glyphs.
-  (nerd-icons-font-family "JetBrainsMono Nerd Font"))
+  ;; Omarchy only has "JetBrainsMono Nerd Font"; macOS only has
+  ;; "Symbols Nerd Font Mono". Pick whichever is installed.
+  (nerd-icons-font-family
+   (seq-find (lambda (f) (member f (font-family-list)))
+             '("JetBrainsMono Nerd Font" "Symbols Nerd Font Mono"))))
 
 ;; Hide modelline in some major modes
 (use-package hide-mode-line
