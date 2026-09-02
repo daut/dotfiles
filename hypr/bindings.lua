@@ -12,3 +12,9 @@ o.bind("SUPER + A", "Select all", "select-all")
 
 -- Kill and relaunch the focused application (SUPER+W closes it)
 o.bind("SUPER + SHIFT + R", "Restart focused app", "restart-focused-app")
+
+-- Free s-C-, and s-C-. for Emacs; remap the omarchy actions to shift variants
+hl.unbind("SUPER + CTRL + comma")
+hl.unbind("SUPER + CTRL + PERIOD")
+o.bind_toggle("SUPER + CTRL + SHIFT + N", "Toggle silencing notifications", "notification-silencing")
+o.bind("SUPER + CTRL + SHIFT + T", "Transcode", "omarchy-transcode")
