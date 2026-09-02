@@ -62,9 +62,6 @@
 ;; remove cursor from non-focused windows
 (setq-default cursor-in-non-selected-windows nil)
 
-;; https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
-(setenv "LSP_USE_PLISTS" "true")
-
 ;; increase garbage collection threshold to speed up initialization
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
