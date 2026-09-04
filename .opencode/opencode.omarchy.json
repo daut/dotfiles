@@ -6,11 +6,55 @@
   "permission": {
     "bd *": "allow",
     "websearch": "allow",
+    "docker *": "allow",
+    "docker compose *": "allow",
+    "podman *": "allow",
     "external_directory": {
       "/tmp/**": "allow"
     }
   },
   "plugin": ["@ex-machina/opencode-anthropic-auth"],
+  "provider": {
+    "bailian-token-plan-personal": {
+      "npm": "@ai-sdk/anthropic",
+      "name": "QwenCloud",
+      "options": {
+        "baseURL": "https://token-plan.ap-southeast-1.maas.aliyuncs.com/apps/anthropic/v1"
+      },
+      "models": {
+        "qwen3.8-max": {
+          "name": "Qwen3.8 Max",
+          "reasoning": true,
+          "limit": {
+            "context": 983616,
+            "output": 131072
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "options": {
+            "effort": "xhigh"
+          }
+        },
+        "qwen3.8-flash": {
+          "name": "Qwen3.8 Flash",
+          "reasoning": true,
+          "limit": {
+            "context": 983616,
+            "output": 131072
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "options": {
+            "effort": "xhigh"
+          }
+        }
+      }
+    }
+  },
   "agent": {
     "plan": {
       "permission": {
@@ -19,6 +63,12 @@
           "~/Work/**": "allow"
         }
       }
+    }
+  },
+  "mcp": {
+    "linear": {
+      "type": "remote",
+      "url": "https://mcp.linear.app/mcp"
     }
   }
 }
