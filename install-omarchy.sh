@@ -85,5 +85,8 @@ if command -v hunk >/dev/null; then
   link "$(dirname "$(hunk skill path)")" ~/.agents/skills/hunk-review
 fi
 
+# Registry skills (OpenCode) are installed by a shared script, also used by install.sh
+"$REPO_DIR/bin/install-skills.sh"
+
 echo
 echo "Setup complete. Log out/in if xremap keys misbehave."

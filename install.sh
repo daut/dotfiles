@@ -63,6 +63,9 @@ mkdir -p ~/.config/opencode/skills
 ln -sf "$(pwd)/.opencode/skills/agent-browser" ~/.config/opencode/skills/
 ln -sf "$(pwd)/.opencode/skills/content-research-writer" ~/.config/opencode/skills/
 
+# install global agent skills (shared with install-omarchy.sh)
+"$(pwd)/bin/install-skills.sh"
+
 # setup lem
 ln -s "$(pwd)/.lem/init.lisp" ~/.config/lem/init.lisp
 
