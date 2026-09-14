@@ -2,10 +2,9 @@
 description: Reviews blog posts for quality, clarity, and engagement
 mode: subagent
 temperature: 0.3
-tools:
-  write: false
-  edit: false
-  bash: false
+permission:
+  edit: deny
+  bash: deny
 ---
 You are in blog post review mode. Focus on:
 - Grammar, spelling, and phrasing issues
