@@ -1,18 +1,15 @@
 ---
-description: Develop and push directly to the current branch - no MR, no new branch
-agent: orchestrator
+description: Implement, review, commit, push to current branch. No branch, no PR.
+agent: build
 ---
 
-Execute a fast development workflow for the following task:
+Implement this task. Use all context from this conversation.
 
 **Task:** $ARGUMENTS
 
-This is a DIRECT PUSH workflow. Do NOT create a new branch or MR. Follow these steps:
-1. Plan the work based on the task description above
-2. Delegate coding to @coder
-3. Delegate code review to @code-reviewer
-4. Iterate on feedback if needed (max 2 rounds)
-5. Commit and push to the current branch
-6. Report what was pushed
-
-Begin by analyzing the task.
+1. List the files to change. Track steps in the todo list.
+2. Implement it yourself. Prefer TDD. Run the tests.
+3. Delegate review to `code-reviewer`. Verify each `FIX_NOW` finding against the code, then fix it.
+   Max 2 rounds. Put `REPORT`, Disputed, and Not addressed findings in your final summary.
+4. Conventional commit, `git push` to the current branch.
+   On main/master: show a summary, ask before committing and pushing.
