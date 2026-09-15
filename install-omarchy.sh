@@ -88,5 +88,16 @@ fi
 # Registry skills (OpenCode) are installed by a shared script, also used by install.sh
 "$REPO_DIR/bin/install-skills.sh"
 
+# --- 2fa ------------------------------------------------------------
+# Command-line TOTP codes; keychain lives (unencrypted) in ~/.2fa, never commit it.
+if ! command -v go >/dev/null; then
+  omarchy pkg add go
+fi
+go install rsc.io/2fa@latest
+
+# --- readline ---------------------------------------------------------
+# List all matches on the first Tab press (GNU readline: bash, gh interactive, ...)
+link "$REPO_DIR/bash/inputrc" ~/.inputrc
+
 echo
 echo "Setup complete. Log out/in if xremap keys misbehave."

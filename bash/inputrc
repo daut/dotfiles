@@ -1,0 +1,12 @@
+# Show every match on the first Tab instead of requiring two presses
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+# While cycling matches with Meta-Tab, keep the typed prefix visible
+set menu-complete-display-prefix on
+# Common prefixes (paths, URLs) expand as a block, then cycle the tail
+set skip-completed-text on
+
+$if Bash
+# Meta-Tab cycles completions in place (Tab still inserts the common prefix)
+"\e[TAB": menu-complete
+$endif

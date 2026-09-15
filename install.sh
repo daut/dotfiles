@@ -66,6 +66,12 @@ ln -sf "$(pwd)/.opencode/skills/content-research-writer" ~/.config/opencode/skil
 # install global agent skills (shared with install-omarchy.sh)
 "$(pwd)/bin/install-skills.sh"
 
+# install 2fa TOTP CLI (keychain: ~/.2fa, unencrypted, never commit)
+go install rsc.io/2fa@latest
+
+# readline: list all completions on the first Tab press
+ln -sf "$(pwd)/bash/inputrc" ~/.inputrc
+
 # setup lem
 ln -s "$(pwd)/.lem/init.lisp" ~/.config/lem/init.lisp
 
