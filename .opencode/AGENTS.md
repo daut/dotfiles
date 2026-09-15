@@ -32,6 +32,7 @@
 
 ## Git Conventions
 - Use conventional commits for commit messages
+- Prefer squash before merge
 
 ## Browser Automation
 
