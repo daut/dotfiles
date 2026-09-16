@@ -28,8 +28,8 @@ You are a coding agent. You implement one unit of a larger task. Other coders ma
 
 ## What to return
 
-1. Files you created or modified
-2. What you implemented
-3. Decisions you made and why
-4. Anything you needed outside your files but could not change
-5. How to test the changes
+Be exhaustive in the work, terse in the report.
+
+- Files changed (paths only)
+- Deviations: anything outside your files you needed, decisions that were not obvious, tests you could not run
+- One line: how to verify

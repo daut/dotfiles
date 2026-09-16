@@ -59,6 +59,9 @@ ln -sf "$(pwd)/.opencode/opencode.json" ~/.config/opencode/
 ln -sf "$(pwd)/.opencode/AGENTS.md" ~/.config/opencode/
 ln -sf "$(pwd)/.opencode/agents" ~/.config/opencode/
 ln -sf "$(pwd)/.opencode/commands" ~/.config/opencode/
+# per-machine model overlay: export OPENCODE_CONFIG=~/.config/opencode/models.{work,home}.json in local ~/.zshrc
+ln -sf "$(pwd)/.opencode/models.work.json" ~/.config/opencode/
+ln -sf "$(pwd)/.opencode/models.home.json" ~/.config/opencode/
 mkdir -p ~/.config/opencode/skills
 ln -sf "$(pwd)/.opencode/skills/agent-browser" ~/.config/opencode/skills/
 ln -sf "$(pwd)/.opencode/skills/content-research-writer" ~/.config/opencode/skills/

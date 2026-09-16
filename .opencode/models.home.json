@@ -1,0 +1,8 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "plan": { "model": "TODO-provider/TODO-model" },
+    "build": { "model": "TODO-provider/TODO-model" },
+    "coder": { "model": "TODO-provider/TODO-model" }
+  }
+}

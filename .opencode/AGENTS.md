@@ -1,14 +1,5 @@
 # General Instructions for AI Agents
 
-## Writing Style
-
-- When outling a plan be concise and use simple language to make it easier to understand and skim.
-- Prefer using examples to illustrate concepts and outline plans and explanations.
-- If it is possible to cut a word out, always cut it out.
-- Never use a long word where a short one will do.
-- Never use fillers, get straight to the point.
-- Apply ASD-STE100 principles as much as possible
-
 ## Coding Style
 
 - Organize code so it reads from top to bottom. Main/public logic should be at the top, helpers below.
@@ -43,3 +34,21 @@ Core workflow:
 2. `agent-browser snapshot -i` - Get interactive elements with refs (@e1, @e2)
 3. `agent-browser click @e1` / `fill @e2 "text"` - Interact using refs
 4. Re-snapshot after page changes
+
+## Output contract
+
+Work exhaustively. Report tersely.
+
+- First line is the answer. Then at most 3 bullets. Then stop.
+- Report deviations, blockers, and surprises. Skip the happy path.
+- No preamble, no closing summary, no restating the question.
+- No headers for answers under 10 lines. No lists with 1-2 items.
+- Prefer a short example over a paragraph of explanation.
+- Details only when asked.
+- Apply ASD-STE100 principles: simple words, short sentences, one idea per sentence.
+
+Bad:
+> Great question! I looked into this and there are several things to consider. First, the cache layer... [40 lines] ... In summary, the cache is stale.
+
+Good:
+> The cache is stale. `invalidate()` never runs because `ttl` is read before the config loads (`cache.ts:42`).
