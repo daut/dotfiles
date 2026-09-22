@@ -12,28 +12,15 @@
 - Comment only for complex logic, workarounds, or public APIs
 
 ### Testing
-- Prefer TDD, unless ther is a strong reason not to.
-- Force TDD, if starting a new project.
-- Avoid brittle tests that are tightly coupled to internal implementation details.
-- Avoid flaky tests that fail intermittently without code changes.
-- Avoid writing tests for trivial stuff that doesn't add value.
-- Prefer co-located unit tests and separate integration tests.
-- Create meaningful tests that focus on behavior
-- Don't test library behavior (e.g., Jackson deserialization, Lombok getters). Trust your dependencies.
+- TDD by default. Mandatory for new projects.
+- Test behavior, not implementation. Don't test library behavior (e.g., Jackson deserialization, Lombok getters).
+- Co-located unit tests. Integration tests separate.
+- Skip tests for trivial code.
 
 ## Git Conventions
-- Use conventional commits for commit messages
-- Prefer squash before merge
-
-## Browser Automation
-
-Use `agent-browser` for web automation. Run `agent-browser --help` for all commands.
-
-Core workflow:
-1. `agent-browser open <url>` - Navigate to page
-2. `agent-browser snapshot -i` - Get interactive elements with refs (@e1, @e2)
-3. `agent-browser click @e1` / `fill @e2 "text"` - Interact using refs
-4. Re-snapshot after page changes
+- Conventional commits, unless project rules say otherwise.
+- Squash before merge: `glab mr create --squash-before-merge --remove-source-branch`, `glab mr merge --squash`, `gh pr merge --squash`.
+- No AI attribution or co-author tags in commits.
 
 ## Output contract
 

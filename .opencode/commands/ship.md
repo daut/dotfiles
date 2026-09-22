@@ -17,7 +17,7 @@ Implement this task. Use all context from this conversation.
    - List the files to change. Track steps in the todo list.
 
 3. **Implement**
-   - Write the code yourself. Prefer TDD. Run the tests.
+   - Write the code yourself. Run the tests.
    - Exception: 2+ units that share no files. Run one `coder` per unit in parallel (max 4).
      Give each: the full requirements, its unit, files it owns, files it may only read.
      Keep each `task_id` for fixes.
@@ -37,8 +37,8 @@ Implement this task. Use all context from this conversation.
      Re-review. Max 2 rounds. Leftover `FIX_NOW` -> Review Notes as "Not addressed".
 
 5. **Commit**
-   - Simple: one conventional commit.
-   - Complex: one conventional commit per unit, in reading order:
+   - Simple: one commit.
+   - Complex: one commit per unit, in reading order:
      (1) enabling refactors, behavior-preserving
      (2) core logic with its tests
      (3) wiring: routes, config, callers
@@ -51,7 +51,8 @@ Implement this task. Use all context from this conversation.
 
 6. **Ship** (feature branch)
    - `git push -u origin <branch>`. Open the PR/MR with `--assignee @me`
-     (`--reviewer @me` on GitLab only). Title: subject of the core commit. Body sections:
+     (GitLab only: `--reviewer @me --squash-before-merge --remove-source-branch`).
+     Title: subject of the core commit. Body sections:
      - **Summary**: what and why
      - **Where to start**: Complex only. Commits from `git log --oneline`, in order. Per commit:
        short SHA, subject, `read` or `skim`, what to look for. For `read`: the test file to
