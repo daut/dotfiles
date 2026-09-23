@@ -100,12 +100,6 @@ For each finding, use this format:
 
 What you reviewed, what you checked and found clean, pre-existing issues you noticed (one line each), and your overall assessment.
 
-### Look hardest at
-
-1-3 places a human should read closely even if you found no issue there: dense logic,
-subtle assumptions, paths tests do not reach. Format: `file:line — why`. Do not repeat
-a finding. Omit for trivial changes.
-
 ### Verdict
 
 End with exactly one of:

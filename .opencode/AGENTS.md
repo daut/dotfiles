@@ -19,6 +19,7 @@
 
 ## Git Conventions
 - Conventional commits, unless project rules say otherwise.
+- Commit body: why and non-obvious decisions, not what.
 - Squash before merge: `glab mr create --squash-before-merge --remove-source-branch`, `glab mr merge --squash`, `gh pr merge --squash`.
 - No AI attribution or co-author tags in commits.
 
