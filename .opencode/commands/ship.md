@@ -69,11 +69,11 @@ Implement this task. Use all context from this conversation.
        - `Split:` only if `Start`/`Then` changes total >400 lines: which commits could be
          their own MR
      - **Changes**: files and what changed in each
-     - **Review Notes**: omit if empty. One code block, one line per finding, sorted
-       CRITICAL > WARNING > NIT:
-       `[SEVERITY] file:line — finding. <Kept|Follow-up TICKET|Disputed|Not addressed>: one clause`
-       Then `Out of scope:` one line per item noticed but not touched. No prose, no list of
-       what was fixed.
+     - **Review Notes**: omit if empty. Markdown bullets, not a code block. One bullet per
+       finding, sorted CRITICAL > WARNING > NIT:
+       `- **[SEVERITY]** `file:line` — finding. **<Kept|Follow-up TICKET|Disputed|Not addressed>:** one clause`
+       Then a `**Out of scope:**` bullet with one sub-bullet per item noticed but not touched.
+       No prose, no list of what was fixed.
    - Print the PR/MR URL. Multi-commit: also print **Where to start**.
 
    Example **Where to start**:
@@ -84,10 +84,11 @@ Implement this task. Use all context from this conversation.
    Skim: `LdapService.java` (Filter API, behavior-preserving), `InMemoryAdServer.java`, `openspec/**`.
    ```
 
-   Example **Review Notes**:
-   ```
-   [WARNING] UserProfileService.java:49 — user with no sys_groupmembers row gets role null. Kept: pre-existing, design.md §9
-   [WARNING] LdapConfig.java:81 — pool has no health check or retry. Follow-up: CP-123
-   [NIT] LdapService.java:118 — InvalidParameterException as control flow. Disputed: WARN is intentional
-   Out of scope: PUT /profile/me -> 500 for internal users
+   Example **Review Notes** (raw markdown for the MR body):
+   ```markdown
+   - **[WARNING]** `UserProfileService.java:49` — user with no sys_groupmembers row gets role null. **Kept:** pre-existing, design.md §9
+   - **[WARNING]** `LdapConfig.java:81` — pool has no health check or retry. **Follow-up:** CP-123
+   - **[NIT]** `LdapService.java:118` — InvalidParameterException as control flow. **Disputed:** WARN is intentional
+   - **Out of scope:**
+     - PUT /profile/me -> 500 for internal users
    ```
