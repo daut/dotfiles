@@ -42,6 +42,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 # install npm packages
 npm i -g n
 npm i -g eslint
+npm install -g --allow-scripts=agent-browser agent-browser
+agent-browser install
 
 # setup emacs
 ln -s "$(pwd)/.emacs.d/init.el" ~/.emacs.d/init.el
@@ -60,7 +62,6 @@ ln -sf "$(pwd)/.opencode/AGENTS.md" ~/.config/opencode/
 ln -sf "$(pwd)/.opencode/agents" ~/.config/opencode/
 ln -sf "$(pwd)/.opencode/commands" ~/.config/opencode/
 mkdir -p ~/.config/opencode/skills
-ln -sf "$(pwd)/.opencode/skills/agent-browser" ~/.config/opencode/skills/
 ln -sf "$(pwd)/.opencode/skills/content-research-writer" ~/.config/opencode/skills/
 
 # install global agent skills (shared with install-omarchy.sh)

@@ -77,6 +77,17 @@ link "$REPO_DIR/xremap/xremap.service" ~/.config/systemd/user/xremap.service
 systemctl --user daemon-reload
 systemctl --user enable --now xremap
 
+# --- agent-browser ------------------------------------------------------
+# Browser automation CLI for coding agents; downloads Chrome for Testing.
+if ! command -v agent-browser >/dev/null; then
+  if command -v npm >/dev/null; then
+    npm install -g --allow-scripts=agent-browser agent-browser
+    agent-browser install
+  else
+    echo "WARN: npm not found, skipping agent-browser (install node first)" >&2
+  fi
+fi
+
 # --- agent skills -------------------------------------------------------
 # Hunk ships its generated review skill beside the CLI; the path moves with
 # the toolchain (mise node version), so resolve it at install time.

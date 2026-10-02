@@ -13,6 +13,7 @@ fi
 npx --yes skills add vuejs-ai/skills -g -s '*' -a opencode -y
 npx --yes skills add vercel-labs/skills -g -s find-skills -a opencode -y
 npx --yes skills add cloudflare/skills -g -s '*' -a opencode -y
+npx --yes skills add vercel-labs/agent-browser -g -s agent-browser -a opencode -y
 
 # Official GitHub skills (github org). One per call: -s accepts a single name.
 for s in gh-attach git-commit; do
