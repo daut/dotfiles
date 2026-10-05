@@ -88,6 +88,17 @@ if ! command -v agent-browser >/dev/null; then
   fi
 fi
 
+# --- openspec -----------------------------------------------------------
+# Spec-driven workflow CLI for coding agents; skills are generated per
+# project with `openspec init`. Needs Node >= 20.19.
+if ! command -v openspec >/dev/null; then
+  if command -v npm >/dev/null; then
+    npm install -g @fission-ai/openspec@latest
+  else
+    echo "WARN: npm not found, skipping openspec (install node first)" >&2
+  fi
+fi
+
 # --- agent skills -------------------------------------------------------
 # Hunk ships its generated review skill beside the CLI; the path moves with
 # the toolchain (mise node version), so resolve it at install time.

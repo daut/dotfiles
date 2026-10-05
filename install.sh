@@ -44,6 +44,7 @@ npm i -g n
 npm i -g eslint
 npm install -g --allow-scripts=agent-browser agent-browser
 agent-browser install
+npm install -g @fission-ai/openspec@latest
 
 # setup emacs
 ln -s "$(pwd)/.emacs.d/init.el" ~/.emacs.d/init.el
