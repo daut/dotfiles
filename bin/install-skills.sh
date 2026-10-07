@@ -19,3 +19,9 @@ npx --yes skills add vercel-labs/agent-browser -g -s agent-browser -a opencode -
 for s in gh-attach git-commit; do
   npx --yes skills add github/awesome-copilot -g -s "$s" -a opencode -y
 done
+
+# Java / Spring Boot (data-engineering services)
+for s in java-coding-standards springboot-patterns; do
+  npx --yes skills add affaan-m/ecc -g -s "$s" -a opencode -y
+done
+npx --yes skills add giuseppe-trisciuoglio/developer-kit -g -s spring-boot-test-patterns -a opencode -y
