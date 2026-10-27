@@ -44,6 +44,7 @@ link "$REPO_DIR/.opencode/agents" ~/.config/opencode/agents
 link "$REPO_DIR/.opencode/commands" ~/.config/opencode/commands
 link "$REPO_DIR/.opencode/skills" ~/.config/opencode/skills
 link "$REPO_DIR/.opencode/opencode.omarchy.json" ~/.config/opencode/opencode.json
+link "$REPO_DIR/.opencode/cli.json" ~/.config/opencode/cli.json
 
 # --- herdr ------------------------------------------------------------
 # tmux replacement; restores opencode sessions after herdr server restarts
